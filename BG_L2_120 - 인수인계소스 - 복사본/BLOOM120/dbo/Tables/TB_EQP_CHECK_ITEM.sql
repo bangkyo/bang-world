@@ -1,0 +1,16 @@
+﻿CREATE TABLE [dbo].[TB_EQP_CHECK_ITEM] (
+    [EQP_CD]           VARCHAR (10)  NOT NULL,
+    [ITEM_CD]          VARCHAR (10)  NOT NULL,
+    [CHECK_ITEM]       VARCHAR (100) NULL,
+    [CHECK_START_DATE] VARCHAR (8)   NULL,
+    [CHECK_END_DATE]   VARCHAR (8)   NULL,
+    [CHECK_GAP]        NUMERIC (4)   NULL,
+    [CHECK_CYCLE]      VARCHAR (5)   NULL,
+    [USE_YN]           VARCHAR (1)   NULL,
+    [REGISTER]         VARCHAR (20)  NULL,
+    [REG_DDTT]         DATETIME      NULL,
+    [MODIFIER]         VARCHAR (20)  NULL,
+    [MOD_DDTT]         DATETIME      NULL,
+    CONSTRAINT [PK_TB_EQP_CHECK_ITEM] PRIMARY KEY CLUSTERED ([EQP_CD] ASC, [ITEM_CD] ASC)
+);
+

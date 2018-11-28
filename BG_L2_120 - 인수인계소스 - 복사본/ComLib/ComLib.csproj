@@ -1,0 +1,349 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F33CB64B-4670-47F3-AA10-280B5FF6B261}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ComLib</RootNamespace>
+    <AssemblyName>ComLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1Command.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=e808566f358766d8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1Command.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Input.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=7e7ff60f0c214f9a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1Input.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1List.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=6b24f8f981dbd7bc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1List.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.Office.Interop.Excel\14.0.0.0__71e9bce111e9429c\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="clsCommonCode.cs" />
+    <Compile Include="clsConstants.cs" />
+    <Compile Include="clsFlexGrid.cs" />
+    <Compile Include="clsParameterMember.cs" />
+    <Compile Include="clsResourceInfo.cs" />
+    <Compile Include="clsSystemEnum.cs" />
+    <Compile Include="UC_KeyValueNoT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValueNoT.Designer.cs">
+      <DependentUpon>UC_KeyValueNoT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValueTiTle1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValueTiTle1.Designer.cs">
+      <DependentUpon>UC_KeyValueTiTle1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue_S01.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue_S01.Designer.cs">
+      <DependentUpon>UC_KeyValue_S01.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue_Status1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue_Status1.Designer.cs">
+      <DependentUpon>UC_KeyValue_Status1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue_Status0.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue_Status0.Designer.cs">
+      <DependentUpon>UC_KeyValue_Status0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue_Status.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue_Status.Designer.cs">
+      <DependentUpon>UC_KeyValue_Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue_S0.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue_S0.Designer.cs">
+      <DependentUpon>UC_KeyValue_S0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue_S.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue_S.Designer.cs">
+      <DependentUpon>UC_KeyValue_S.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValueTiTle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValueTiTle.Designer.cs">
+      <DependentUpon>UC_KeyValueTiTle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_KeyValue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_KeyValue.Designer.cs">
+      <DependentUpon>UC_KeyValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_BC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_BC.Designer.cs">
+      <DependentUpon>UC_Zone_BC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_ZoneMoveBtn.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_ZoneMoveBtn.Designer.cs">
+      <DependentUpon>UC_ZoneMoveBtn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_BS_BL.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_BS_BL.Designer.cs">
+      <DependentUpon>UC_Zone_BS_BL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_BS_R.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_BS_R.Designer.cs">
+      <DependentUpon>UC_Zone_BS_R.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_BSO.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_BSO.Designer.cs">
+      <DependentUpon>UC_Zone_BSO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_BS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_BS.Designer.cs">
+      <DependentUpon>UC_Zone_BS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_B.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_B.Designer.cs">
+      <DependentUpon>UC_Zone_B.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util.cs" />
+    <Compile Include="clsCom.cs" />
+    <Compile Include="clsFile.cs" />
+    <Compile Include="clsLog.cs" />
+    <Compile Include="clsMsg.cs" />
+    <Compile Include="clsStyle.cs" />
+    <Compile Include="clsUtil.cs" />
+    <Compile Include="ColsStyleList.cs" />
+    <Compile Include="ConnetDB.cs" />
+    <Compile Include="DictionaryList.cs" />
+    <Compile Include="Func.cs" />
+    <Compile Include="LogDataList.cs" />
+    <Compile Include="OrientedTextLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SqlConnetDB.cs" />
+    <Compile Include="UC_Zone.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone.Designer.cs">
+      <DependentUpon>UC_Zone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone1.designer.cs">
+      <DependentUpon>UC_Zone1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC_Zone_S.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC_Zone_S.Designer.cs">
+      <DependentUpon>UC_Zone_S.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValueNoT.resx">
+      <DependentUpon>UC_KeyValueNoT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValueTiTle1.resx">
+      <DependentUpon>UC_KeyValueTiTle1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue_S01.resx">
+      <DependentUpon>UC_KeyValue_S01.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue_Status1.resx">
+      <DependentUpon>UC_KeyValue_Status1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue_Status0.resx">
+      <DependentUpon>UC_KeyValue_Status0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue_Status.resx">
+      <DependentUpon>UC_KeyValue_Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue_S0.resx">
+      <DependentUpon>UC_KeyValue_S0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue_S.resx">
+      <DependentUpon>UC_KeyValue_S.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValueTiTle.resx">
+      <DependentUpon>UC_KeyValueTiTle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_KeyValue.resx">
+      <DependentUpon>UC_KeyValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_BC.resx">
+      <DependentUpon>UC_Zone_BC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_ZoneMoveBtn.resx">
+      <DependentUpon>UC_ZoneMoveBtn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone.resx">
+      <DependentUpon>UC_Zone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone1.resx">
+      <DependentUpon>UC_Zone1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_BS_BL.resx">
+      <DependentUpon>UC_Zone_BS_BL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_BS_R.resx">
+      <DependentUpon>UC_Zone_BS_R.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_BSO.resx">
+      <DependentUpon>UC_Zone_BSO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_BS.resx">
+      <DependentUpon>UC_Zone_BS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_B.resx">
+      <DependentUpon>UC_Zone_B.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC_Zone_S.resx">
+      <DependentUpon>UC_Zone_S.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_32_61496_up .png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_33_61497_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_34_61498_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_35_61499_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\M_Gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\M_Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\M_Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\M_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H_Gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H_Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H_Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H_Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P_Gray.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P_Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P_Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\P_Yellow.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

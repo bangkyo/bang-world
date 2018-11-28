@@ -1,0 +1,20 @@
+﻿CREATE TABLE [dbo].[TB_SCHEDULE] (
+    [HEAT_NO]        VARCHAR (6)  NOT NULL,
+    [WORK_PLN_DATE]  VARCHAR (8)  NULL,
+    [WORK_SEQ]       INT          NULL,
+    [STEEL]          VARCHAR (10) NULL,
+    [ITEM]           VARCHAR (2)  NULL,
+    [ITEM_SIZE]      VARCHAR (4)  NULL,
+    [STEEL_TYPE]     VARCHAR (3)  NULL,
+    [MFG_DATE]       VARCHAR (8)  NULL,
+    [TAKE_OVER_DATE] VARCHAR (8)  NULL,
+    [TAKE_OVER_PCS]  INT          NULL,
+    [WORK_PCS]       INT          NULL,
+    [WORK_STAT]      VARCHAR (5)  NULL,
+    [REGISTER]       VARCHAR (20) NULL,
+    [REG_DDTT]       DATETIME     NULL,
+    [MODIFIER]       VARCHAR (20) NULL,
+    [MOD_DDTT]       DATETIME     NULL,
+    CONSTRAINT [PK_TB_SCHEDULE] PRIMARY KEY CLUSTERED ([HEAT_NO] ASC)
+);
+

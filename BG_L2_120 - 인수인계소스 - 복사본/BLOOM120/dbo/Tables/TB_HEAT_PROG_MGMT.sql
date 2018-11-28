@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[TB_HEAT_PROG_MGMT] (
+    [HEAT_NO]         VARCHAR (6)  NULL,
+    [HEAT_END_YN]     VARCHAR (1)  NULL,
+    [BEF_HEAT_NO]     VARCHAR (6)  NULL,
+    [BEF_HEAT_END_YN] VARCHAR (1)  NULL,
+    [REGISTER]        VARCHAR (20) NULL,
+    [REG_DDTT]        DATETIME     NULL,
+    [MODIFIER]        VARCHAR (20) NULL,
+    [MOD_DDTT]        DATETIME     NULL
+);
+

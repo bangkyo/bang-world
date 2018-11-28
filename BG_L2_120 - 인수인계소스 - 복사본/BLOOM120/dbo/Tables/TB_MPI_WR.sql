@@ -1,0 +1,26 @@
+﻿CREATE TABLE [dbo].[TB_MPI_WR] (
+    [HEAT_NO]              VARCHAR (6)  NOT NULL,
+    [HEAT_SEQ]             INT          NOT NULL,
+    [REWORK_SNO]           INT          NOT NULL,
+    [STEEL]                VARCHAR (10) NULL,
+    [ITEM]                 VARCHAR (2)  NULL,
+    [ITEM_SIZE]            VARCHAR (4)  NULL,
+    [STEEL_TYPE]           VARCHAR (3)  NULL,
+    [MFG_DATE]             VARCHAR (8)  NULL,
+    [QR_SCAN_INFO]         VARCHAR (16) NULL,
+    [WORK_DATE]            VARCHAR (8)  NULL,
+    [MPI_START_DDTT]       DATETIME     NULL,
+    [MPI_END_DDTT]         DATETIME     NULL,
+    [Yoke_MTR_NO1_CURRENT] INT          NULL,
+    [Yoke_MTR_NO2_CURRENT] INT          NULL,
+    [Yoke_MTR_NO3_CURRENT] INT          NULL,
+    [Yoke_MTR_NO4_CURRENT] INT          NULL,
+    [COIL_NO1_2_CURRENT]   INT          NULL,
+    [REWORK_YN]            VARCHAR (1)  NULL,
+    [REGISTER]             VARCHAR (20) NULL,
+    [REG_DDTT]             DATETIME     NULL,
+    [MODIFIER]             VARCHAR (20) NULL,
+    [MOD_DDTT]             DATETIME     NULL,
+    CONSTRAINT [PK_TB_MPI_WR] PRIMARY KEY CLUSTERED ([HEAT_NO] ASC, [HEAT_SEQ] ASC, [REWORK_SNO] ASC)
+);
+

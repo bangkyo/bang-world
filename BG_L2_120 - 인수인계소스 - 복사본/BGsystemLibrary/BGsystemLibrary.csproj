@@ -1,0 +1,602 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{18B64EE6-789D-4880-9ABB-85C738062DBA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BGsystemLibrary</RootNamespace>
+    <AssemblyName>BGsystemLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.C1Excel.2, Version=2.1.20133.280, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.C1Flash.2, Version=2.0.20113.87, Culture=neutral, PublicKeyToken=45fc79e7d82d90d7, processorArchitecture=MSIL" />
+    <Reference Include="C1.C1Pdf.2, Version=2.1.20133.254, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.C1Zip.2, Version=2.1.20133.104, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1BarCode.2, Version=2.0.20133.67, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Chart.2, Version=2.0.20133.23316, Culture=neutral, PublicKeyToken=a22e16972c085838, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Chart3D.2, Version=2.0.20133.23316, Culture=neutral, PublicKeyToken=a22e16972c085838, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Command.2, Version=2.0.20133.19597, Culture=neutral, PublicKeyToken=e808566f358766d8, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1DynamicHelp.2, Version=2.0.20133.65, Culture=neutral, PublicKeyToken=f95c5890a3995862, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Editor.2, Version=2.0.20133.206, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.6.20133.796, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1FlexGrid.Classic.2, Version=2.6.20133.796, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1GanttView.2, Version=2.0.20133.147, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Gauge.2, Version=2.0.20133.95, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Input.2, Version=2.0.20133.33326, Culture=neutral, PublicKeyToken=7e7ff60f0c214f9a, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1InputPanel.2, Version=2.0.20133.168, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1List.2, Version=2.1.20133.240, Culture=neutral, PublicKeyToken=6b24f8f981dbd7bc, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1ReportDesigner.2, Version=2.6.20133.54655, Culture=neutral, PublicKeyToken=fb528571dbff5bd2, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Ribbon.2, Version=2.0.20133.510, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Schedule.2, Version=2.0.20133.267, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Sizer.2, Version=2.1.20133.79, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1SpellChecker.2, Version=2.0.20133.133, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1SplitContainer.2, Version=2.0.20133.47, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1SuperTooltip.2, Version=2.0.20133.132, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Themes.2, Version=2.0.20133.14, Culture=neutral, PublicKeyToken=594a0605db190bb9, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1TileControl.2, Version=2.0.20133.77, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1TouchToolKit.2, Version=2.0.20133.2, Culture=neutral, PublicKeyToken=5e531fc0479701e7, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1TrueDBGrid.2, Version=2.0.20133.61334, Culture=neutral, PublicKeyToken=75ae3fb0e2b1e0da, processorArchitecture=MSIL" />
+    <Reference Include="C1.Win.C1Win7Pack.2, Version=2.0.20133.34, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.Designer, Version=7.0.4962.20724, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms, Version=7.0.4962.20751, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Adornments, Version=7.0.4962.20707, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Annotation, Version=7.0.4962.20861, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Base, Version=7.0.4962.20686, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Data, Version=7.0.4962.20801, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Wrapper, Version=7.0.1500.0, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Wrapper.Exporter, Version=7.0.1500.0, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.Wizard, Version=7.0.4962.20724, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BloomID.cs" />
+    <Compile Include="BloomIDs.cs" />
+    <Compile Include="Common\BloomMgmtPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\BloomMgmtPopup.Designer.cs">
+      <DependentUpon>BloomMgmtPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\EqmCheckResultReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\EqmCheckResultReg.Designer.cs">
+      <DependentUpon>EqmCheckResultReg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ResultReWork.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\ResultReWork.Designer.cs">
+      <DependentUpon>ResultReWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ZoneMovePopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\ZoneMovePopup.Designer.cs">
+      <DependentUpon>ZoneMovePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ItemSizePopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\ItemSizePopup.Designer.cs">
+      <DependentUpon>ItemSizePopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\HeatFinPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\HeatFinPopup.Designer.cs">
+      <DependentUpon>HeatFinPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\SteelPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\SteelPopup.Designer.cs">
+      <DependentUpon>SteelPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\HeatPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\HeatPopup.Designer.cs">
+      <DependentUpon>HeatPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\PopUp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\DeptPopUp.Designer.cs">
+      <DependentUpon>PopUp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Common\ScheduleRegist.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common\ScheduleRegist.Designer.cs">
+      <DependentUpon>ScheduleRegist.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EQPCheckMgmt\EQPCheckItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EQPCheckMgmt\EQPCheckItem.Designer.cs">
+      <DependentUpon>EQPCheckItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EQPCheckMgmt\EQPCheckRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EQPCheckMgmt\EQPCheckRslt.Designer.cs">
+      <DependentUpon>EQPCheckRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Heat.cs" />
+    <Compile Include="Heats.cs" />
+    <Compile Include="Monitoring\RTGrinder_DUST.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitoring\RTGrinder_DUST.Designer.cs">
+      <DependentUpon>RTGrinder_DUST.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\RTSHT_DUST.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitoring\RTSHT_DUST.Designer.cs">
+      <DependentUpon>RTSHT_DUST.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\RTMPI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitoring\RTMPI.Designer.cs">
+      <DependentUpon>RTMPI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\RTSHT.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitoring\RTSHT.Designer.cs">
+      <DependentUpon>RTSHT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\RTGrinder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitoring\RTGrinder.Designer.cs">
+      <DependentUpon>RTGrinder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\RTMonitoring.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Monitoring\RTMonitoring.Designer.cs">
+      <DependentUpon>RTMonitoring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\Zone.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\DownTmMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\DownTmMgmt.Designer.cs">
+      <DependentUpon>DownTmMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\DUSTInfoMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\DUSTInfoMgmt.Designer.cs">
+      <DependentUpon>DUSTInfoMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\ElecUseMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\ElecUseMgmt.Designer.cs">
+      <DependentUpon>ElecUseMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\flexgrids.cs" />
+    <Compile Include="RsltMgmt\flexgrid.cs" />
+    <Compile Include="RsltMgmt\GRDRsltMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\GRDRsltMgmt.Designer.cs">
+      <DependentUpon>GRDRsltMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MatMgmt\MatTakeOverMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MatMgmt\MatTakeOverMgmt.Designer.cs">
+      <DependentUpon>MatTakeOverMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\MPIRsltMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\MPIRsltMgmt.Designer.cs">
+      <DependentUpon>MPIRsltMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MatMgmt\ScheduleMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MatMgmt\ScheduleMgmt.Designer.cs">
+      <DependentUpon>ScheduleMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\SHTRsltMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\SHTRsltMgmt.Designer.cs">
+      <DependentUpon>SHTRsltMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RsltMgmt\RsltAnalystic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\RsltAnalystic.Designer.cs">
+      <DependentUpon>RsltAnalystic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RsltMgmt\WorkDayMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RsltMgmt\WorkDayMgmt.Designer.cs">
+      <DependentUpon>WorkDayMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StdMgmt\UnitWgtMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StdMgmt\UnitWgtMgmt.Designer.cs">
+      <DependentUpon>UnitWgtMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMgmt\AuthMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemMgmt\AuthMgmt.designer.cs">
+      <DependentUpon>AuthMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StdMgmt\ComCodeMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StdMgmt\ComCodeMgmt.Designer.cs">
+      <DependentUpon>ComCodeMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMgmt\MenuMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemMgmt\MenuMgmt.Designer.cs">
+      <DependentUpon>MenuMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMgmt\ScreenMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemMgmt\ScreenMgmt.Designer.cs">
+      <DependentUpon>ScreenMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMgmt\UseLogMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemMgmt\UseLogMgmt.Designer.cs">
+      <DependentUpon>UseLogMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SystemMgmt\UserMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SystemMgmt\UserMgmt.Designer.cs">
+      <DependentUpon>UserMgmt.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComLib\ComLib.csproj">
+      <Project>{f33cb64b-4670-47f3-aa10-280b5ff6b261}</Project>
+      <Name>ComLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Common\BloomMgmtPopup.resx">
+      <DependentUpon>BloomMgmtPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\EqmCheckResultReg.resx">
+      <DependentUpon>EqmCheckResultReg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\ResultReWork.resx">
+      <DependentUpon>ResultReWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\ZoneMovePopup.resx">
+      <DependentUpon>ZoneMovePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\ItemSizePopup.resx">
+      <DependentUpon>ItemSizePopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\HeatFinPopup.resx">
+      <DependentUpon>HeatFinPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\SteelPopup.resx">
+      <DependentUpon>SteelPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\HeatPopup.resx">
+      <DependentUpon>HeatPopup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\PopUp.resx">
+      <DependentUpon>PopUp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common\ScheduleRegist.resx">
+      <DependentUpon>ScheduleRegist.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EQPCheckMgmt\EQPCheckItem.resx">
+      <DependentUpon>EQPCheckItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EQPCheckMgmt\EQPCheckRslt.resx">
+      <DependentUpon>EQPCheckRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitoring\RTGrinder_DUST.resx">
+      <DependentUpon>RTGrinder_DUST.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitoring\RTSHT_DUST.resx">
+      <DependentUpon>RTSHT_DUST.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitoring\RTMPI.resx">
+      <DependentUpon>RTMPI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitoring\RTSHT.resx">
+      <DependentUpon>RTSHT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitoring\RTGrinder.resx">
+      <DependentUpon>RTGrinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Monitoring\RTMonitoring.resx">
+      <DependentUpon>RTMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\DownTmMgmt.resx">
+      <DependentUpon>DownTmMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\DUSTInfoMgmt.resx">
+      <DependentUpon>DUSTInfoMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\ElecUseMgmt.resx">
+      <DependentUpon>ElecUseMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\GRDRsltMgmt.resx">
+      <DependentUpon>GRDRsltMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MatMgmt\MatTakeOverMgmt.resx">
+      <DependentUpon>MatTakeOverMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MatMgmt\ScheduleMgmt.resx">
+      <DependentUpon>ScheduleMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\MPIRsltMgmt.resx">
+      <DependentUpon>MPIRsltMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\SHTRsltMgmt.resx">
+      <DependentUpon>SHTRsltMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\RsltAnalystic.resx">
+      <DependentUpon>RsltAnalystic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RsltMgmt\WorkDayMgmt.resx">
+      <DependentUpon>WorkDayMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StdMgmt\UnitWgtMgmt.resx">
+      <DependentUpon>UnitWgtMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemMgmt\AuthMgmt.resx">
+      <DependentUpon>AuthMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StdMgmt\ComCodeMgmt.resx">
+      <DependentUpon>ComCodeMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemMgmt\MenuMgmt.resx">
+      <DependentUpon>MenuMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemMgmt\ScreenMgmt.resx">
+      <DependentUpon>ScreenMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemMgmt\UseLogMgmt.resx">
+      <DependentUpon>UseLogMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SystemMgmt\UserMgmt.resx">
+      <DependentUpon>UserMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\auto_scroll.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_excel_n.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_save_n.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checked 16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\close_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CROSS_HAIR.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\document_up.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filesave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filesave1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GALLERY_LINE.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\GALLERY_STEP.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftclose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leftopen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\open_top.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reload 16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reloadtime.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reloadtime2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rightclose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rightopen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Search16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\searchbar_closetest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\searchbar_opentest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sign-Select-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sign_Select_Icon_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UnCheckAll17x17.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\unchecked 16x16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Y_AXIS_SET.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Close-128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_32_61496_up .png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\new.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\takeoverCanceal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\takeoverIn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\takeoverIn.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\takeoverIn .jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\takeoverIn .png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application-form-add-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\application-form-delete-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_application_form_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_layout_delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fatcow-Farm-Fresh-Application-form-magnify.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\excel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_33_61497_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_34_61498_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\if_35_61499_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\GRD_State.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\그라인드집진정보.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\쇼트조업정보.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\쇼트집진정보.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\GRD_State1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\GRD_State2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monitoring\GRD_State3.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
