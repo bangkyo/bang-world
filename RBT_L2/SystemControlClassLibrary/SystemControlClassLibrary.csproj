@@ -1,0 +1,1547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B96F7ED-D703-4A46-B107-32886B2BD4E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SystemControlClassLibrary</RootNamespace>
+    <AssemblyName>SystemControlClassLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>
+    </DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="C1.Win.C1Command.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=e808566f358766d8, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1Command.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1FlexGrid.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=79882d576c6336da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1FlexGrid.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1Input.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=7e7ff60f0c214f9a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1Input.2.dll</HintPath>
+    </Reference>
+    <Reference Include="C1.Win.C1List.2, Version=2.0.20143.9, Culture=neutral, PublicKeyToken=6b24f8f981dbd7bc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EXE\C1.Win.C1List.2.dll</HintPath>
+    </Reference>
+    <Reference Include="ChartFX.WinForms, Version=7.0.4962.20751, Culture=neutral, PublicKeyToken=a1878e2052c08dce, processorArchitecture=MSIL" />
+    <Reference Include="ChartFX.WinForms.Adornments, Version=7.0.4962.20707, Culture=neutral, PublicKeyToken=a1878e2052c08dce" />
+    <Reference Include="ChartFX.WinForms.Base, Version=7.0.4962.20686, Culture=neutral, PublicKeyToken=a1878e2052c08dce" />
+    <Reference Include="ComLib">
+      <HintPath>..\ComLib\bin\Debug\ComLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frmRB_Monitoring.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRB_Monitoring.Designer.cs">
+      <DependentUpon>frmRB_Monitoring.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRB_Monitoring2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRB_Monitoring2.Designer.cs">
+      <DependentUpon>frmRB_Monitoring2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRB_Monitoring3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRB_Monitoring3.Designer.cs">
+      <DependentUpon>frmRB_Monitoring3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRB_Monitoring4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRB_Monitoring4.Designer.cs">
+      <DependentUpon>frmRB_Monitoring4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\BundleStdMgmt1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\BundleStdMgmt1.designer.cs">
+      <DependentUpon>BundleStdMgmt1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\CHFStdInfoMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\CHFStdInfoMgmt.designer.cs">
+      <DependentUpon>CHFStdInfoMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\CHMInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\CHMInfo.Designer.cs">
+      <DependentUpon>CHMInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\CHMStdInfoInq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\CHMStdInfoInq.designer.cs">
+      <DependentUpon>CHMStdInfoInq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\MPIStdInfoMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\MPIStdInfoMgmt.Designer.cs">
+      <DependentUpon>MPIStdInfoMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\SHTStdInfoMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\SHTStdInfoMgmt.Designer.cs">
+      <DependentUpon>SHTStdInfoMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\STRStdInfoMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\STRStdInfoMgmt.Designer.cs">
+      <DependentUpon>STRStdInfoMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line3WholeTrk_Working.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line3WholeTrk_Working.Designer.cs">
+      <DependentUpon>Line3WholeTrk_Working.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\00TrkTemplete.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\00TrkTemplete.Designer.cs">
+      <DependentUpon>00TrkTemplete.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Change_Work_popup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Change_Work_popup.Designer.cs">
+      <DependentUpon>Change_Work_popup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\InsRegPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\InsRegPopup.Designer.cs">
+      <DependentUpon>InsRegPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line1WholeTrk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line1WholeTrk.Designer.cs">
+      <DependentUpon>Line1WholeTrk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line2WholeTrk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line2WholeTrk.Designer.cs">
+      <DependentUpon>Line2WholeTrk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line3BNDTrk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line3BNDTrk.Designer.cs">
+      <DependentUpon>Line3BNDTrk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line3NDTTrk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line3NDTTrk.Designer.cs">
+      <DependentUpon>Line3NDTTrk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line3STRTrk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line3STRTrk.Designer.cs">
+      <DependentUpon>Line3STRTrk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line3WholeTrk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line3WholeTrk.Designer.cs">
+      <DependentUpon>Line3WholeTrk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\Line3WholeTrk_Temp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\Line3WholeTrk_Temp.Designer.cs">
+      <DependentUpon>Line3WholeTrk_Temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\POCFinReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\POCFinReg.Designer.cs">
+      <DependentUpon>POCFinReg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\ProdReWorkMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\ProdReWorkMgmt.Designer.cs">
+      <DependentUpon>ProdReWorkMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\ReWorkReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\ReWorkReg.Designer.cs">
+      <DependentUpon>ReWorkReg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="monitoring\WorkRsltCancel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="monitoring\WorkRsltCancel.Designer.cs">
+      <DependentUpon>WorkRsltCancel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order\CrtInBundleInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order\CrtInBundleInfo.Designer.cs">
+      <DependentUpon>CrtInBundleInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order\CrtInOrdCre.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order\CrtInOrdCre.Designer.cs">
+      <DependentUpon>CrtInOrdCre.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order\CrtInOrdInq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order\CrtInOrdInq.Designer.cs">
+      <DependentUpon>CrtInOrdInq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order\CrtInOrdYard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order\CrtInOrdYard.Designer.cs">
+      <DependentUpon>CrtInOrdYard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order\CrtInOrdYard2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order\CrtInOrdYard2.Designer.cs">
+      <DependentUpon>CrtInOrdYard2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Order\CrtOrd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Order\CrtOrd.designer.cs">
+      <DependentUpon>CrtOrd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PictureScreen.cs" />
+    <Compile Include="Popup\SearchSteelNm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Popup\SearchSteelNm.designer.cs">
+      <DependentUpon>SearchSteelNm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Results\BNDOrdUpd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\BNDOrdUpd.designer.cs">
+      <DependentUpon>BNDOrdUpd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\BNDRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\BNDRslt.Designer.cs">
+      <DependentUpon>BNDRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\BNDRsltInqPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\BNDRsltInqPopup.Designer.cs">
+      <DependentUpon>BNDRsltInqPopup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\BNDRsltMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\BNDRsltMgmt.Designer.cs">
+      <DependentUpon>BNDRsltMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\BNDRsltPopUP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\BNDRsltPopUP.Designer.cs">
+      <DependentUpon>BNDRsltPopUP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\CrtInRsltCancelPopUP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\CrtInRsltCancelPopUP.Designer.cs">
+      <DependentUpon>CrtInRsltCancelPopUP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\CrtInRsltstr.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\CrtInRsltstr.Designer.cs">
+      <DependentUpon>CrtInRsltstr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\EqmCtlOrd.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\EqmCtlOrd.Designer.cs">
+      <DependentUpon>EqmCtlOrd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\ExpRsltReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\ExpRsltReg.Designer.cs">
+      <DependentUpon>ExpRsltReg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\frmRB_RELABEL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\frmRB_RELABEL.designer.cs">
+      <DependentUpon>frmRB_RELABEL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\GrRsltInq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\GrRsltInq.Designer.cs">
+      <DependentUpon>GrRsltInq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\LabelRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\LabelRslt.Designer.cs">
+      <DependentUpon>LabelRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\LineMlftGrf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\LineMlftGrf.Designer.cs">
+      <DependentUpon>LineMlftGrf.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\LineMlftGrfNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\LineMlftGrfNew.Designer.cs">
+      <DependentUpon>LineMlftGrfNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\LineProcWrkGrf.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\LineProcWrkGrf.Designer.cs">
+      <DependentUpon>LineProcWrkGrf.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\modBarCodePrint.cs" />
+    <Compile Include="Results\MPICheckList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\MPICheckList.Designer.cs">
+      <DependentUpon>MPICheckList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\MPIInspRsltNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\MPIInspRsltNew.Designer.cs">
+      <DependentUpon>MPIInspRsltNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\NDTInspRsltNew.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\NDTInspRsltNew.Designer.cs">
+      <DependentUpon>NDTInspRsltNew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\OffGrRsltInq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\OffGrRsltInq.Designer.cs">
+      <DependentUpon>OffGrRsltInq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\PLCOrderRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\PLCOrderRslt.Designer.cs">
+      <DependentUpon>PLCOrderRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\SpcCrBnews.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\SpcCrBnews.Designer.cs">
+      <DependentUpon>SpcCrBnews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\SpcMpiBnews.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\SpcMpiBnews.Designer.cs">
+      <DependentUpon>SpcMpiBnews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\StopCrBnews.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\StopCrBnews.Designer.cs">
+      <DependentUpon>StopCrBnews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WholeState.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WholeState.Designer.cs">
+      <DependentUpon>WholeState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WPIRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WPIRslt.Designer.cs">
+      <DependentUpon>WPIRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WPIRsltPopUP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WPIRsltPopUP.Designer.cs">
+      <DependentUpon>WPIRsltPopUP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\L1ReceiveInfoInq.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\L1ReceiveInfoInq.Designer.cs">
+      <DependentUpon>L1ReceiveInfoInq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\ZoneMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\ZoneMgmt.designer.cs">
+      <DependentUpon>ZoneMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="temp4.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="temp4.Designer.cs">
+      <DependentUpon>temp4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WGTRsltPopUP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WGTRsltPopUP.Designer.cs">
+      <DependentUpon>WGTRsltPopUP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\CrtInRsltPopUP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\CrtInRsltPopUP.Designer.cs">
+      <DependentUpon>CrtInRsltPopUP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\EqpChkRsltReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\EqpChkRsltReg.Designer.cs">
+      <DependentUpon>EqpChkRsltReg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\EqpChkItemMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\EqpChkItemMgmt.Designer.cs">
+      <DependentUpon>EqpChkItemMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\LnGrProdRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\LnGrProdRslt.Designer.cs">
+      <DependentUpon>LnGrProdRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\LnProdRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\LnProdRslt.Designer.cs">
+      <DependentUpon>LnProdRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\MPIInspRsltReg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\MPIInspRsltReg.Designer.cs">
+      <DependentUpon>MPIInspRsltReg.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\NDTRsltSend.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\NDTRsltSend.Designer.cs">
+      <DependentUpon>NDTRsltSend.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\TmProdRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\TmProdRslt.Designer.cs">
+      <DependentUpon>TmProdRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WGTRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WGTRslt.Designer.cs">
+      <DependentUpon>WGTRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WGTRsltSecPopUP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WGTRsltSecPopUP.Designer.cs">
+      <DependentUpon>WGTRsltSecPopUP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\WholeWrkState.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\WholeWrkState.Designer.cs">
+      <DependentUpon>WholeWrkState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\AuthMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\AuthMgmt.Designer.cs">
+      <DependentUpon>AuthMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="information\BundleStdMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="information\BundleStdMgmt.Designer.cs">
+      <DependentUpon>BundleStdMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\CHFRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\CHFRslt.Designer.cs">
+      <DependentUpon>CHFRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\CHMRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\CHMRslt.Designer.cs">
+      <DependentUpon>CHMRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\ComCodeMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\ComCodeMgmt.Designer.cs">
+      <DependentUpon>ComCodeMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\CrtInRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\CrtInRslt.Designer.cs">
+      <DependentUpon>CrtInRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\NDTRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\NDTRslt.Designer.cs">
+      <DependentUpon>NDTRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\PRIIRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\PRIIRslt.Designer.cs">
+      <DependentUpon>PRIIRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\PieceLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\PieceLog.Designer.cs">
+      <DependentUpon>PieceLog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\RowAddForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\RowAddForm.Designer.cs">
+      <DependentUpon>RowAddForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\MenuMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\MenuMgmt.Designer.cs">
+      <DependentUpon>MenuMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\ScreenMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\ScreenMgmt.Designer.cs">
+      <DependentUpon>ScreenMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\SHTRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\SHTRslt.Designer.cs">
+      <DependentUpon>SHTRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Results\STRRslt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Results\STRRslt.Designer.cs">
+      <DependentUpon>STRRslt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="temp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="temp.Designer.cs">
+      <DependentUpon>temp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="temp2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="temp2.Designer.cs">
+      <DependentUpon>temp2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="temp3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="temp3.Designer.cs">
+      <DependentUpon>temp3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="test.Designer.cs">
+      <DependentUpon>test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\UseLogMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\UseLogMgmt.Designer.cs">
+      <DependentUpon>UseLogMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="System\UserMgmt.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="System\UserMgmt.Designer.cs">
+      <DependentUpon>UserMgmt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_GuBun_RE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_GuBun_RE.Designer.cs">
+      <DependentUpon>UC_GuBun_RE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_Input_Zone.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_Input_Zone.Designer.cs">
+      <DependentUpon>UC_Input_Zone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_ReWork_RSN.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_ReWork_RSN.Designer.cs">
+      <DependentUpon>UC_ReWork_RSN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_Textbox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\ReWork_UC\UC_Textbox.Designer.cs">
+      <DependentUpon>UC_Textbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_BND_PCS.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_BND_PCS.designer.cs">
+      <DependentUpon>UC_BND_PCS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_BundleNo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_BundleNo.Designer.cs">
+      <DependentUpon>UC_BundleNo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_CalWgt.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_CalWgt.Designer.cs">
+      <DependentUpon>UC_CalWgt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_DelYN.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_DelYN.designer.cs">
+      <DependentUpon>UC_DelYN.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_GuBun.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_GuBun.Designer.cs">
+      <DependentUpon>UC_GuBun.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_HEAT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_HEAT.Designer.cs">
+      <DependentUpon>UC_HEAT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_HEAT_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_HEAT_s.Designer.cs">
+      <DependentUpon>UC_HEAT_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Item_size.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Item_size.Designer.cs">
+      <DependentUpon>UC_Item_size.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Item_size_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Item_size_s.Designer.cs">
+      <DependentUpon>UC_Item_size_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Length.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Length.Designer.cs">
+      <DependentUpon>UC_Length.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Line_gp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Line_gp.Designer.cs">
+      <DependentUpon>UC_Line_gp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Line_gp_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Line_gp_s.Designer.cs">
+      <DependentUpon>UC_Line_gp_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Ling_gp_sc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Ling_gp_sc.Designer.cs">
+      <DependentUpon>UC_Ling_gp_sc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_OKNG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_OKNG.Designer.cs">
+      <DependentUpon>UC_OKNG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_OKNG1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_OKNG1.Designer.cs">
+      <DependentUpon>UC_OKNG1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_POC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_POC.Designer.cs">
+      <DependentUpon>UC_POC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_POC_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_POC_s.Designer.cs">
+      <DependentUpon>UC_POC_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_POC_sc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_POC_sc.Designer.cs">
+      <DependentUpon>UC_POC_sc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Routing_cd.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Routing_cd.Designer.cs">
+      <DependentUpon>UC_Routing_cd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_RsltCancel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_RsltCancel.Designer.cs">
+      <DependentUpon>UC_RsltCancel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_SteelNM.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_SteelNM.Designer.cs">
+      <DependentUpon>UC_SteelNM.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_STEEL_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_STEEL_s.Designer.cs">
+      <DependentUpon>UC_STEEL_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_TextBox.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_TextBox.Designer.cs">
+      <DependentUpon>UC_TextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_TextBox1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_TextBox1.Designer.cs">
+      <DependentUpon>UC_TextBox1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Time.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Time.designer.cs">
+      <DependentUpon>UC_Time.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_WORKTYPE_PIECE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_WORKTYPE_PIECE.Designer.cs">
+      <DependentUpon>UC_WORKTYPE_PIECE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Date_Fr_To.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Date_Fr_To.Designer.cs">
+      <DependentUpon>UC_Work_Date_Fr_To.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Date_Fr_To_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Date_Fr_To_s.Designer.cs">
+      <DependentUpon>UC_Work_Date_Fr_To_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Day.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Day.designer.cs">
+      <DependentUpon>UC_Work_Day.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Team.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Team.designer.cs">
+      <DependentUpon>UC_Work_Team.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Team_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Team_s.Designer.cs">
+      <DependentUpon>UC_Work_Team_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Type.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Type.Designer.cs">
+      <DependentUpon>UC_Work_Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Type_s.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Type_s.Designer.cs">
+      <DependentUpon>UC_Work_Type_s.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Type_sc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\sub_UC\UC_Work_Type_sc.Designer.cs">
+      <DependentUpon>UC_Work_Type_sc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_BND_panel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_BND_panel.Designer.cs">
+      <DependentUpon>UC_BND_panel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_DATE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_DATE.Designer.cs">
+      <DependentUpon>UC_DATE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_HEAT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_HEAT.designer.cs">
+      <DependentUpon>UC_HEAT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_ITEM_SIZE.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_ITEM_SIZE.Designer.cs">
+      <DependentUpon>UC_ITEM_SIZE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_LENGTH.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_LENGTH.Designer.cs">
+      <DependentUpon>UC_LENGTH.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_LINE_GP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_LINE_GP.Designer.cs">
+      <DependentUpon>UC_LINE_GP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_Line_gp_test.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_Line_gp_test.Designer.cs">
+      <DependentUpon>UC_Line_gp_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_STEEL.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_STEEL.Designer.cs">
+      <DependentUpon>UC_STEEL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_temp\UC_temp1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_temp\UC_temp1.Designer.cs">
+      <DependentUpon>UC_temp1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_WGT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_WGT.Designer.cs">
+      <DependentUpon>UC_WGT.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_WorkChange.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_WorkChange.Designer.cs">
+      <DependentUpon>UC_WorkChange.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_WorkShow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_WorkShow.Designer.cs">
+      <DependentUpon>UC_WorkShow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_WORK_RANK.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_WORK_RANK.Designer.cs">
+      <DependentUpon>UC_WORK_RANK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_Zone.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_Zone.Designer.cs">
+      <DependentUpon>UC_Zone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UC\UC_Zone1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UC\UC_Zone1.designer.cs">
+      <DependentUpon>UC_Zone1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ValidationResponse.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="frmRB_Monitoring.resx">
+      <DependentUpon>frmRB_Monitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRB_Monitoring2.resx">
+      <DependentUpon>frmRB_Monitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRB_Monitoring3.resx">
+      <DependentUpon>frmRB_Monitoring3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRB_Monitoring4.resx">
+      <DependentUpon>frmRB_Monitoring4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\BundleStdMgmt1.resx">
+      <DependentUpon>BundleStdMgmt1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\CHFStdInfoMgmt.resx">
+      <DependentUpon>CHFStdInfoMgmt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\CHMInfo.resx">
+      <DependentUpon>CHMInfo.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\CHMStdInfoInq.resx">
+      <DependentUpon>CHMStdInfoInq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\MPIStdInfoMgmt.resx">
+      <DependentUpon>MPIStdInfoMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\SHTStdInfoMgmt.resx">
+      <DependentUpon>SHTStdInfoMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\STRStdInfoMgmt.resx">
+      <DependentUpon>STRStdInfoMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\00TrkTemplete.resx">
+      <DependentUpon>00TrkTemplete.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Change_Work_popup.resx">
+      <DependentUpon>Change_Work_popup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\InsRegPopup.resx">
+      <DependentUpon>InsRegPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line1WholeTrk.resx">
+      <DependentUpon>Line1WholeTrk.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line2WholeTrk.resx">
+      <DependentUpon>Line2WholeTrk.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line3BNDTrk.resx">
+      <DependentUpon>Line3BNDTrk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line3NDTTrk.resx">
+      <DependentUpon>Line3NDTTrk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line3STRTrk.resx">
+      <DependentUpon>Line3STRTrk.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line3WholeTrk.resx">
+      <DependentUpon>Line3WholeTrk.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line3WholeTrk_Temp.resx">
+      <DependentUpon>Line3WholeTrk_Temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\Line3WholeTrk_Working.resx">
+      <DependentUpon>Line3WholeTrk_Working.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\POCFinReg.resx">
+      <DependentUpon>POCFinReg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\ProdReWorkMgmt.resx">
+      <DependentUpon>ProdReWorkMgmt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\ReWorkReg.resx">
+      <DependentUpon>ReWorkReg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="monitoring\WorkRsltCancel.resx">
+      <DependentUpon>WorkRsltCancel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order\CrtInBundleInfo.resx">
+      <DependentUpon>CrtInBundleInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order\CrtInOrdCre.resx">
+      <DependentUpon>CrtInOrdCre.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order\CrtInOrdInq.resx">
+      <DependentUpon>CrtInOrdInq.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order\CrtInOrdYard.resx">
+      <DependentUpon>CrtInOrdYard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order\CrtInOrdYard2.resx">
+      <DependentUpon>CrtInOrdYard2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Order\CrtOrd.resx">
+      <DependentUpon>CrtOrd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Popup\SearchSteelNm.resx">
+      <DependentUpon>SearchSteelNm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Results\BNDOrdUpd.resx">
+      <DependentUpon>BNDOrdUpd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\BNDRslt.resx">
+      <DependentUpon>BNDRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\BNDRsltInqPopup.resx">
+      <DependentUpon>BNDRsltInqPopup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\BNDRsltMgmt.resx">
+      <DependentUpon>BNDRsltMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\BNDRsltPopUP.resx">
+      <DependentUpon>BNDRsltPopUP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\CrtInRsltCancelPopUP.resx">
+      <DependentUpon>CrtInRsltCancelPopUP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\CrtInRsltstr.resx">
+      <DependentUpon>CrtInRsltstr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\EqmCtlOrd.resx">
+      <DependentUpon>EqmCtlOrd.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\ExpRsltReg.resx">
+      <DependentUpon>ExpRsltReg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\frmRB_RELABEL.resx">
+      <DependentUpon>frmRB_RELABEL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\GrRsltInq.resx">
+      <DependentUpon>GrRsltInq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\LabelRslt.resx">
+      <DependentUpon>LabelRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\LineMlftGrf.resx">
+      <DependentUpon>LineMlftGrf.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\LineMlftGrfNew.resx">
+      <DependentUpon>LineMlftGrfNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\LineProcWrkGrf.resx">
+      <DependentUpon>LineProcWrkGrf.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\MPICheckList.resx">
+      <DependentUpon>MPICheckList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\MPIInspRsltNew.resx">
+      <DependentUpon>MPIInspRsltNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\NDTInspRsltNew.resx">
+      <DependentUpon>NDTInspRsltNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\OffGrRsltInq.resx">
+      <DependentUpon>OffGrRsltInq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\PLCOrderRslt.resx">
+      <DependentUpon>PLCOrderRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\SpcCrBnews.resx">
+      <DependentUpon>SpcCrBnews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\SpcMpiBnews.resx">
+      <DependentUpon>SpcMpiBnews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\StopCrBnews.resx">
+      <DependentUpon>StopCrBnews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WholeState.resx">
+      <DependentUpon>WholeState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WPIRslt.resx">
+      <DependentUpon>WPIRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WPIRsltPopUP.resx">
+      <DependentUpon>WPIRsltPopUP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\L1ReceiveInfoInq.resx">
+      <DependentUpon>L1ReceiveInfoInq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\ZoneMgmt.resx">
+      <DependentUpon>ZoneMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="temp4.resx">
+      <DependentUpon>temp4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WGTRsltPopUP.resx">
+      <DependentUpon>WGTRsltPopUP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\CrtInRsltPopUP.resx">
+      <DependentUpon>CrtInRsltPopUP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\EqpChkRsltReg.resx">
+      <DependentUpon>EqpChkRsltReg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\EqpChkItemMgmt.resx">
+      <DependentUpon>EqpChkItemMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\LnGrProdRslt.resx">
+      <DependentUpon>LnGrProdRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\LnProdRslt.resx">
+      <DependentUpon>LnProdRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\MPIInspRsltReg.resx">
+      <DependentUpon>MPIInspRsltReg.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\NDTRsltSend.resx">
+      <DependentUpon>NDTRsltSend.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\TmProdRslt.resx">
+      <DependentUpon>TmProdRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WGTRslt.resx">
+      <DependentUpon>WGTRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WGTRsltSecPopUP.resx">
+      <DependentUpon>WGTRsltSecPopUP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\WholeWrkState.resx">
+      <DependentUpon>WholeWrkState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\AuthMgmt.resx">
+      <DependentUpon>AuthMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="information\BundleStdMgmt.resx">
+      <DependentUpon>BundleStdMgmt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\CHFRslt.resx">
+      <DependentUpon>CHFRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\CHMRslt.resx">
+      <DependentUpon>CHMRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\ComCodeMgmt.resx">
+      <DependentUpon>ComCodeMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\CrtInRslt.resx">
+      <DependentUpon>CrtInRslt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\NDTRslt.resx">
+      <DependentUpon>NDTRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\PRIIRslt.resx">
+      <DependentUpon>PRIIRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\PieceLog.resx">
+      <DependentUpon>PieceLog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\RowAddForm.resx">
+      <DependentUpon>RowAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\MenuMgmt.resx">
+      <DependentUpon>MenuMgmt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\ScreenMgmt.resx">
+      <DependentUpon>ScreenMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\SHTRslt.resx">
+      <DependentUpon>SHTRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Results\STRRslt.resx">
+      <DependentUpon>STRRslt.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="temp.resx">
+      <DependentUpon>temp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="temp2.resx">
+      <DependentUpon>temp2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="temp3.resx">
+      <DependentUpon>temp3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="test.resx">
+      <DependentUpon>test.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\UseLogMgmt.resx">
+      <DependentUpon>UseLogMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="System\UserMgmt.resx">
+      <DependentUpon>UserMgmt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\ReWork_UC\UC_GuBun_RE.resx">
+      <DependentUpon>UC_GuBun_RE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\ReWork_UC\UC_Input_Zone.resx">
+      <DependentUpon>UC_Input_Zone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\ReWork_UC\UC_ReWork_RSN.resx">
+      <DependentUpon>UC_ReWork_RSN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\ReWork_UC\UC_Textbox.resx">
+      <DependentUpon>UC_Textbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_BND_PCS.resx">
+      <DependentUpon>UC_BND_PCS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_BundleNo.resx">
+      <DependentUpon>UC_BundleNo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_CalWgt.resx">
+      <DependentUpon>UC_CalWgt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_DelYN.resx">
+      <DependentUpon>UC_DelYN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_GuBun.resx">
+      <DependentUpon>UC_GuBun.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_HEAT.resx">
+      <DependentUpon>UC_HEAT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_HEAT_s.resx">
+      <DependentUpon>UC_HEAT_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Item_size.resx">
+      <DependentUpon>UC_Item_size.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Item_size_s.resx">
+      <DependentUpon>UC_Item_size_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Length.resx">
+      <DependentUpon>UC_Length.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Line_gp.resx">
+      <DependentUpon>UC_Line_gp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Line_gp_s.resx">
+      <DependentUpon>UC_Line_gp_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Ling_gp_sc.resx">
+      <DependentUpon>UC_Ling_gp_sc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_OKNG.resx">
+      <DependentUpon>UC_OKNG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_OKNG1.resx">
+      <DependentUpon>UC_OKNG1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_POC.resx">
+      <DependentUpon>UC_POC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_POC_s.resx">
+      <DependentUpon>UC_POC_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_POC_sc.resx">
+      <DependentUpon>UC_POC_sc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Routing_cd.resx">
+      <DependentUpon>UC_Routing_cd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_RsltCancel.resx">
+      <DependentUpon>UC_RsltCancel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_SteelNM.resx">
+      <DependentUpon>UC_SteelNM.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_STEEL_s.resx">
+      <DependentUpon>UC_STEEL_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_TextBox.resx">
+      <DependentUpon>UC_TextBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_TextBox1.resx">
+      <DependentUpon>UC_TextBox1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Time.resx">
+      <DependentUpon>UC_Time.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_WORKTYPE_PIECE.resx">
+      <DependentUpon>UC_WORKTYPE_PIECE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Date_Fr_To.resx">
+      <DependentUpon>UC_Work_Date_Fr_To.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Date_Fr_To_s.resx">
+      <DependentUpon>UC_Work_Date_Fr_To_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Day.resx">
+      <DependentUpon>UC_Work_Day.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Team.resx">
+      <DependentUpon>UC_Work_Team.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Team_s.resx">
+      <DependentUpon>UC_Work_Team_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Type.resx">
+      <DependentUpon>UC_Work_Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Type_s.resx">
+      <DependentUpon>UC_Work_Type_s.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\sub_UC\UC_Work_Type_sc.resx">
+      <DependentUpon>UC_Work_Type_sc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_BND_panel.resx">
+      <DependentUpon>UC_BND_panel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_DATE.resx">
+      <DependentUpon>UC_DATE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_HEAT.resx">
+      <DependentUpon>UC_HEAT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_ITEM_SIZE.resx">
+      <DependentUpon>UC_ITEM_SIZE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_LENGTH.resx">
+      <DependentUpon>UC_LENGTH.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_LINE_GP.resx">
+      <DependentUpon>UC_LINE_GP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_Line_gp_test.resx">
+      <DependentUpon>UC_Line_gp_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_STEEL.resx">
+      <DependentUpon>UC_STEEL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_temp\UC_temp1.resx">
+      <DependentUpon>UC_temp1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_WGT.resx">
+      <DependentUpon>UC_WGT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_WorkChange.resx">
+      <DependentUpon>UC_WorkChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_WorkShow.resx">
+      <DependentUpon>UC_WorkShow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_WORK_RANK.resx">
+      <DependentUpon>UC_WORK_RANK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_Zone.resx">
+      <DependentUpon>UC_Zone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UC\UC_Zone1.resx">
+      <DependentUpon>UC_Zone1.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram2.cd" />
+    <None Include="Resources\Search16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filesave.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fatcow-Farm-Fresh-Application-form-add.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fatcow-Farm-Fresh-Application-form-delete.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fatcow-Farm-Fresh-Application-form-add1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sign_Select_Icon_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1112.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Bogo-D-Project-Delete.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Action-cancel-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sign-Select-icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\filesave1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Fatcow-Farm-Fresh-Application-form-add2.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Excel">
+      <Guid>{00020813-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\H_Form.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon02.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon01.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon02.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

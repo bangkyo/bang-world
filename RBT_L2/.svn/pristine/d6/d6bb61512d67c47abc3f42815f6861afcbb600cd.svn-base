@@ -1,0 +1,390 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+namespace SystemControlClassLibrary
+{
+    public partial class WholeWrkState : Form
+    {
+        #region 변수선언
+        clsStyle cs = new clsStyle();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsCom ck = new clsCom();
+
+        DataTable olddt;
+
+        private string WORK_TYPE = "";
+        private string GUBUN_ID = "";
+        private string ownerNM = "";
+        private string titleNM = "";
+        bool _CanSaveSearchLog = false;
+        #endregion
+
+        #region 화면
+        public WholeWrkState(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+
+        }
+
+        private void WholeWrkState_Load(object sender, System.EventArgs e)
+        {
+            InitControl();
+
+            grdMain_setting();
+
+
+            SetComboBox();
+            _CanSaveSearchLog = true;
+            btnDisplay_Click(null, null);
+        }
+
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        private void InitControl()
+        {
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+
+            clsStyle.Style.InitButton(btnClose);
+
+            cs.InitCombo(cboDiv_GP, StringAlignment.Center);
+
+            cs.InitCombo(cbo_Work_Type, StringAlignment.Center);
+
+            //일자 데이터 default 값 적용 
+            start_dt.Value = DateTime.Now;
+            end_dt.Value = DateTime.Now;
+        }
+        #endregion
+
+        #region "콤보박스 설정"
+        private void SetComboBox()
+        {
+
+            cd.SetCombo(cbo_Work_Type, "WORK_TYPE", "", true);
+
+            cd.SetComboHEATPOC(cboDiv_GP);
+        }
+        #endregion
+
+        #region 조회
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            if (_CanSaveSearchLog)
+            {
+                cd.InsertLogForSearch(ck.UserID, btnDisplay);
+            }
+
+
+            try
+            {
+                
+
+                string sql1 = "";
+
+                string start_date = start_dt.Value.ToString("yyyyMMdd");
+                string end_date = end_dt.Value.ToString("yyyyMMdd");
+
+                sql1 = string.Format(" SELECT DECODE(GROUPING(X.POC_NO), 1, DECODE(GROUPING(X.LINE_GP_NM), 1, '계', '소계'), X.LINE_GP_NM) AS LINE_GP ");
+                sql1 += string.Format("     , X.POC_NO ");
+                sql1 += string.Format("     , SUM(INPUT_PCS) AS INPUT_PCS ");
+                sql1 += string.Format("     , SUM(STR_OK_PCS)AS STR_OK_PCS ");
+                sql1 += string.Format("     , SUM(STR_NG_PCS) AS STR_NG_PCS ");
+                sql1 += string.Format("     , SUM(SHF_PCS) AS SHF_PCS ");
+                sql1 += string.Format("     , SUM(PRII_OK_PCS) AS PRII_OK_PCS ");
+                sql1 += string.Format("     , SUM(PRII_NG_PCS) AS PRII_NG_PCS ");
+                sql1 += string.Format("     , SUM(MAT_NG_PCS) AS MAT_NG_PCS ");
+                sql1 += string.Format("     , SUM(MLFT_NG_PCS) AS MLFT_NG_PCS ");
+                sql1 += string.Format("     , SUM(UT_NG_PCS) AS UT_NG_PCS ");
+                sql1 += string.Format("     , SUM(NDT_NG_PCS) AS NDT_NG_PCS ");
+                sql1 += string.Format("     , SUM(MPI_OK_PCS) AS MPI_OK_PCS ");
+                sql1 += string.Format("     , SUM(MPI_NG_PCS) AS MPI_NG_PCS ");
+                sql1 += string.Format("     , SUM(GR_OK_PCS) AS GR_OK_PCS ");
+                sql1 += string.Format("     , SUM(GR_NG_PCS) AS GR_NG_PCS ");
+                sql1 += string.Format("     , SUM(CHM_OK_PCS) AS CHM_OK_PCS ");
+                sql1 += string.Format("     , SUM(CHM_NG_PCS) AS CHM_NG_PCS ");
+                sql1 += string.Format("     , SUM(BUNDLE_CNT) AS BUNDLE_CNT ");
+                sql1 += string.Format("     , SUM(PCS_CNT) AS PCS_CNT ");
+                sql1 += string.Format("     , SUM(THEORY_WGT) AS THEORY_WGT ");
+                sql1 += string.Format("     , SUM(NET_WGT) AS NET_WGT ");
+                sql1 += string.Format(" FROM ");
+                sql1 += string.Format("     (SELECT  MAX(NVL((SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'LINE_GP' AND CD_ID = LINE_GP), LINE_GP)) AS LINE_GP_NM ");
+                sql1 += string.Format("           , LINE_GP ");
+                sql1 += string.Format("           , DECODE('{0}','A',POC_NO,HEAT) AS POC_NO ", GUBUN_ID);
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'A1', 1, 0)) AS INPUT_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'A1', DECODE(GOOD_YN, 'NG', 0, 1))) AS STR_OK_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'A1', DECODE(GOOD_YN, 'NG', 1, 0))) AS STR_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'A1', 1, 0)) AS SHF_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'D2', DECODE(GOOD_YN, 'NG', 0, 1))) AS PRII_OK_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'D2', DECODE(GOOD_YN, 'NG', 1, 0))) AS PRII_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'F2', DECODE(MAT_GOOD_NG, 'NG', 1, 0))) AS MAT_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'F2', DECODE(MLFT_GOOD_NG, 'NG', 1, 0))) AS MLFT_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'F2', DECODE(UT_GOOD_NG, 'NG', 1, 0))) AS UT_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'F2', DECODE(MAT_GOOD_NG, 'NG', 1, DECODE(MLFT_GOOD_NG, 'NG', 1, DECODE(UT_GOOD_NG, 'NG', 1, 0))))) AS NDT_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'H2', DECODE(MPI_INSP_GOOD_NG, 'OK', 1, 0))) AS MPI_OK_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'H2', DECODE(MPI_INSP_GOOD_NG, 'NG', 1, 0))) AS MPI_NG_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'K2', DECODE(GOOD_YN, 'OK', 1, 0))) AS GR_OK_PCS ");
+                sql1 += string.Format("           , SUM(DECODE(ROUTING_CD, 'K2', DECODE(GOOD_YN, 'NG', 1, 0))) AS GR_NG_PCS ");
+                sql1 += string.Format("      FROM   (   SELECT /*+RULE  */ MILL_NO, PIECE_NO, LINE_GP, ROUTING_CD, REWORK_SEQ ");
+                sql1 += string.Format("                ,POC_NO, HEAT, GOOD_YN, MAT_GOOD_NG, MLFT_GOOD_NG, UT_GOOD_NG, MPI_INSP_GOOD_NG ");
+                sql1 += string.Format("                FROM  TB_CR_PIECE_WR V ");
+                sql1 += string.Format("                WHERE    MFG_DATE BETWEEN '{0}' AND '{1}' ", start_date, end_date);
+                sql1 += string.Format("                AND   WORK_TYPE  LIKE '{0}%'  ", WORK_TYPE);
+                sql1 += string.Format("                AND   ROUTING_CD  IN ('A1','D2','F2','K2') ");
+                sql1 += string.Format("                AND   REWORK_SEQ = (SELECT MAX(REWORK_SEQ) FROM TB_CR_PIECE_WR ");
+                sql1 += string.Format("                                    WHERE  MILL_NO = V.MILL_NO ");
+                sql1 += string.Format("                                    AND    PIECE_NO = V.PIECE_NO ");
+                sql1 += string.Format("                                    AND    LINE_GP = V.LINE_GP ");
+                sql1 += string.Format("                                    AND    ROUTING_CD = V.ROUTING_CD ) ");
+                sql1 += string.Format("                UNION ");
+
+                sql1 += string.Format("                SELECT /*+RULE  */MILL_NO, PIECE_NO, LINE_GP, ROUTING_CD, REWORK_SEQ ");
+                sql1 += string.Format("                       ,POC_NO, HEAT, GOOD_YN, MAT_GOOD_NG, MLFT_GOOD_NG, UT_GOOD_NG ,MPI_INSP_GOOD_NG ");
+                sql1 += string.Format("                FROM  TB_CR_PIECE_WR V ");
+                sql1 += string.Format("                WHERE  MFG_DATE BETWEEN  '{0}' AND '{1}' ", start_date, end_date);
+                sql1 += string.Format("                AND    WORK_TYPE  LIKE '{0}%'  ", WORK_TYPE);
+                sql1 += string.Format("                AND    ROUTING_CD  IN ('H2') ");
+                sql1 += string.Format("                AND   (MILL_NO,PIECE_NO, REWORK_SEQ) IN  ");
+                sql1 += string.Format("                                                        ( ");
+                sql1 += string.Format("                                                          SELECT MILL_NO,PIECE_NO,REWORK_SEQ  ");
+                sql1 += string.Format("                                                          FROM   TB_CR_PIECE_WR  B  ");
+                sql1 += string.Format("                                                          WHERE  MFG_DATE BETWEEN  '{0}' AND '{1}' ", start_date, end_date);
+                sql1 += string.Format("                                                          AND    WORK_TYPE  LIKE '{0}%'  ", WORK_TYPE);
+                sql1 += string.Format("                                                          AND    ROUTING_CD    = 'F2' ");
+                sql1 += string.Format("                                                          AND    REWORK_SEQ    = ( ");
+                sql1 += string.Format("                                                                                   SELECT MAX(REWORK_SEQ) FROM  TB_CR_PIECE_WR ");
+                sql1 += string.Format("                                                                                   WHERE  MILL_NO     = B.MILL_NO   ");
+                sql1 += string.Format("                                                                                   AND    PIECE_NO    = B.PIECE_NO    ");
+                sql1 += string.Format("                                                                                   AND    LINE_GP     = B.LINE_GP     ");
+                sql1 += string.Format("                                                                                   AND    ROUTING_CD  = B.ROUTING_CD    ");
+                sql1 += string.Format("                                                                                 )   ");
+                sql1 += string.Format("                                                          AND   MLFT_GOOD_NG  = 'NG'  AND ( MAT_GOOD_NG = 'OK' AND UT_GOOD_NG  = 'OK' )   ");
+                sql1 += string.Format("                                                         ) ");
+                sql1 += string.Format("                 ) A");
+
+                sql1 += string.Format("      GROUP BY LINE_GP ");
+                sql1 += string.Format("             , DECODE('{0}', 'A', POC_NO, HEAT) ) X ", GUBUN_ID);
+
+                sql1 += string.Format("      , (SELECT A.LINE_GP ");
+                sql1 += string.Format("            , DECODE('{0}', 'A', B.POC_NO, B.HEAT) AS POC_NO ", GUBUN_ID);
+                sql1 += string.Format("            , SUM(DECODE(CHM_GOOD_NG, 'OK', 1, 0)) AS CHM_OK_PCS ");
+                sql1 += string.Format("            , SUM(DECODE(CHM_GOOD_NG, 'NG', 1, 0)) AS CHM_NG_PCS ");
+                sql1 += string.Format("       FROM  TB_CHM_WR  A ");
+                sql1 += string.Format("           , TB_CR_ORD_BUNDLEINFO B ");
+                sql1 += string.Format("       WHERE A.MILL_NO = B.MILL_NO ");
+                sql1 += string.Format("       AND   A.WORK_TYPE  LIKE '{0}%'  ", WORK_TYPE);
+                sql1 += string.Format("       AND   A.MFG_DATE BETWEEN '{0}' AND '{1}' ", start_date, end_date);
+                sql1 += string.Format("       AND   A.REWORK_SEQ = (SELECT MAX(REWORK_SEQ) FROM TB_CHM_WR ");
+                sql1 += string.Format("                             WHERE  MILL_NO = A.MILL_NO ");
+                sql1 += string.Format("                             AND    PIECE_NO = A.PIECE_NO ) ");
+                sql1 += string.Format("       GROUP BY  A.LINE_GP ");
+                sql1 += string.Format("                 , DECODE('{0}', 'A', B.POC_NO, B.HEAT) ) Y ", GUBUN_ID);
+
+                sql1 += string.Format("    , (SELECT A.LINE_GP ");
+                sql1 += string.Format("            , DECODE('{0}', 'A', A.POC_NO, A.HEAT) AS POC_NO ", GUBUN_ID);
+                sql1 += string.Format("            , COUNT(A.BUNDLE_NO)AS BUNDLE_CNT ");
+                sql1 += string.Format("            , SUM(A.PCS)                        AS PCS_CNT ");
+                sql1 += string.Format("            , SUM(FN_GET_WGT(A.ITEM, A.ITEM_SIZE, A.LENGTH, A.PCS)) AS THEORY_WGT ");
+                sql1 += string.Format("            , SUM(B.NET_WGT)                    AS NET_WGT ");
+                sql1 += string.Format("        FROM  TB_BND_WR  A ");
+                sql1 += string.Format("            , TB_WGT_WR  B ");
+                sql1 += string.Format("        WHERE A.BUNDLE_NO = B.BUNDLE_NO(+) ");
+                sql1 += string.Format("        AND   A.WORK_TYPE  LIKE '{0}%' ", WORK_TYPE);
+                sql1 += string.Format("        AND   A.MFG_DATE BETWEEN '{0}' AND '{1}' ", start_date, end_date);
+                sql1 += string.Format("        AND   NVL(A.DEL_YN, 'N') <> 'Y' ");
+                sql1 += string.Format("        AND   NVL(B.DEL_YN,'N') <> 'Y' ");
+
+                sql1 += string.Format("        GROUP BY A.LINE_GP ");
+                sql1 += string.Format("            , DECODE('{0}','A',A.POC_NO,A.HEAT) ) Z ", GUBUN_ID);
+
+                sql1 += string.Format(" WHERE X.LINE_GP = Y.LINE_GP(+) ");
+                sql1 += string.Format(" AND X.POC_NO = Y.POC_NO(+) ");
+                sql1 += string.Format(" AND X.LINE_GP = Z.LINE_GP(+) ");
+                sql1 += string.Format(" AND X.POC_NO = Z.POC_NO(+) ");
+                sql1 += string.Format(" GROUP BY ROLLUP(X.LINE_GP_NM, X.POC_NO) ");
+
+                olddt = cd.FindDataTable(sql1);
+                Cursor.Current = Cursors.WaitCursor;
+                grdMain.SetDataBinding(olddt, null, false);
+                grdMain_setting();
+                Cursor.Current = Cursors.Default;
+                //Format
+                for (int i = 2; i < grdMain.Cols.Count; i++)
+                {
+                    grdMain.Cols[i].Format = "#,###";
+                }
+
+                //소계, 계 BackColor
+                for (int iRow = 2; iRow < grdMain.Rows.Count; iRow++)
+                {
+                    if (grdMain[iRow, 0].ToString().Trim().Replace(" ", "") == "소계")
+                        grdMain.Rows[iRow].StyleNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(204)))), ((int)(((byte)(255)))));
+
+                    if (grdMain[iRow, 0].ToString().Trim().Replace(" ", "") == "계")
+                        grdMain.Rows[iRow].StyleNew.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(112)))), ((int)(((byte)(184)))), ((int)(((byte)(255)))));
+                }
+
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + olddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+            }
+            finally
+            {
+
+                
+            }
+        }
+        #endregion
+
+        #region 닫기
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
+        #region "엑셀파일 생성"
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+
+            
+        }
+        #endregion
+
+        #region 이벤트
+
+
+        #endregion
+
+        #region 그리드 설정
+        private void grdMain_setting()
+        {
+            //셀 병합------------------------------------------
+            grdMain.AllowMerging = AllowMergingEnum.Custom;
+            for (int i = 0; i < grdMain.Cols.Count; i++)
+            {
+                //라인, POC, 투입본수, 면취, 비파괴불량총본수
+                if (i == 0 || i == 1 || i == 2 || i == 5 || i == 11)
+                {
+                    CellRange crCellRange = grdMain.GetCellRange(0, i, 1, i);
+                    grdMain.MergedRanges.Add(crCellRange);
+                }
+                else if (i == 3 || i == 6 || i == 12 || i == 14 || i == 16 || i == 18 || i == 20)
+                {
+                    CellRange crCellRange = grdMain.GetCellRange(0, i, 0, i + 1);
+                    grdMain.MergedRanges.Add(crCellRange);
+                }
+            }
+            //--------------------------------------------------------
+
+            clsStyle.Style.InitGrid_search(grdMain);
+            grdMain.AutoResize = true;
+            grdMain.AllowEditing = false;
+
+            //Column Header가 2행이므로 추가됨------------------------
+            grdMain.Rows.Fixed = 2;
+            grdMain.Rows[1].StyleNew.Font = new Font(clsStyle.Style.OHeadfontName, clsStyle.Style.FontSizeSmall, FontStyle.Bold);
+            grdMain.Rows[0].Height = 22;
+            grdMain.Rows[1].Height = 30;
+
+            CellRange crCellRange3 = grdMain.GetCellRange(1, 0, 1, 21);
+            crCellRange3.Style = grdMain.Styles["CellStyle"];
+            
+            grdMain.EndUpdate();
+            //-------------------------------------------------------
+
+            //Header텍스트-------------------------------------------
+            grdMain.Cols[0].Caption = "라인";
+            grdMain.Cols[1].Caption = cboDiv_GP.Text;
+            grdMain.Cols[2].Caption = "투입본수";
+            grdMain.Cols[3].Caption = "교정";
+            grdMain.Cols[5].Caption = "면취";
+            grdMain.Cols[6].Caption = "PRII";
+            grdMain.Cols[8].Caption = "MAT";
+            grdMain.Cols[9].Caption = "MLFT";
+            grdMain.Cols[10].Caption = "UT";
+            grdMain.Cols[11].Caption = "비파괴" + "\r\n" + "NG" + "\r\n" + "총본수";
+            grdMain.Cols[12].Caption = "MPI";
+            grdMain.Cols[14].Caption = "G/R";
+            grdMain.Cols[16].Caption = "성분분석";
+            grdMain.Cols[18].Caption = "결속";
+            grdMain.Cols[20].Caption = "중량(kg)";
+
+            // 정상, 불량, 번들수, 본수, 이론, 실중량
+            for (int i = 0; i < grdMain.Cols.Count; i++)
+            {
+                if (i == 3 || i == 6 || i == 12 || i == 14 || i == 16)
+                    grdMain[1, i] = "OK";
+                else if (i == 4 || i == 7 || i == 8 || i == 9 || i == 10 || i == 13 || i == 15 || i == 17)
+                    grdMain[1, i] = "NG";
+                else if (i == 18)
+                    grdMain[1, i] = "번들수";
+                else if (i == 19)
+                    grdMain[1, i] = "본수";
+                else if (i == 20)
+                    grdMain[1, i] = "이론";
+                else if (i == 21)
+                    grdMain[1, i] = "실중량";
+            }
+            //-------------------------------------------------------
+
+            for (int i = 0; i < grdMain.Cols.Count; i++)
+            {
+                if (i > 1)
+                    grdMain.Cols[i].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+                else
+                    grdMain.Cols[i].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+                if (i == 0)
+                {
+                    grdMain.Cols[i].Width = 63;
+                }
+                else if (i == 1 || i == 20 || i == 21)
+                {
+                    grdMain.Cols[i].Width = 100;
+                }
+                else
+                {
+                    grdMain.Cols[i].Width = 80;
+                }
+            }
+        }
+        #endregion
+
+        private void cbo_Work_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            WORK_TYPE  = ((DictionaryList)cbo_Work_Type.SelectedItem).fnValue;
+
+            btnDisplay_Click(null, null);
+        }
+
+        private void cboDiv_GP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            GUBUN_ID = ((DictionaryList)cboDiv_GP.SelectedItem).fnValue;
+
+            grdMain[0, 1] = cboDiv_GP.Text;
+
+            btnDisplay_Click(null, null);
+        }
+    }
+}

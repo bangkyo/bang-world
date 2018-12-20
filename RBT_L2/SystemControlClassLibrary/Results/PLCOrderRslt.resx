@@ -1,0 +1,296 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="grdMain6.ColumnInfo" xml:space="preserve">
+    <value>38,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:130;Name:"COL_01O";Caption:"키커사이즈조정1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:130;AllowSorting:False;Name:"COL_01W";Caption:"키커사이즈조정1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:140;AllowSorting:False;Name:"COL_02O";Caption:"롤러컨베어HZ고속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:140;AllowSorting:False;Name:"COL_02W";Caption:"롤러컨베어HZ고속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:135;AllowSorting:False;Name:"COL_03O";Caption:"롤러컨베어HZ저속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:135;AllowSorting:False;Name:"COL_03W";Caption:"롤러컨베어HZ저속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:99;AllowSorting:False;Name:"COL_04O";Caption:"스크류구동HZ1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:99;AllowSorting:False;Name:"COL_04W";Caption:"스크류구동HZ1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:118;AllowSorting:False;Name:"COL_05O";Caption:"그라인딩구동Hz1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:118;AllowSorting:False;Name:"COL_05W";Caption:"그라인딩구동Hz1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;Margins:1, 0, 0, 0;TextAlign:GeneralCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:80;Name:"COL_06O";Caption:"스토퍼1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Width:80;Name:"COL_06W";Caption:"스토퍼1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Width:80;Name:"COL_07O";Caption:"가이드1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Width:80;Name:"COL_07W";Caption:"가이드1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Width:80;Name:"COL_08O";Caption:"서보위치1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Width:80;Name:"COL_08W";Caption:"서보위치1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	22{Width:115;Name:"COL_09O";Caption:"키커사이즈조정2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	23{Width:115;Name:"COL_09W";Caption:"키커사이즈조정2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	24{Width:134;Name:"COL_10O";Caption:"롤러컨베어HZ고속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	25{Width:134;Name:"COL_10W";Caption:"롤러컨베어HZ고속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	26{Width:125;Name:"COL_11O";Caption:"롤러컨베어HZ저속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	27{Width:125;Name:"COL_11W";Caption:"롤러컨베어HZ저속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	28{Width:103;Name:"COL_12O";Caption:"스크류구동HZ2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	29{Width:103;Name:"COL_12W";Caption:"스크류구동HZ2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	30{Width:108;Name:"COL_13O";Caption:"그라인딩구동Hz2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	31{Width:108;Name:"COL_13W";Caption:"그라인딩구동Hz2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	32{Name:"COL_14O";Caption:"스토퍼2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	33{Name:"COL_14W";Caption:"스토퍼2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	34{Name:"COL_15O";Caption:"가이드2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	35{Name:"COL_15W";Caption:"가이드2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	36{Width:117;Name:"COL_16O";Caption:"서보위치2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	37{Width:117;Name:"COL_16W";Caption:"서보위치2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	</value>
+  </data>
+  <data name="grdMain6.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <data name="grdMain3.ColumnInfo" xml:space="preserve">
+    <value>22,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:80;Name:"COL_01O";Caption:"상롤위치";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:80;AllowSorting:False;Name:"COL_01W";Caption:"상롤위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:80;AllowSorting:False;Name:"COL_02O";Caption:"상롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:80;AllowSorting:False;Name:"COL_02W";Caption:"상롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:80;AllowSorting:False;Name:"COL_03O";Caption:"하롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:80;AllowSorting:False;Name:"COL_03W";Caption:"하롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:142;AllowSorting:False;Name:"COL_04O";Caption:"상하가이드의위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:142;AllowSorting:False;Name:"COL_04W";Caption:"상하가이드의위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:159;AllowSorting:False;Name:"COL_05O";Caption:"전후면의가이드위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:159;AllowSorting:False;Name:"COL_05W";Caption:"전후면의가이드위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;Margins:1, 0, 0, 0;TextAlign:GeneralCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:153;Name:"COL_06O";Caption:"진입롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Width:153;Name:"COL_06W";Caption:"진입롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Width:80;Name:"COL_07O";Caption:"상롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Width:80;Name:"COL_07W";Caption:"상롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Width:80;Name:"COL_08O";Caption:"출구롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Width:80;Name:"COL_08W";Caption:"출구롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	</value>
+  </data>
+  <data name="grdMain3.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <data name="grdMain2.ColumnInfo" xml:space="preserve">
+    <value>46,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:80;Name:"COL_01O";Caption:"상롤위치";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:80;AllowSorting:False;Name:"COL_01W";Caption:"상롤위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:80;AllowSorting:False;Name:"COL_02O";Caption:"상롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:80;AllowSorting:False;Name:"COL_02W";Caption:"상롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:80;AllowSorting:False;Name:"COL_03O";Caption:"하롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:80;AllowSorting:False;Name:"COL_03W";Caption:"하롤각도";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:142;AllowSorting:False;Name:"COL_04O";Caption:"상하가이드의위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:142;AllowSorting:False;Name:"COL_04W";Caption:"상하가이드의위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:159;AllowSorting:False;Name:"COL_05O";Caption:"전후면의가이드위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:159;AllowSorting:False;Name:"COL_05W";Caption:"전후면의가이드위치";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;Margins:1, 0, 0, 0;TextAlign:GeneralCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:153;Name:"COL_06O";Caption:"진입롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Width:153;Name:"COL_06W";Caption:"진입롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Width:80;Name:"COL_07O";Caption:"상롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Width:80;Name:"COL_07W";Caption:"상롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Width:80;Name:"COL_08O";Caption:"출구롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Width:80;Name:"COL_08W";Caption:"출구롤모터주파수(Hz)";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	22{Name:"COL_09O";Caption:"09";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	23{Name:"COL_09W";Caption:"09";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	24{Name:"COL_10O";Caption:"10";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	25{Name:"COL_10W";Caption:"10";}	26{Name:"COL_11O";Caption:"11";}	27{Name:"COL_11W";Caption:"11";}	28{Name:"COL_12O";Caption:"12";}	29{Name:"COL_12W";Caption:"12";}	30{Name:"COL_13O";Caption:"13";}	31{Name:"COL_13W";Caption:"13";}	32{Name:"COL_14O";Caption:"14";}	33{Name:"COL_14W";Caption:"14";}	34{Name:"COL_15O";Caption:"15";}	35{Name:"COL_15W";Caption:"15";}	36{Name:"COL_16O";Caption:"16";}	37{Name:"COL_16W";Caption:"16";}	38{Name:"COL_17O";Caption:"17";}	39{Name:"COL_17W";Caption:"17";}	40{Name:"COL_18O";Caption:"18";}	41{Name:"COL_18W";Caption:"18";}	42{Name:"COL_19O";Caption:"19";}	43{Name:"COL_19W";Caption:"19";}	44{Name:"COL_20O";Caption:"20";}	45{Name:"COL_20W";Caption:"20";}	</value>
+  </data>
+  <data name="grdMain2.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <data name="grdMain7.ColumnInfo" xml:space="preserve">
+    <value>32,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:80;Name:"COL_01O";Caption:"C";Style:"Format:""N0"";";}	7{Width:80;AllowSorting:False;Name:"COL_01W";Caption:"C";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:80;AllowSorting:False;Name:"COL_02O";Caption:"SI";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:80;AllowSorting:False;Name:"COL_02W";Caption:"SI";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:80;AllowSorting:False;Name:"COL_03O";Caption:"MN";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:80;AllowSorting:False;Name:"COL_03W";Caption:"MN";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:80;AllowSorting:False;Name:"COL_04O";Caption:"NI";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:80;AllowSorting:False;Name:"COL_04W";Caption:"NI";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:80;AllowSorting:False;Name:"COL_05O";Caption:"CR";AllowEditing:False;Style:"Format:""N0"";TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:80;AllowSorting:False;Name:"COL_05W";Caption:"CR";AllowEditing:False;Style:"Format:""N0"";Margins:1, 0, 0, 0;TextAlign:CenterCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:80;Name:"COL_06O";Caption:"MO";Style:"Format:""N0"";";}	17{Width:80;Name:"COL_06W";Caption:"MO";Style:"Format:""N0"";";}	18{Width:80;Name:"COL_07O";Caption:"V";Style:"Format:""N0"";";}	19{Width:80;Name:"COL_07W";Caption:"V";Style:"Format:""N0"";";}	20{Width:80;Name:"COL_08O";Caption:"TI";Style:"Format:""N0"";";}	21{Width:80;Name:"COL_08W";Caption:"TI";Style:"Format:""N0"";";}	22{Width:80;Name:"COL_09O";Caption:"NB";Style:"Format:""N0"";";}	23{Width:80;Name:"COL_09W";Caption:"NB";Style:"Format:""N0"";";}	24{Width:80;Name:"COL_10O";Caption:"CU";Style:"Format:""N0"";";}	25{Width:80;Name:"COL_10W";Caption:"CU";Style:"Format:""N0"";";}	26{Width:80;Name:"COL_11O";Caption:"ZR";Style:"Format:""N0"";";}	27{Name:"COL_11W";Caption:"ZR";Style:"Format:""N0"";";}	28{Name:"COL_12O";Caption:"P";Style:"Format:""N0"";";}	29{Name:"COL_12W";Caption:"P";Style:"Format:""N0"";";}	30{Name:"COL_13O";Caption:"S";Style:"Format:""N0"";";}	31{Name:"COL_13W";Caption:"S";Style:"Format:""N0"";";}	</value>
+  </data>
+  <data name="grdMain7.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <data name="grdMain5.ColumnInfo" xml:space="preserve">
+    <value>38,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:130;Name:"COL_01O";Caption:"키커사이즈조정1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:130;AllowSorting:False;Name:"COL_01W";Caption:"키커사이즈조정1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:140;AllowSorting:False;Name:"COL_02O";Caption:"롤러컨베어HZ고속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:140;AllowSorting:False;Name:"COL_02W";Caption:"롤러컨베어HZ고속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:135;AllowSorting:False;Name:"COL_03O";Caption:"롤러컨베어HZ저속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:135;AllowSorting:False;Name:"COL_03W";Caption:"롤러컨베어HZ저속1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:99;AllowSorting:False;Name:"COL_04O";Caption:"스크류구동HZ1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:99;AllowSorting:False;Name:"COL_04W";Caption:"스크류구동HZ1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:118;AllowSorting:False;Name:"COL_05O";Caption:"그라인딩구동Hz1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:118;AllowSorting:False;Name:"COL_05W";Caption:"그라인딩구동Hz1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;Margins:1, 0, 0, 0;TextAlign:GeneralCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:80;Name:"COL_06O";Caption:"스토퍼1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Width:80;Name:"COL_06W";Caption:"스토퍼1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Width:80;Name:"COL_07O";Caption:"가이드1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Width:80;Name:"COL_07W";Caption:"가이드1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Width:80;Name:"COL_08O";Caption:"서보위치1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Width:80;Name:"COL_08W";Caption:"서보위치1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	22{Width:115;Name:"COL_09O";Caption:"키커사이즈조정2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	23{Width:115;Name:"COL_09W";Caption:"키커사이즈조정2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	24{Width:134;Name:"COL_10O";Caption:"롤러컨베어HZ고속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	25{Width:134;Name:"COL_10W";Caption:"롤러컨베어HZ고속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	26{Width:125;Name:"COL_11O";Caption:"롤러컨베어HZ저속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	27{Width:125;Name:"COL_11W";Caption:"롤러컨베어HZ저속2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	28{Width:103;Name:"COL_12O";Caption:"스크류구동HZ2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	29{Width:103;Name:"COL_12W";Caption:"스크류구동HZ2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	30{Width:108;Name:"COL_13O";Caption:"그라인딩구동Hz2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	31{Width:108;Name:"COL_13W";Caption:"그라인딩구동Hz2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	32{Name:"COL_14O";Caption:"스토퍼2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	33{Name:"COL_14W";Caption:"스토퍼2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	34{Name:"COL_15O";Caption:"가이드2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	35{Name:"COL_15W";Caption:"가이드2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	36{Width:117;Name:"COL_16O";Caption:"서보위치2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	37{Width:117;Name:"COL_16W";Caption:"서보위치2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	</value>
+  </data>
+  <data name="grdMain5.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <data name="grdMain4.ColumnInfo" xml:space="preserve">
+    <value>32,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:80;Name:"COL_01O";Caption:"SERVO1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:80;AllowSorting:False;Name:"COL_01W";Caption:"SERVO1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:80;AllowSorting:False;Name:"COL_02O";Caption:"SERVO2";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:80;AllowSorting:False;Name:"COL_02W";Caption:"SERVO2";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:80;AllowSorting:False;Name:"COL_03O";Caption:"SCREW1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:80;AllowSorting:False;Name:"COL_03W";Caption:"SCREW1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:80;AllowSorting:False;Name:"COL_04O";Caption:"SCREW2";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:80;AllowSorting:False;Name:"COL_04W";Caption:"SCREW2";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:80;AllowSorting:False;Name:"COL_05O";Caption:"RT1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:80;AllowSorting:False;Name:"COL_05W";Caption:"RT1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;Margins:1, 0, 0, 0;TextAlign:GeneralCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:80;Name:"COL_06O";Caption:"RT2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Width:80;Name:"COL_06W";Caption:"RT2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Width:80;Name:"COL_07O";Caption:"RT EXIT";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Width:80;Name:"COL_07W";Caption:"RT EXIT";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Width:80;Name:"COL_08O";Caption:"STOPPER1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Width:80;Name:"COL_08W";Caption:"STOPPER1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	22{Width:80;Name:"COL_09O";Caption:"받침대1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	23{Width:80;Name:"COL_09W";Caption:"받침대1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	24{Width:80;Name:"COL_10O";Caption:"소재간격1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	25{Width:80;Name:"COL_10W";Caption:"소재간격1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	26{Width:80;Name:"COL_11O";Caption:"STOPPER2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	27{Name:"COL_11W";Caption:"STOPPER2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	28{Name:"COL_12O";Caption:"받침대2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	29{Name:"COL_12W";Caption:"받침대2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	30{Name:"COL_13O";Caption:"소재간격2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	31{Name:"COL_13W";Caption:"소재간격2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	</value>
+  </data>
+  <data name="grdMain4.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <data name="grdMain1.ColumnInfo" xml:space="preserve">
+    <value>46,0,0,0,0,100,Columns:0{Name:"L_NO";Caption:"NO";}	1{Width:80;AllowSorting:False;Name:"WORK_DDTT";Caption:"작업일시";AllowEditing:False;Style:"TextAlign:CenterCenter;";StyleFixed:"TextAlign:CenterCenter;";}	2{Name:"HEAT";Caption:"HEAT";}	3{Name:"STEEL";Caption:"강종";}	4{Name:"STEEL_NM";Caption:"강종명";}	5{Name:"POC_NO";Caption:"POC";}	6{Width:80;Name:"COL_01O";Caption:"상롤GAP1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	7{Width:80;AllowSorting:False;Name:"COL_01W";Caption:"상롤GAP1";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	8{Width:80;AllowSorting:False;Name:"COL_02O";Caption:"상롤GAP2";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	9{Width:80;AllowSorting:False;Name:"COL_02W";Caption:"상롤GAP2";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	10{Width:80;AllowSorting:False;Name:"COL_03O";Caption:"상롤GAP3";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	11{Width:80;AllowSorting:False;Name:"COL_03W";Caption:"상롤GAP3";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	12{Width:80;AllowSorting:False;Name:"COL_04O";Caption:"상롤GAP4";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	13{Width:80;AllowSorting:False;Name:"COL_04W";Caption:"상롤GAP4";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;ImageAlign:RightCenter;";StyleFixed:"TextAlign:CenterCenter;ImageAlign:RightCenter;";}	14{Width:80;AllowSorting:False;Name:"COL_05O";Caption:"상롤GAP5";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";StyleFixed:"TextAlign:CenterCenter;";}	15{Width:80;AllowSorting:False;Name:"COL_05W";Caption:"상롤GAP5";AllowEditing:False;Style:"Format:""N1"";DataType:System.Decimal;Margins:1, 0, 0, 0;TextAlign:GeneralCenter;TextEffect:Flat;TextDirection:Normal;Trimming:None;";StyleFixed:"TextAlign:CenterCenter;";}	16{Width:80;Name:"COL_06O";Caption:"상롤GAP6";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	17{Width:80;Name:"COL_06W";Caption:"상롤GAP6";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	18{Width:80;Name:"COL_07O";Caption:"상롤각도1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	19{Width:80;Name:"COL_07W";Caption:"상롤각도1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	20{Width:80;Name:"COL_08O";Caption:"상롤각도2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	21{Width:80;Name:"COL_08W";Caption:"상롤각도2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	22{Width:80;Name:"COL_09O";Caption:"상롤각도3";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	23{Width:80;Name:"COL_09W";Caption:"상롤각도3";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	24{Width:80;Name:"COL_10O";Caption:"상롤각도4";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	25{Width:80;Name:"COL_10W";Caption:"상롤각도4";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	26{Width:80;Name:"COL_11O";Caption:"상롤각도5";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	27{Name:"COL_11W";Caption:"상롤각도5";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	28{Name:"COL_12O";Caption:"상롤각도6";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	29{Name:"COL_12W";Caption:"상롤각도6";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	30{Name:"COL_13O";Caption:"하롤각도1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	31{Name:"COL_13W";Caption:"하롤각도1";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	32{Name:"COL_14O";Caption:"하롤각도2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	33{Name:"COL_14W";Caption:"하롤각도2";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	34{Name:"COL_15O";Caption:"하롤각도3";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	35{Name:"COL_15W";Caption:"하롤각도3";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	36{Width:117;Name:"COL_16O";Caption:"INLET ROLL전류";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	37{Width:117;Name:"COL_16W";Caption:"INLET ROLL전류";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	38{Width:117;Name:"COL_17O";Caption:"MID ROLL전류";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	39{Width:117;Name:"COL_17W";Caption:"MID ROLL전류";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	40{Width:117;Name:"COL_18O";Caption:"OUTLET ROLL전류";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	41{Width:117;Name:"COL_18W";Caption:"OUTLET ROLL전류";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	42{Width:117;Name:"COL_19O";Caption:"THREAD SPEED";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	43{Width:117;Name:"COL_19W";Caption:"THREAD SPEED";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	44{Width:134;Name:"COL_20O";Caption:"MACHINE SPEED";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	45{Width:134;Name:"COL_20W";Caption:"MACHINE SPEED";Style:"Format:""N1"";DataType:System.Decimal;TextAlign:GeneralCenter;";}	</value>
+  </data>
+  <data name="grdMain1.StyleInfo" xml:space="preserve">
+    <value>Normal{Font:굴림, 9pt;TextAlign:CenterCenter;}	Alternate{}	Fixed{BackColor:Control;ForeColor:ControlText;Border:Flat,1,ControlDark,Both;BackgroundImageLayout:Hide;}	Highlight{BackColor:Highlight;ForeColor:HighlightText;}	Focus{}	Editor{}	Search{BackColor:Highlight;ForeColor:HighlightText;}	Frozen{BackColor:Beige;}	NewRow{ForeColor:GrayText;}	EmptyArea{BackColor:AppWorkspace;Border:Flat,1,ControlDarkDark,Both;}	SelectedColumnHeader{}	SelectedRowHeader{}	GrandTotal{BackColor:Black;ForeColor:White;}	Subtotal0{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal1{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal2{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal3{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal4{BackColor:ControlDarkDark;ForeColor:White;}	Subtotal5{BackColor:ControlDarkDark;ForeColor:White;}	FilterEditor{}	FirstCustomStyle{}	CustomStyle1{}	CustomStyle2{}	CustomStyle3{}	</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="pictureBox2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhBQAFAIcAAAAAAAAAMwAAZgAAmQAAzAAA/wArAAArMwArZgArmQArzAAr/wBVAABVMwBVZgBV
+        mQBVzABV/wCAAACAMwCAZgCAmQCAzACA/wCqAACqMwCqZgCqmQCqzACq/wDVAADVMwDVZgDVmQDVzADV
+        /wD/AAD/MwD/ZgD/mQD/zAD//zMAADMAMzMAZjMAmTMAzDMA/zMrADMrMzMrZjMrmTMrzDMr/zNVADNV
+        MzNVZjNVmTNVzDNV/zOAADOAMzOAZjOAmTOAzDOA/zOqADOqMzOqZjOqmTOqzDOq/zPVADPVMzPVZjPV
+        mTPVzDPV/zP/ADP/MzP/ZjP/mTP/zDP//2YAAGYAM2YAZmYAmWYAzGYA/2YrAGYrM2YrZmYrmWYrzGYr
+        /2ZVAGZVM2ZVZmZVmWZVzGZV/2aAAGaAM2aAZmaAmWaAzGaA/2aqAGaqM2aqZmaqmWaqzGaq/2bVAGbV
+        M2bVZmbVmWbVzGbV/2b/AGb/M2b/Zmb/mWb/zGb//5kAAJkAM5kAZpkAmZkAzJkA/5krAJkrM5krZpkr
+        mZkrzJkr/5lVAJlVM5lVZplVmZlVzJlV/5mAAJmAM5mAZpmAmZmAzJmA/5mqAJmqM5mqZpmqmZmqzJmq
+        /5nVAJnVM5nVZpnVmZnVzJnV/5n/AJn/M5n/Zpn/mZn/zJn//8wAAMwAM8wAZswAmcwAzMwA/8wrAMwr
+        M8wrZswrmcwrzMwr/8xVAMxVM8xVZsxVmcxVzMxV/8yAAMyAM8yAZsyAmcyAzMyA/8yqAMyqM8yqZsyq
+        mcyqzMyq/8zVAMzVM8zVZszVmczVzMzV/8z/AMz/M8z/Zsz/mcz/zMz///8AAP8AM/8AZv8Amf8AzP8A
+        //8rAP8rM/8rZv8rmf8rzP8r//9VAP9VM/9VZv9Vmf9VzP9V//+AAP+AM/+AZv+Amf+AzP+A//+qAP+q
+        M/+qZv+qmf+qzP+q///VAP/VM//VZv/Vmf/VzP/V////AP//M///Zv//mf//zP///wAAAAAAAAAAAAAA
+        ACH/C05FVFNDQVBFMi4wAwEBAAAh+QQAAAAAACwAAAAABQAFAAAIGAB10Nino6COfTR00NtXTx/BgQkT
+        6ksYEAA7
+</value>
+  </data>
+  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhDAAMAIMMAPH///T///P//2Gp9fD//+j//2Gp8+P//+r//+T//3yjzF6m8v///wAAAAAAAAAA
+        ACH/C05FVFNDQVBFMi4wAwEBAAAh+QQBAAAMACwAAAAADAAMAAAIPwAZLBhIkCADgQUTKkCYcIGBBQsL
+        IihQMGLBBAAIWixIICNEhgMDHNAIUkCAiggHNPy4kiQDBTBjxjxIs6bNgAA7
+</value>
+  </data>
+  <data name="btnExcel.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAACOSURBVDhPlZJbDsAgCAQ9ukfzZpZt2WaLLzrJhigw9qNFqbX2THx8BM0TLhBJtUMihI/Ypkuk
+        uUJnfFHizfiSnlFba28A6kdwX/iSBrCCpQA1Sgh7DBgEgIMUsKczS4EuRQnvGLAVzBIZBDt0ZvoFmegi
+        6yMQ+JehqYl3PNvKXJBhKdCXTrGVUWDlR0q/AN9HZlmYVxaJAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="btnClose.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAALiSURBVDhPbVNZSJRRGD2OM7+NtFtqRihROJM2ormV0YyCNim/uKCiIEi5ZaZiKmkPPUjYSw+S
+        PbSAibSSmkTYg2arROYCFfVQIoYUo6nkmtac7v+P2aIHDsN85zvn3vvd+0PBw6AgaViWbw4nJDQ/279f
+        Uosr4EVEhM9kTs6791FRBYsl4JK7u8ugLN9jezvZ0cGhhIT7XeHhqxblJTwPCfEZP3lygJ2dtN++be8O
+        Da1QhRTAMpOeTra2OtjSwiFZbusKDV0KeR4Y6DNeXDyw1NPUxOHg4DmzRqNHCBDZAHAqMZFsbHSwoYGf
+        rNa2pyaT62Oj0Wc8N3dgSauv5+fAQNYC09uB1dgEbDkKvL4qQqZjY8m6OvLCBfL8eX60WB6NZ2YOqP8V
+        1tbyy+7drBO9scB1d8Axr7WAXxHw5oYSYjaTNTXLWV1Nm9HIy6InHrizDsraf0GE7CoF+puVkIgIsqrq
+        DysrOWow8JrQkoV5/f/m39im0RjqJOndrDKP0lKyrIwsL1c5ER3NEq32ga9Wu7JZwS1PT+tMUtIUCwvJ
+        khIHT5xwBBUU0BYePnzT29u02P4vXm3dmj7v6zvHvXtJWSYzMjhqsfDboUNkSgqpDDgqitNhYWO9/v7m
+        RZsD/V5ehXY/vx/ct4+0Wsm0NI6I32c6Hbv0ek6kppJHjqihjI/nvNk802syJanmu25ux+wGg101x8WR
+        WVm0JSfzpU73Uzyyy8eB1lciZCw723EcJUjo9sjIhVs7diShWpKufw8IIA8epF2INrF6j1a7YAXOuImH
+        Im7HLRO40ufi8vNrfj556pQaMhsTw0q9/hyKgYtvxQpz4pw2sdUeZ+fZA0D5ZkCvblFgA7BGBs7263QL
+        I2InM3l57HN1ZTZwGp6A70Wgb1AMqFujmdwD5Ajzsi9S3L1eTK68T5JmP4jj1gBPPMTNq+JGYGeFl1eT
+        EUgVRa1aXAEiRApycjpc5OGhPGNhBn4BQH6OkgyVLJIAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnDisplay.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAJJSURBVDhPlZFLTFNBGIVbRRN0ZXTjAxYYTHxgjG5MjNQY
+        umOphnTlxgXGDYkk7poQ2UDQBUYihWANKKl66SNwFUpvW1tqK95iW0tKW6S37W17+0ajCxfHmabB3KQL
+        OMmXmfz5/zNnZhTn7g/39cwG0PPm2+4h/XROQdV8QzP0gE2hYyyMi7uA9tF+OlczONCpGXJtVWAISIS8
+        nGADSJ3207kdg3QygdVVnuCvw8PpdIFlWSwsyKE1MSXIDbJiEiazBQwzh/cMA87ugMfrQyPFN38gK6bk
+        BlJWJM4fYbHMY8XjxSeXG5FItD4iV6lcRk5M/zfYTzYFKYONaAzRWLy2RjZi2EoISAgCTCYznoyM1DAa
+        zRCEJPK5DOjcjkGpkEMsvikjGApBN67DMBsCIwBvCc+tAYy/0CFPDpQZVIp52GwcFheXwPNr5BG/wmq1
+        YXTOCb4IhMqALQdME5PJeQd8Pq/8Cj8rRbjIvcPhdSwv2xAIBMmLf4DOEcb3CmCXAFMWMGRIki9h2DlO
+        bvCrWkJOyhMKkAh0TxNMc36wIvAuTQwKgIUkMXrWsOJ2y3/h759t/K6WZVTLRegndGDWC5gi0Q0khTVR
+        xIRuEhzngLLzbj1B69mugyrNy6brGr0MlUZ/THVb3/+wn389MwPKwMDg9tSrWUjRJXjGbvq1Wu0+hUqr
+        bbrS3X1IrVYfbsSp9vaT5JzzdToe3evmwVwCYk/xuPfaIA2xFynb2o63jvZe4D8/6ypdPn3kTr2+Jylb
+        Wo6eIOuZvltXm/8BF9ZegN4yIc4AAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="pictureBox4.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhBQAFAIcAAAAAAAAAMwAAZgAAmQAAzAAA/wArAAArMwArZgArmQArzAAr/wBVAABVMwBVZgBV
+        mQBVzABV/wCAAACAMwCAZgCAmQCAzACA/wCqAACqMwCqZgCqmQCqzACq/wDVAADVMwDVZgDVmQDVzADV
+        /wD/AAD/MwD/ZgD/mQD/zAD//zMAADMAMzMAZjMAmTMAzDMA/zMrADMrMzMrZjMrmTMrzDMr/zNVADNV
+        MzNVZjNVmTNVzDNV/zOAADOAMzOAZjOAmTOAzDOA/zOqADOqMzOqZjOqmTOqzDOq/zPVADPVMzPVZjPV
+        mTPVzDPV/zP/ADP/MzP/ZjP/mTP/zDP//2YAAGYAM2YAZmYAmWYAzGYA/2YrAGYrM2YrZmYrmWYrzGYr
+        /2ZVAGZVM2ZVZmZVmWZVzGZV/2aAAGaAM2aAZmaAmWaAzGaA/2aqAGaqM2aqZmaqmWaqzGaq/2bVAGbV
+        M2bVZmbVmWbVzGbV/2b/AGb/M2b/Zmb/mWb/zGb//5kAAJkAM5kAZpkAmZkAzJkA/5krAJkrM5krZpkr
+        mZkrzJkr/5lVAJlVM5lVZplVmZlVzJlV/5mAAJmAM5mAZpmAmZmAzJmA/5mqAJmqM5mqZpmqmZmqzJmq
+        /5nVAJnVM5nVZpnVmZnVzJnV/5n/AJn/M5n/Zpn/mZn/zJn//8wAAMwAM8wAZswAmcwAzMwA/8wrAMwr
+        M8wrZswrmcwrzMwr/8xVAMxVM8xVZsxVmcxVzMxV/8yAAMyAM8yAZsyAmcyAzMyA/8yqAMyqM8yqZsyq
+        mcyqzMyq/8zVAMzVM8zVZszVmczVzMzV/8z/AMz/M8z/Zsz/mcz/zMz///8AAP8AM/8AZv8Amf8AzP8A
+        //8rAP8rM/8rZv8rmf8rzP8r//9VAP9VM/9VZv9Vmf9VzP9V//+AAP+AM/+AZv+Amf+AzP+A//+qAP+q
+        M/+qZv+qmf+qzP+q///VAP/VM//VZv/Vmf/VzP/V////AP//M///Zv//mf//zP///wAAAAAAAAAAAAAA
+        ACH/C05FVFNDQVBFMi4wAwEBAAAh+QQAAAAAACwAAAAABQAFAAAIGAB10Nino6COfTR00NtXTx/BgQkT
+        6ksYEAA7
+</value>
+  </data>
+  <data name="pictureBox5.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        R0lGODlhBQAFAIcAAAAAAAAAMwAAZgAAmQAAzAAA/wArAAArMwArZgArmQArzAAr/wBVAABVMwBVZgBV
+        mQBVzABV/wCAAACAMwCAZgCAmQCAzACA/wCqAACqMwCqZgCqmQCqzACq/wDVAADVMwDVZgDVmQDVzADV
+        /wD/AAD/MwD/ZgD/mQD/zAD//zMAADMAMzMAZjMAmTMAzDMA/zMrADMrMzMrZjMrmTMrzDMr/zNVADNV
+        MzNVZjNVmTNVzDNV/zOAADOAMzOAZjOAmTOAzDOA/zOqADOqMzOqZjOqmTOqzDOq/zPVADPVMzPVZjPV
+        mTPVzDPV/zP/ADP/MzP/ZjP/mTP/zDP//2YAAGYAM2YAZmYAmWYAzGYA/2YrAGYrM2YrZmYrmWYrzGYr
+        /2ZVAGZVM2ZVZmZVmWZVzGZV/2aAAGaAM2aAZmaAmWaAzGaA/2aqAGaqM2aqZmaqmWaqzGaq/2bVAGbV
+        M2bVZmbVmWbVzGbV/2b/AGb/M2b/Zmb/mWb/zGb//5kAAJkAM5kAZpkAmZkAzJkA/5krAJkrM5krZpkr
+        mZkrzJkr/5lVAJlVM5lVZplVmZlVzJlV/5mAAJmAM5mAZpmAmZmAzJmA/5mqAJmqM5mqZpmqmZmqzJmq
+        /5nVAJnVM5nVZpnVmZnVzJnV/5n/AJn/M5n/Zpn/mZn/zJn//8wAAMwAM8wAZswAmcwAzMwA/8wrAMwr
+        M8wrZswrmcwrzMwr/8xVAMxVM8xVZsxVmcxVzMxV/8yAAMyAM8yAZsyAmcyAzMyA/8yqAMyqM8yqZsyq
+        mcyqzMyq/8zVAMzVM8zVZszVmczVzMzV/8z/AMz/M8z/Zsz/mcz/zMz///8AAP8AM/8AZv8Amf8AzP8A
+        //8rAP8rM/8rZv8rmf8rzP8r//9VAP9VM/9VZv9Vmf9VzP9V//+AAP+AM/+AZv+Amf+AzP+A//+qAP+q
+        M/+qZv+qmf+qzP+q///VAP/VM//VZv/Vmf/VzP/V////AP//M///Zv//mf//zP///wAAAAAAAAAAAAAA
+        ACH/C05FVFNDQVBFMi4wAwEBAAAh+QQAAAAAACwAAAAABQAFAAAIGAB10Nino6COfTR00NtXTx/BgQkT
+        6ksYEAA7
+</value>
+  </data>
+  <metadata name="toolTipPageID.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA
+        AAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
+        /wD///8A////AP////H////4////+P///77///8a////AP///wD///8A////AP///xr///++////+P//
+        //j////x////AP///wD////5///////////////E////G////wD///8A////AP///wD///8b////xP//
+        ////////////+f///wD///8A////+P//////////////w////xv///8A////AP///wD///8A////G///
+        /8P///////////////j///8A////AP////j//////////////8P///8b////AP///wD///8A////AP//
+        /xv////D///////////////4////AP///wD////4//////////////+/////Ff///wD///8A////AP//
+        /wD///8V////v///////////////+P///wD///8A////+P//////////////8v///1H///8A////AP//
+        /wD///8A////Uf////L///////////////j///8A////AP////j////////////////////x////lv//
+        /0////9P////lv////H////////////////////4////AP///wD////4////////////////////////
+        ///////8/////P//////////////////////////////+P///wD///8A////+P//////////////////
+        //////////////////////////////////////////////////j///8A////AP////j/////////////
+        /+X////J////7///////////////7////8n////l///////////////4////AP///wD////4////////
+        //////+5////K////0v///9x////cf///0v///8r////uf//////////////+P///wD///8A////+P//
+        ////////////xP///xX///8A////AP///wD///8A////Ff///8T///////////////j///8A////AP//
+        //n//////////////8T///8b////AP///wD///8A////AP///xv////E///////////////5////AP//
+        /wD////x////+P////j///++////Gv///wD///8A////AP///wD///8a////vv////j////4////8f//
+        /wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP//
+        /wD///8A//8AAIPBAACDwQAAg8EAAIPBAACDwQAAg8EAAIABAACAAQAAgAEAAIABAACAAQAAg8EAAIPB
+        AACDwQAA//8AAA==
+</value>
+  </data>
+</root>

@@ -1,0 +1,518 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Data.OracleClient;
+using System.Diagnostics;
+using System.Windows.Forms;
+
+namespace SystemControlClassLibrary.monitoring
+{
+    public partial class ProdReWorkMgmt : Form
+    {
+
+        clsCom cS = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsStyle cs = new clsStyle();
+
+
+        DataTable olddt;
+        DataTable moddt;
+        DataTable logdt;
+
+
+
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+
+        OracleTransaction transaction = null;
+
+        C1FlexGrid selectedGrd = null;
+
+        private string line_gp = "";
+        private DataTable grdMain_dt;
+        private DataTable grdSub_dt;
+        private DataTable olddt_sub;
+        private DataTable moddt_sub;
+
+        public ProdReWorkMgmt(string _line_gp)
+        {
+            line_gp = _line_gp;
+
+            InitializeComponent();
+
+            uC_GuBun1.GubunChangeEvent += UC_GuBun1_GubunChangeEvent;
+
+
+            selectedGrd = grdMain;
+
+
+        }
+
+        private void UC_GuBun1_GubunChangeEvent(object sender, EventArgs e)
+        {
+            
+            if (uC_GuBun1.GUBUN == "A")
+            {
+                btnReg.Enabled = true;
+                btnRegCancel.Enabled = false;// 대상조회
+                
+            }
+            else
+            {
+                btnReg.Enabled = false;
+                btnRegCancel.Enabled = true; // 재등록조회
+                
+            }
+
+            if (grdMain_dt != null)
+            {
+                btnDisplay_Click(null, null);
+            }
+
+            
+        }
+
+        private void ProdReWorkMgmt_Load(object sender, EventArgs e)
+        {
+            MaximizeBox = false;
+            MinimizeBox = false;
+            StartPosition = FormStartPosition.CenterScreen;
+
+            InitControl();
+
+            MakeInitgrdData();
+
+            //초기 설정
+            uC_Line_gp_s1.Line_GP = line_gp;
+            uC_Work_Date_Fr_To_s1.Work_From_Date = DateTime.Now.Date;
+            uC_Work_Date_Fr_To_s1.Work_To_Date = DateTime.Now.Date;
+
+            UC_GuBun1_GubunChangeEvent(null, null);
+
+            //초기 조회
+            btnDisplay_Click(null, null);
+        }
+
+        private void MakeInitgrdData()
+        {
+            grdMain_dt = vf.CreateDataTable(grdMain);
+
+            grdSub_dt = vf.CreateDataTable(grdSub);
+        }
+
+        private void InitControl()
+        {
+
+            clsStyle.Style.InitButton(btnDisplay);
+
+            clsStyle.Style.InitButton(btnClose);
+
+
+            clsStyle.Style.InitButton(btnReg);
+
+            clsStyle.Style.InitButton(btnRegCancel);
+
+            InitGrd_Main();
+            InitGrd_Sub();
+        }
+
+        private void InitGrd_Main()
+        {
+            cs.InitGrid_search(grdMain);
+
+            grdMain.AllowEditing = false;
+
+            grdMain.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain.Cols["INSP_STAT_NM"].Width = cs.INSP_STAT_NM_Width;
+            grdMain.Cols["BUNDLE_NO"].Width = cs.BUNDLE_NO_Width;
+            grdMain.Cols["POC_NO"].Width = cs.POC_NO_Width;
+            grdMain.Cols["HEAT"].Width = cs.HEAT_Width;
+            grdMain.Cols["STEEL"].Width = cs.STEEL_Width;
+            grdMain.Cols["STEEL_NM"].Width = cs.STEEL_NM_Width;
+            grdMain.Cols["ITEM"].Width = cs.ITEM_Width;
+            grdMain.Cols["ITEM_SIZE"].Width = cs.ITEM_SIZE_Width;
+            grdMain.Cols["LENGTH"].Width = cs.LENGTH_Width;
+            grdMain.Cols["PCS"].Width = cs.PCS_Width;
+            grdMain.Cols["NET_WGT"].Width = cs.Wgt_Width;
+            grdMain.Cols["MFG_DATE"].Width = cs.Date_8_Width;
+            grdMain.Cols["ZONE_CD"].Width = cs.ZONE_CD_Width +10;
+            grdMain.Cols["REWORK_RSN_NM"].Width = cs.REWORK_RSN_NM_Width;
+            grdMain.Cols["MEAS_NO"].Width = 0;
+            grdMain.Cols["LINE_GP"].Width = 0;
+            //grdMain.Cols["REWORK_YN"].Width = cs.REWORK_YN_Width;
+            //grdMain.Cols["GUBUN"].Width = 0;
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["L_NO"].TextAlign = cs.L_NO_TextAlign;
+            grdMain.Cols["INSP_STAT_NM"].TextAlign = cs.INSP_STAT_NM_TextAlign;
+            grdMain.Cols["BUNDLE_NO"].TextAlign = cs.BUNDLE_NO_TextAlign;
+            grdMain.Cols["POC_NO"].TextAlign = cs.POC_NO_TextAlign;
+            grdMain.Cols["HEAT"].TextAlign = cs.HEAT_TextAlign;
+            grdMain.Cols["STEEL"].TextAlign = cs.STEEL_TextAlign;
+            grdMain.Cols["STEEL_NM"].TextAlign = cs.STEEL_NM_TextAlign;
+            grdMain.Cols["ITEM"].TextAlign = cs.ITEM_TextAlign;
+            grdMain.Cols["ITEM_SIZE"].TextAlign = cs.ITEM_SIZE_TextAlign;
+            grdMain.Cols["LENGTH"].TextAlign = cs.ITEM_SIZE_TextAlign;
+            grdMain.Cols["PCS"].TextAlign = cs.FINISH_PCS_TextAlign;
+            grdMain.Cols["NET_WGT"].TextAlign = cs.WGT_TextAlign;
+            grdMain.Cols["MFG_DATE"].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["ZONE_CD"].TextAlign = cs.ZONE_CD_TextAlign;
+            grdMain.Cols["REWORK_RSN_NM"].TextAlign = cs.REWORK_RSN_NM_TextAlign;
+            //grdMain.Cols["MEAS_NO"].TextAlign = 0;
+            //grdMain.Cols["LINE_GP"].TextAlign = 0;
+
+
+        }
+
+        private void InitGrd_Sub()
+        {
+
+            cs.InitGrid_search(grdSub);
+
+            grdSub.AllowEditing = false;
+
+            int addWidth = 10;
+
+            grdSub.Cols["L_NO"].Width = cs.L_No_Width;
+            grdSub.Cols["MILL_NO"].Width = cs.Mill_No_Width + addWidth;
+            grdSub.Cols["PIECE_NO"].Width = cs.PIECE_NO_Width + addWidth;
+            grdSub.Cols["POC_NO"].Width = cs.POC_NO_Width + addWidth;
+            grdSub.Cols["HEAT"].Width = cs.HEAT_Width + addWidth;
+            grdSub.Cols["STEEL"].Width = cs.STEEL_Width + addWidth;
+            grdSub.Cols["STEEL_NM"].Width = cs.STEEL_NM_Width + addWidth;
+            grdSub.Cols["ITEM"].Width = cs.ITEM_Width + addWidth;
+            grdSub.Cols["ITEM_SIZE"].Width = cs.ITEM_SIZE_Width + addWidth;
+            grdSub.Cols["LENGTH"].Width = cs.LENGTH_Width + addWidth;
+            //grdSub.Cols["PCS"].Width = cs.PCS_Width;
+            //grdSub.Cols["NET_WGT"].Width = cs.Wgt_Width;
+            grdSub.Cols["MFG_DATE"].Width = cs.Date_8_Width;
+            //grdSub.Cols["ZONE_CD"].Width = cs.ZONE_CD_Width;
+            //grdSub.Cols["MEAS_NO"].Width = 0;
+            //grdSub.Cols["LINE_GP"].Width = 0;
+            //grdSub.Cols["REWORK_YN"].Width = cs.REWORK_YN_Width;
+            //grdSub.Cols["GUBUN"].Width = 0;
+
+            grdSub.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdSub.Cols["L_NO"].TextAlign = cs.L_NO_TextAlign;
+            grdSub.Cols["MILL_NO"].TextAlign = cs.MILL_NO_TextAlign;
+            grdSub.Cols["PIECE_NO"].TextAlign = cs.PIECE_NO_TextAlign;
+            grdSub.Cols["POC_NO"].TextAlign = cs.POC_NO_TextAlign;
+            grdSub.Cols["HEAT"].TextAlign = cs.HEAT_TextAlign;
+            grdSub.Cols["STEEL"].TextAlign = cs.STEEL_TextAlign;
+            grdSub.Cols["STEEL_NM"].TextAlign = cs.STEEL_NM_TextAlign;
+            grdSub.Cols["ITEM"].TextAlign = cs.ITEM_TextAlign;
+            grdSub.Cols["ITEM_SIZE"].TextAlign = cs.ITEM_SIZE_TextAlign;
+            grdSub.Cols["LENGTH"].TextAlign = cs.ITEM_SIZE_TextAlign;
+            //grdSub.Cols["PCS"].TextAlign = cs.FINISH_PCS_TextAlign;
+            //grdSub.Cols["NET_WGT"].TextAlign = cs.WGT_TextAlign;
+            grdSub.Cols["MFG_DATE"].TextAlign = cs.DATE_TextAlign;
+            //grdSub.Cols["ZONE_CD"].TextAlign = cs.ZONE_CD_TextAlign;
+
+
+        }
+
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            InitGridData(true);
+
+            SetDataBinding();
+
+            SelectedGrdMain(grdMain, grdMain.RowSel);
+        }
+
+        private void SelectedGrdMain(C1FlexGrid grd, int rowSel)
+        {
+            if (grd.RowSel <= 0 || grd.Rows.Count <= 1)
+            {
+                return;
+            }
+
+
+            // subgrd data search
+            string _line_gp = grd.GetData(rowSel, "LINE_GP").ToString();
+            string _bundle_no = grd.GetData(rowSel, "BUNDLE_NO").ToString();
+            //string _rework_rsn = grd.GetData(rowSel, "REWORK_RSN").ToString();
+            //string _work_date = vf.Format(grd.GetData(selected_Row, "WORK_ORD_DATE"), "yyyyMMdd");
+            //string _work_rank = grd.GetData(selected_Row, "WORK_RANK").ToString();
+            //string _item_size = grd.GetData(selected_Row, "ITEM_SIZE").ToString();
+            //string _steel = grd.GetData(selected_Row, "STEEL").ToString();
+            //string _length = grd.GetData(selected_Row, "LENGTH").ToString();
+            //string 
+
+            InitGridData(false);
+
+            // 번들넘버, 라인넘버로 검색, 재작업사유 추가;
+            SetDataBindingGrdSub(_line_gp, _bundle_no);
+        }
+
+        private void SetDataBindingGrdSub(string _line_gp, string _bundle_no)
+        {
+            try
+            {
+                string sql1 = string.Empty;
+                sql1 += string.Format("SELECT ROWNUM AS L_NO ");
+                sql1 += string.Format("       ,MILL_NO ");
+                sql1 += string.Format("       ,PIECE_NO ");
+                sql1 += string.Format("       ,POC_NO ");
+                sql1 += string.Format("       ,HEAT ");
+                sql1 += string.Format("       ,STEEL ");
+                sql1 += string.Format("       ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = X.STEEL) AS STEEL_NM ");
+                sql1 += string.Format("       ,ITEM ");
+                sql1 += string.Format("       ,ITEM_SIZE ");
+                sql1 += string.Format("       ,LENGTH ");
+                sql1 += string.Format("       ,TO_DATE(MFG_DATE,'YYYYMMDD') AS MFG_DATE ");
+                sql1 += string.Format("FROM   ( ");
+                sql1 += string.Format("        SELECT  MILL_NO ");
+                sql1 += string.Format("               ,PIECE_NO ");
+                sql1 += string.Format("               ,POC_NO ");
+                sql1 += string.Format("               ,HEAT ");
+                sql1 += string.Format("               ,STEEL ");
+                sql1 += string.Format("               ,ITEM ");
+                sql1 += string.Format("               ,ITEM_SIZE ");
+                sql1 += string.Format("               ,LENGTH ");
+                sql1 += string.Format("               ,MFG_DATE ");
+                sql1 += string.Format("        FROM   TB_CR_PIECE_WR A ");
+                sql1 += string.Format("        WHERE  BUNDLE_NO  = :P_BUNDLE_NO ");
+                sql1 += string.Format("        AND    LINE_GP    = :P_LINE_GP ");
+                sql1 += string.Format("        AND    ROUTING_CD = 'P3' ");
+                sql1 += string.Format("        AND    REWORK_SEQ = ( SELECT MAX(REWORK_SEQ) FROM TB_CR_PIECE_WR ");
+                sql1 += string.Format("                              WHERE  MILL_NO  = A.MILL_NO ");
+                sql1 += string.Format("                              AND    PIECE_NO = A.PIECE_NO ");
+                sql1 += string.Format("                              AND    LINE_GP  = A.LINE_GP ");
+                sql1 += string.Format("                              AND    ROUTING_CD = A.ROUTING_CD ) ");
+                sql1 += string.Format("        ORDER BY MILL_NO, PIECE_NO ");
+                sql1 += string.Format(") X ");
+
+
+                string[] parm = new string[2];
+                parm[0] = ":P_LINE_GP|" + _line_gp;
+                parm[1] = ":P_BUNDLE_NO|" + _bundle_no;
+               
+
+                olddt_sub = cd.FindDataTable(sql1, parm);
+
+                moddt_sub = olddt_sub.Copy();
+                this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+                grdSub.SetDataBinding(moddt_sub, null, true);
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + moddt_sub.Rows.Count.ToString() + " 건 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return;
+            }
+
+            return;
+        }
+
+        private void SetDataBinding()
+        {
+            try
+            {
+                string sql1 = string.Empty;
+                sql1 += string.Format("SELECT ROWNUM AS L_NO ");
+                sql1 += string.Format("       ,BUNDLE_NO ");
+                sql1 += string.Format("       ,POC_NO ");
+                sql1 += string.Format("       ,HEAT ");
+                sql1 += string.Format("       ,STEEL ");
+                sql1 += string.Format("       ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = X.STEEL) AS STEEL_NM ");
+                sql1 += string.Format("       ,ITEM ");
+                sql1 += string.Format("       ,ITEM_SIZE ");
+                sql1 += string.Format("       ,LENGTH ");
+                sql1 += string.Format("       ,PCS ");
+                sql1 += string.Format("       ,NET_WGT ");
+                sql1 += string.Format("       ,TO_DATE(MFG_DATE,'YYYYMMDD') AS MFG_DATE ");
+                sql1 += string.Format("       ,ZONE_CD ");
+                sql1 += string.Format("       ,MEAS_NO ");
+                sql1 += string.Format("       ,LINE_GP ");
+                sql1 += string.Format("       ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'L3_INSP_STAT' AND CD_ID = X.L3_INSP_STAT) AS INSP_STAT_NM ");
+                sql1 += string.Format("       ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'REWORK_RSN'   AND CD_ID = X.REWORK_RSN)   AS REWORK_RSN_NM  ");
+                sql1 += string.Format("FROM   ( ");
+                sql1 += string.Format("              SELECT  A.BUNDLE_NO ");
+                sql1 += string.Format("                     ,A.POC_NO ");
+                sql1 += string.Format("                     ,A.HEAT ");
+                sql1 += string.Format("                     ,A.STEEL ");
+                sql1 += string.Format("                     ,A.ITEM ");
+                sql1 += string.Format("                     ,A.ITEM_SIZE ");
+                sql1 += string.Format("                     ,A.LENGTH ");
+                sql1 += string.Format("                     ,A.PCS ");
+                sql1 += string.Format("                     ,B.NET_WGT ");
+                sql1 += string.Format("                     ,MFG_DATE ");
+                sql1 += string.Format("                     ,'' AS ZONE_CD ");
+                sql1 += string.Format("                     ,B.MEAS_NO ");
+                sql1 += string.Format("                     ,A.LINE_GP ");
+                sql1 += string.Format("                     ,FN_INSU_CHECK(A.BUNDLE_NO) AS L3_INSP_STAT");
+                sql1 += string.Format("                     ,''                         AS REWORK_RSN");
+                sql1 += string.Format("              FROM   TB_BND_WR A ");
+                sql1 += string.Format("                    ,TB_WGT_WR B ");
+                sql1 += string.Format("              WHERE  A.BUNDLE_NO = B.BUNDLE_NO ");
+                sql1 += string.Format("              AND    A.LINE_GP   = :P_LINE_GP ");
+                sql1 += string.Format("              AND    A.MFG_DATE  BETWEEN :P_FR_DATE AND :P_TO_DATE ");
+                sql1 += string.Format("              AND    A.ITEM_SIZE LIKE :P_ITEM_SIZE || '%' ");
+                sql1 += string.Format("              AND    A.POC_NO    LIKE :P_POC_NO || '%' ");
+                sql1 += string.Format("              AND    A.HEAT      LIKE '%' || :P_HEAT || '%' ");
+                sql1 += string.Format("              AND    A.STEEL     LIKE :P_STEEL || '%' ");
+                sql1 += string.Format("              AND    NVL(A.DEL_YN,'N') <> 'Y' ");
+                sql1 += string.Format("              AND    NVL(B.DEL_YN,'N') <> 'Y' ");
+                sql1 += string.Format("              AND    NVL(A.REWORK_YN,'N') <> 'Y' ");
+                sql1 += string.Format("              AND    :P_GP       = 'A'       ");// --대상조회
+                sql1 += string.Format("        UNION ");
+                sql1 += string.Format("              SELECT  A.BUNDLE_NO ");
+                sql1 += string.Format("                     ,A.POC_NO ");
+                sql1 += string.Format("                     ,A.HEAT ");
+                sql1 += string.Format("                     ,A.STEEL ");
+                sql1 += string.Format("                     ,A.ITEM ");
+                sql1 += string.Format("                     ,A.ITEM_SIZE ");
+                sql1 += string.Format("                     ,A.LENGTH ");
+                sql1 += string.Format("                     ,A.PCS ");
+                sql1 += string.Format("                     ,B.NET_WGT ");
+                sql1 += string.Format("                     ,REWORK_DATE ");
+                sql1 += string.Format("                     ,REWORK_ZONE_CD AS ZONE_CD ");
+                sql1 += string.Format("                     ,B.MEAS_NO ");
+                sql1 += string.Format("                     ,A.LINE_GP ");
+                sql1 += string.Format("                     ,''            AS L3_INSP_STAT ");
+                sql1 += string.Format("                     ,A.REWORK_RSN  AS REWORK_RSN ");
+                sql1 += string.Format("              FROM   TB_BND_WR A ");
+                sql1 += string.Format("                    ,TB_WGT_WR B ");
+                sql1 += string.Format("              WHERE  A.BUNDLE_NO = B.BUNDLE_NO ");
+                sql1 += string.Format("              AND    A.LINE_GP   = :P_LINE_GP ");
+                sql1 += string.Format("              AND    A.REWORK_DATE  BETWEEN :P_FR_DATE AND :P_TO_DATE ");
+                sql1 += string.Format("              AND    A.ITEM_SIZE LIKE :P_ITEM_SIZE || '%' ");
+                sql1 += string.Format("              AND    A.POC_NO    LIKE :P_POC_NO || '%' ");
+                sql1 += string.Format("              AND    A.HEAT      LIKE '%' || :P_HEAT || '%' ");
+                sql1 += string.Format("              AND    A.STEEL     LIKE :P_STEEL || '%' ");
+                sql1 += string.Format("              AND    :P_GP       = 'B'        ");//--재작업등록조회
+                sql1 += string.Format("              AND    A.REWORK_YN = 'Y'        ");//--재작업여부
+                sql1 += string.Format("              ORDER BY BUNDLE_NO ");
+                sql1 += string.Format("       ) X ");
+
+                string[] parm = new string[8];
+                parm[0] = ":P_LINE_GP|" + uC_Line_gp_s1.Line_GP;
+                parm[1] = ":P_FR_DATE|" + vf.Format(uC_Work_Date_Fr_To_s1.Work_From_Date, "yyyyMMdd") ;
+                parm[2] = ":P_TO_DATE|" + vf.Format(uC_Work_Date_Fr_To_s1.Work_To_Date, "yyyyMMdd");
+                parm[3] = ":P_ITEM_SIZE|" + uC_Item_size_s1.ITEM_SIZE;
+                parm[4] = ":P_POC_NO|" + uC_POC_sc1.POC;
+                parm[5] = ":P_HEAT|" + uC_HEAT_s1.HEAT;
+                parm[6] = ":P_STEEL|" + uC_STEEL_s1.Steel;
+                parm[7] = ":P_GP|" + uC_GuBun1.GUBUN;
+
+
+
+                olddt = cd.FindDataTable(sql1, parm);
+
+                moddt = olddt.Copy();
+                this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+                grdMain.SetDataBinding(moddt, null, true);
+
+                //SelectedGrdMain(grdMain, grdMain.RowSel);
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + moddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show("[" + ex.ToString() + "]");
+                return;
+            }
+
+            return;
+        }
+
+        private void InitGridData(bool isTotalInital)
+        {
+            if (isTotalInital)
+            {
+                grdMain.SetDataBinding(grdMain_dt, null, true);
+
+                grdSub.SetDataBinding(grdSub_dt, null, true);
+            }
+            else
+            {
+                grdSub.SetDataBinding(grdSub_dt, null, true);
+            }
+        }
+
+        private void grdSub_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void grdMain_Click(object sender, EventArgs e)
+        {
+
+            
+            C1FlexGrid _selectedGrd = sender as C1FlexGrid;
+
+            if (selectedGrd.RowSel < 1)
+            {
+                return;
+            }
+
+            selectedGrd = _selectedGrd;
+
+
+
+            SelectedGrdMain(selectedGrd, selectedGrd.RowSel);
+        }
+
+        private void btnRegCancel_Click(object sender, EventArgs e)
+        {
+            string _RegCan = "CAN";
+            CallReworkReg(_RegCan);
+
+            btnDisplay_Click(null, null);
+        }
+
+        private void CallReworkReg(string _RegCan)
+        {
+            if (grdMain.RowSel < 1)
+            {
+
+                return;
+            }
+
+            string _line_gp = grdMain.GetData(grdMain.RowSel, "LINE_GP").ToString();
+            //string _gubun = uC_GuBun1.GUBUN;
+            string _bundleNo = grdMain.GetData(grdMain.RowSel, "BUNDLE_NO").ToString();
+            string _zone_No = grdMain.GetData(grdMain.RowSel, "ZONE_CD").ToString();
+            //string _rework_RSN = grdMain.GetData(grdMain.RowSel, "REWORK_RSN").ToString();
+
+
+            //ReWorkReg popup = new ReWorkReg(_line_gp, _gubun, _bundleNo);
+            ReWorkReg popup = new ReWorkReg(_RegCan, _line_gp, _bundleNo, _zone_No);//, _rework_RSN);
+            popup.FormBorderStyle = FormBorderStyle.FixedDialog;
+            // Set the MaximizeBox to false to remove the maximize box.
+            popup.MaximizeBox = false;
+            // Set the MinimizeBox to false to remove the minimize box.
+            popup.MinimizeBox = false;
+            popup.ShowDialog();
+
+            //popup.Show();
+        }
+
+        private void btnReg_Click(object sender, EventArgs e)
+        {
+            string _RegCan = "REG";
+            CallReworkReg(_RegCan);
+
+            btnDisplay_Click(null, null);
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+    }
+}

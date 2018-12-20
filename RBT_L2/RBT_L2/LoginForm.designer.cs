@@ -1,0 +1,167 @@
+﻿namespace RBT_LEVEL2
+{
+    partial class LoginForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            this.txtLoginID = new C1.Win.C1Input.C1TextBox();
+            this.txtPasswd = new C1.Win.C1Input.C1TextBox();
+            this.lblCapsLock = new C1.Win.C1Input.C1Label();
+            this.btnCancel = new C1.Win.C1Input.C1Button();
+            this.btnLogin = new C1.Win.C1Input.C1Button();
+            this.button1 = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.txtLoginID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPasswd)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCapsLock)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // txtLoginID
+            // 
+            this.txtLoginID.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtLoginID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtLoginID.Font = new System.Drawing.Font("돋움체", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtLoginID.Location = new System.Drawing.Point(163, 177);
+            this.txtLoginID.Name = "txtLoginID";
+            this.txtLoginID.Size = new System.Drawing.Size(180, 22);
+            this.txtLoginID.TabIndex = 2;
+            this.txtLoginID.Tag = null;
+            this.txtLoginID.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtLoginID.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtLoginID.TextChanged += new System.EventHandler(this.txtLoginID_TextChanged);
+            this.txtLoginID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtLoginID_KeyDown);
+            // 
+            // txtPasswd
+            // 
+            this.txtPasswd.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.txtPasswd.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtPasswd.Font = new System.Drawing.Font("돋움체", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.txtPasswd.Location = new System.Drawing.Point(163, 205);
+            this.txtPasswd.Name = "txtPasswd";
+            this.txtPasswd.PasswordChar = '*';
+            this.txtPasswd.Size = new System.Drawing.Size(180, 22);
+            this.txtPasswd.TabIndex = 3;
+            this.txtPasswd.Tag = null;
+            this.txtPasswd.VisualStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtPasswd.VisualStyleBaseStyle = C1.Win.C1Input.VisualStyle.Office2010Blue;
+            this.txtPasswd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TxtPasswd_KeyDown);
+            // 
+            // lblCapsLock
+            // 
+            this.lblCapsLock.AutoSize = true;
+            this.lblCapsLock.BackColor = System.Drawing.Color.Transparent;
+            this.lblCapsLock.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblCapsLock.Font = new System.Drawing.Font("돋움체", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.lblCapsLock.ForeColor = System.Drawing.Color.Red;
+            this.lblCapsLock.Location = new System.Drawing.Point(137, 268);
+            this.lblCapsLock.Name = "lblCapsLock";
+            this.lblCapsLock.Size = new System.Drawing.Size(230, 14);
+            this.lblCapsLock.TabIndex = 3;
+            this.lblCapsLock.Tag = null;
+            this.lblCapsLock.Text = "<Caps Lock>이 켜져 있습니다.";
+            this.lblCapsLock.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.lblCapsLock.TextDetached = true;
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.btnCancel.Font = new System.Drawing.Font("돋움체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnCancel.Image = ((System.Drawing.Image)(resources.GetObject("btnCancel.Image")));
+            this.btnCancel.Location = new System.Drawing.Point(254, 233);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(89, 28);
+            this.btnCancel.TabIndex = 1;
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // btnLogin
+            // 
+            this.btnLogin.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.btnLogin.Font = new System.Drawing.Font("돋움체", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnLogin.Image = ((System.Drawing.Image)(resources.GetObject("btnLogin.Image")));
+            this.btnLogin.Location = new System.Drawing.Point(163, 233);
+            this.btnLogin.Name = "btnLogin";
+            this.btnLogin.Size = new System.Drawing.Size(89, 28);
+            this.btnLogin.TabIndex = 0;
+            this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
+            this.btnLogin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.btnLogin_KeyDown);
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.BlueViolet;
+            this.button1.Location = new System.Drawing.Point(33, 125);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(12, 11);
+            this.button1.TabIndex = 5;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // LoginForm
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.BackColor = System.Drawing.Color.White;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(408, 357);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.lblCapsLock);
+            this.Controls.Add(this.btnCancel);
+            this.Controls.Add(this.txtPasswd);
+            this.Controls.Add(this.btnLogin);
+            this.Controls.Add(this.txtLoginID);
+            this.Font = new System.Drawing.Font("돋움체", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "LoginForm";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.TopMost = true;
+            this.Load += new System.EventHandler(this.LoginForm_Load);
+            this.Shown += new System.EventHandler(this.LoginForm_Shown);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LoginForm_KeyDown);
+            ((System.ComponentModel.ISupportInitialize)(this.txtLoginID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtPasswd)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lblCapsLock)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+        private C1.Win.C1Input.C1TextBox txtLoginID;
+        private C1.Win.C1Input.C1TextBox txtPasswd;
+        private C1.Win.C1Input.C1Label lblCapsLock;
+        private C1.Win.C1Input.C1Button btnCancel;
+        private C1.Win.C1Input.C1Button btnLogin;
+        private System.Windows.Forms.Button button1;
+    }
+}

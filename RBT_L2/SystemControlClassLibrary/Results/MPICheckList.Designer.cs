@@ -1,0 +1,481 @@
+﻿namespace SystemControlClassLibrary.information
+{
+    partial class MPICheckList
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MPICheckList));
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.cbo_Work_Type = new System.Windows.Forms.ComboBox();
+            this.pictureBox6 = new System.Windows.Forms.PictureBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.end_dt = new System.Windows.Forms.DateTimePicker();
+            this.cboLine_GP = new System.Windows.Forms.ComboBox();
+            this.start_dt = new System.Windows.Forms.DateTimePicker();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lblMfgDate = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.lblLine = new System.Windows.Forms.Label();
+            this.btnClose = new C1.Win.C1Input.C1Button();
+            this.btnDisplay = new C1.Win.C1Input.C1Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.title_lb = new System.Windows.Forms.Label();
+            this.btnExcel = new C1.Win.C1Input.C1Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnSave = new C1.Win.C1Input.C1Button();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.btnDelRow = new C1.Win.C1Input.C1Button();
+            this.btnRowAdd = new C1.Win.C1Input.C1Button();
+            this.grdMain = new C1.Win.C1FlexGrid.C1FlexGrid();
+            this.toolTipPageID = new System.Windows.Forms.ToolTip(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdMain)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
+            this.pictureBox2.Location = new System.Drawing.Point(50, 20);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(5, 5);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox2.TabIndex = 6;
+            this.pictureBox2.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(218)))), ((int)(((byte)(233)))), ((int)(((byte)(245)))));
+            this.panel1.Controls.Add(this.cbo_Work_Type);
+            this.panel1.Controls.Add(this.pictureBox6);
+            this.panel1.Controls.Add(this.label4);
+            this.panel1.Controls.Add(this.end_dt);
+            this.panel1.Controls.Add(this.cboLine_GP);
+            this.panel1.Controls.Add(this.start_dt);
+            this.panel1.Controls.Add(this.label6);
+            this.panel1.Controls.Add(this.lblMfgDate);
+            this.panel1.Controls.Add(this.pictureBox3);
+            this.panel1.Controls.Add(this.lblLine);
+            this.panel1.Controls.Add(this.pictureBox2);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Font = new System.Drawing.Font("돋움", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.panel1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.panel1.Location = new System.Drawing.Point(1, 35);
+            this.panel1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1255, 50);
+            this.panel1.TabIndex = 5;
+            // 
+            // cbo_Work_Type
+            // 
+            this.cbo_Work_Type.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.cbo_Work_Type.FormattingEnabled = true;
+            this.cbo_Work_Type.Location = new System.Drawing.Point(813, 10);
+            this.cbo_Work_Type.Name = "cbo_Work_Type";
+            this.cbo_Work_Type.Size = new System.Drawing.Size(66, 23);
+            this.cbo_Work_Type.TabIndex = 4;
+            this.cbo_Work_Type.SelectedIndexChanged += new System.EventHandler(this.cbo_Work_Type_SelectedIndexChanged);
+            // 
+            // pictureBox6
+            // 
+            this.pictureBox6.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox6.Image")));
+            this.pictureBox6.Location = new System.Drawing.Point(770, 20);
+            this.pictureBox6.Name = "pictureBox6";
+            this.pictureBox6.Size = new System.Drawing.Size(5, 5);
+            this.pictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox6.TabIndex = 26;
+            this.pictureBox6.TabStop = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.label4.Location = new System.Drawing.Point(781, 14);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 15);
+            this.label4.TabIndex = 25;
+            this.label4.Text = "근";
+            // 
+            // end_dt
+            // 
+            this.end_dt.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.end_dt.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.end_dt.Location = new System.Drawing.Point(285, 10);
+            this.end_dt.Name = "end_dt";
+            this.end_dt.Size = new System.Drawing.Size(144, 24);
+            this.end_dt.TabIndex = 2;
+            this.end_dt.ValueChanged += new System.EventHandler(this.end_dt_ValueChanged);
+            // 
+            // cboLine_GP
+            // 
+            this.cboLine_GP.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.cboLine_GP.FormattingEnabled = true;
+            this.cboLine_GP.Location = new System.Drawing.Point(590, 10);
+            this.cboLine_GP.Name = "cboLine_GP";
+            this.cboLine_GP.Size = new System.Drawing.Size(80, 23);
+            this.cboLine_GP.TabIndex = 3;
+            this.cboLine_GP.SelectedIndexChanged += new System.EventHandler(this.cboLine_GP_SelectedIndexChanged);
+            // 
+            // start_dt
+            // 
+            this.start_dt.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.start_dt.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.start_dt.Location = new System.Drawing.Point(110, 10);
+            this.start_dt.Name = "start_dt";
+            this.start_dt.Size = new System.Drawing.Size(142, 24);
+            this.start_dt.TabIndex = 1;
+            this.start_dt.ValueChanged += new System.EventHandler(this.start_dt_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("돋움", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.label6.Location = new System.Drawing.Point(258, 10);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(21, 16);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "~";
+            // 
+            // lblMfgDate
+            // 
+            this.lblMfgDate.AutoSize = true;
+            this.lblMfgDate.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.lblMfgDate.Location = new System.Drawing.Point(61, 14);
+            this.lblMfgDate.Name = "lblMfgDate";
+            this.lblMfgDate.Size = new System.Drawing.Size(39, 15);
+            this.lblMfgDate.TabIndex = 10;
+            this.lblMfgDate.Text = "일자";
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox3.Image")));
+            this.pictureBox3.Location = new System.Drawing.Point(530, 20);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(5, 5);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox3.TabIndex = 9;
+            this.pictureBox3.TabStop = false;
+            // 
+            // lblLine
+            // 
+            this.lblLine.AutoSize = true;
+            this.lblLine.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.lblLine.Location = new System.Drawing.Point(541, 14);
+            this.lblLine.Name = "lblLine";
+            this.lblLine.Size = new System.Drawing.Size(39, 15);
+            this.lblLine.TabIndex = 7;
+            this.lblLine.Text = "라인";
+            // 
+            // btnClose
+            // 
+            this.btnClose.AutoSize = true;
+            this.btnClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.btnClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnClose.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold);
+            this.btnClose.Image = ((System.Drawing.Image)(resources.GetObject("btnClose.Image")));
+            this.btnClose.Location = new System.Drawing.Point(1174, 2);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(1, 2, 1, 1);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(82, 32);
+            this.btnClose.TabIndex = 30;
+            this.btnClose.Text = "닫기";
+            this.btnClose.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnClose.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnClose.UseVisualStyleBackColor = true;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // btnDisplay
+            // 
+            this.btnDisplay.AutoSize = true;
+            this.btnDisplay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.btnDisplay.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnDisplay.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDisplay.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.btnDisplay.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.btnDisplay.Image = ((System.Drawing.Image)(resources.GetObject("btnDisplay.Image")));
+            this.btnDisplay.Location = new System.Drawing.Point(927, 2);
+            this.btnDisplay.Margin = new System.Windows.Forms.Padding(1, 2, 1, 1);
+            this.btnDisplay.Name = "btnDisplay";
+            this.btnDisplay.Size = new System.Drawing.Size(79, 32);
+            this.btnDisplay.TabIndex = 0;
+            this.btnDisplay.Text = "조회";
+            this.btnDisplay.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDisplay.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnDisplay.UseVisualStyleBackColor = true;
+            this.btnDisplay.Click += new System.EventHandler(this.btnDisplay_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(0, 5);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(23, 30);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // title_lb
+            // 
+            this.title_lb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.title_lb.AutoSize = true;
+            this.title_lb.Font = new System.Drawing.Font("돋움", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.title_lb.Location = new System.Drawing.Point(26, 19);
+            this.title_lb.Name = "title_lb";
+            this.title_lb.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.title_lb.Size = new System.Drawing.Size(305, 16);
+            this.title_lb.TabIndex = 0;
+            this.title_lb.Text = "*";
+            this.title_lb.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnExcel
+            // 
+            this.btnExcel.AutoSize = true;
+            this.btnExcel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.btnExcel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnExcel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnExcel.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(223)))), ((int)(((byte)(223)))), ((int)(((byte)(223)))));
+            this.btnExcel.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.btnExcel.Image = ((System.Drawing.Image)(resources.GetObject("btnExcel.Image")));
+            this.btnExcel.Location = new System.Drawing.Point(1093, 2);
+            this.btnExcel.Margin = new System.Windows.Forms.Padding(1, 2, 1, 1);
+            this.btnExcel.Name = "btnExcel";
+            this.btnExcel.Size = new System.Drawing.Size(79, 32);
+            this.btnExcel.TabIndex = 2;
+            this.btnExcel.Text = "엑셀";
+            this.btnExcel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnExcel.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnExcel.UseVisualStyleBackColor = true;
+            this.btnExcel.Click += new System.EventHandler(this.btnExcel_Click);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel2.ColumnCount = 7;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 23F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 311F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 84F));
+            this.tableLayoutPanel2.Controls.Add(this.pictureBox1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.title_lb, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnClose, 6, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnExcel, 5, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnDisplay, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btnSave, 4, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tableLayoutPanel2.Font = new System.Drawing.Font("돋움", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 1;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1257, 35);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // btnSave
+            // 
+            this.btnSave.AutoSize = true;
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.btnSave.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSave.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnSave.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSave.Image = ((System.Drawing.Image)(resources.GetObject("btnSave.Image")));
+            this.btnSave.Location = new System.Drawing.Point(1008, 2);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(1, 2, 1, 1);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(83, 32);
+            this.btnSave.TabIndex = 31;
+            this.btnSave.Text = "저장";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.grdMain, 0, 3);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1257, 863);
+            this.tableLayoutPanel1.TabIndex = 15;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 85F));
+            this.tableLayoutPanel3.Controls.Add(this.btnDelRow, 2, 0);
+            this.tableLayoutPanel3.Controls.Add(this.btnRowAdd, 1, 0);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 85);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1257, 35);
+            this.tableLayoutPanel3.TabIndex = 7;
+            // 
+            // btnDelRow
+            // 
+            this.btnDelRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.btnDelRow.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnDelRow.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.btnDelRow.Image = ((System.Drawing.Image)(resources.GetObject("btnDelRow.Image")));
+            this.btnDelRow.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDelRow.Location = new System.Drawing.Point(1172, 3);
+            this.btnDelRow.Margin = new System.Windows.Forms.Padding(0, 3, 3, 0);
+            this.btnDelRow.Name = "btnDelRow";
+            this.btnDelRow.Size = new System.Drawing.Size(82, 32);
+            this.btnDelRow.TabIndex = 8;
+            this.btnDelRow.Text = "행삭제";
+            this.btnDelRow.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnDelRow.UseVisualStyleBackColor = false;
+            this.btnDelRow.Click += new System.EventHandler(this.rowdel_btn_Click);
+            // 
+            // btnRowAdd
+            // 
+            this.btnRowAdd.AutoSize = true;
+            this.btnRowAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(246)))), ((int)(((byte)(246)))), ((int)(((byte)(246)))));
+            this.btnRowAdd.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnRowAdd.Font = new System.Drawing.Font("돋움", 11F, System.Drawing.FontStyle.Bold);
+            this.btnRowAdd.Image = ((System.Drawing.Image)(resources.GetObject("btnRowAdd.Image")));
+            this.btnRowAdd.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRowAdd.Location = new System.Drawing.Point(1090, 3);
+            this.btnRowAdd.Margin = new System.Windows.Forms.Padding(3, 3, 0, 0);
+            this.btnRowAdd.Name = "btnRowAdd";
+            this.btnRowAdd.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.btnRowAdd.Size = new System.Drawing.Size(82, 32);
+            this.btnRowAdd.TabIndex = 9;
+            this.btnRowAdd.Text = "행추가";
+            this.btnRowAdd.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnRowAdd.UseVisualStyleBackColor = false;
+            this.btnRowAdd.Click += new System.EventHandler(this.rowadd_btn_Click);
+            // 
+            // grdMain
+            // 
+            this.grdMain.AllowEditing = false;
+            this.grdMain.ColumnInfo = resources.GetString("grdMain.ColumnInfo");
+            this.grdMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grdMain.Font = new System.Drawing.Font("굴림", 9F);
+            this.grdMain.Location = new System.Drawing.Point(3, 123);
+            this.grdMain.Name = "grdMain";
+            this.grdMain.Rows.Count = 1;
+            this.grdMain.Rows.DefaultSize = 20;
+            this.grdMain.Size = new System.Drawing.Size(1251, 737);
+            this.grdMain.StyleInfo = resources.GetString("grdMain.StyleInfo");
+            this.grdMain.TabIndex = 8;
+            this.grdMain.BeforeEdit += new C1.Win.C1FlexGrid.RowColEventHandler(this.grdMain_BeforeEdit);
+            this.grdMain.AfterEdit += new C1.Win.C1FlexGrid.RowColEventHandler(this.grdMain_AfterEdit);
+            // 
+            // MPICheckList
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1257, 863);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "MPICheckList";
+            this.Text = "MPICheckList";
+            this.Load += new System.EventHandler(this.MPICheckList_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdMain)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ComboBox cbo_Work_Type;
+        private System.Windows.Forms.PictureBox pictureBox6;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.DateTimePicker end_dt;
+        private System.Windows.Forms.ComboBox cboLine_GP;
+        private System.Windows.Forms.DateTimePicker start_dt;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblMfgDate;
+        private System.Windows.Forms.PictureBox pictureBox3;
+        private System.Windows.Forms.Label lblLine;
+        private C1.Win.C1Input.C1Button btnClose;
+        private C1.Win.C1Input.C1Button btnDisplay;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label title_lb;
+        private C1.Win.C1Input.C1Button btnExcel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private C1.Win.C1FlexGrid.C1FlexGrid grdMain;
+        private System.Windows.Forms.ToolTip toolTipPageID;
+        private C1.Win.C1Input.C1Button btnSave;
+        private C1.Win.C1Input.C1Button btnDelRow;
+        private C1.Win.C1Input.C1Button btnRowAdd;
+    }
+}

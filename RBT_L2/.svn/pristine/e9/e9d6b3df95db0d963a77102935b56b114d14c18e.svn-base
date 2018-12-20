@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectView>ProjectFiles</ProjectView>
+    <PublishUrlHistory>\\10.216.80.248\L2_Publsh\|\\10.216.86.150\특수강 정정 통합 레벨2 구축\01. 시스템개발영역\06. SOURCE\latestVersion\L2_Publish2\|\\10.216.86.150\특수강 정정 통합 레벨2 구축\01. 시스템개발영역\06. SOURCE\latestVersion\publish_test\|\\10.216.86.150\특수강 정정 통합 레벨2 구축\01. 시스템개발영역\06. SOURCE\latestVersion\L2_Publish\|게시\</PublishUrlHistory>
+    <InstallUrlHistory />
+    <SupportUrlHistory />
+    <UpdateUrlHistory />
+    <BootstrapperUrlHistory />
+    <ErrorReportUrlHistory />
+    <FallbackCulture>ko-KR</FallbackCulture>
+    <VerifyUploadedFiles>true</VerifyUploadedFiles>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ReferencePath>
+    </ReferencePath>
+  </PropertyGroup>
+</Project>

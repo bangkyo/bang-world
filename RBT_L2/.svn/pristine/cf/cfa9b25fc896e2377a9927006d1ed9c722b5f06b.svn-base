@@ -1,0 +1,759 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Diagnostics;
+using System.Data.OracleClient;
+using System.Windows.Forms;
+
+namespace SystemControlClassLibrary.information
+{
+    public partial class MPIStdInfoMgmt : Form
+    {
+        #region 변수 설정
+        clsCom ck = new clsCom();
+
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+
+        DataTable olddt;
+        DataTable moddt;
+
+        clsStyle cs = new clsStyle();
+
+        // 셀의 수정전 값
+        private string strBefValue = "";
+
+        private string ownerNM = "";
+        private string titleNM = "";
+        private string bndWgt = "";
+        private int editRow = 0;
+        private string txtitem = "";
+
+        #endregion 변수 설정
+
+        #region 생성자, 로드 설정
+
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        public MPIStdInfoMgmt(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ck.StrKey1 = "";
+            ck.StrKey2 = "";
+
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+        }
+        
+        private void MPIStdInfoMgmt_Load(object sender, EventArgs e)
+        {
+            InitControl();
+
+            btnDisplay_Click(null, null);
+        }
+        #endregion 생성자, 로드 설정
+
+        #region init 컨트롤, 그리드 설정
+        private void InitControl()
+        {
+            clsStyle.Style.InitPicture(pictureBox1);
+
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+
+            clsStyle.Style.InitPanel(panel1);
+
+            clsStyle.Style.InitLabel(item_size_lb);
+
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnSave);
+            clsStyle.Style.InitButton(btnDisplay);
+            clsStyle.Style.InitButton(btnClose);
+
+            clsStyle.Style.InitTextBox(item_size_tb);
+
+            InitGrd_Main();
+        }
+
+        private void InitGrd_Main()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            var crCellRange = grdMain.GetCellRange(0, grdMain.Cols["MAGNETP_CNCNT"].Index, 0, grdMain.Cols["ILLUM"].Index);
+            crCellRange.Style = grdMain.Styles["ModifyStyle"];
+
+            grdMain.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            grdMain.Cols["NUM"].Width = cs.L_No_Width;
+            grdMain.Cols["ITEM_SIZE_MIN"].Width = 200;
+            grdMain.Cols["ITEM_SIZE_MAX"].Width = 200;
+            grdMain.Cols["MAGNETP_CNCNT"].Width = 200;
+            grdMain.Cols["MAGNET_CURRENT"].Width = 200;
+            grdMain.Cols["ILLUM"].Width = 200;
+            grdMain.Cols["MAGNET_DENSITY"].Width = 160;
+            grdMain.Cols["GUBUN"].Width = 0;
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["NUM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["ITEM_SIZE_MIN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["ITEM_SIZE_MAX"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["MAGNETP_CNCNT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["MAGNET_CURRENT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["ILLUM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["MAGNET_DENSITY"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["GUBUN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            grdMain.AllowEditing = true;
+        }
+       
+        #endregion init 컨트롤, 그리드 설정
+
+        #region 컨트롤 이벤트 설정
+
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            SetDataBinding();
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+
+        private void item_size_tb_TextChanged(object sender, EventArgs e)
+        {
+            txtitem = item_size_tb.Text;
+        }
+        
+        private void btnRowAdd_Click(object sender, EventArgs e)
+        {
+            // 수정가능 하도록 열추가
+            grdMain.Rows.Add();
+
+            grdMain.Cols["MAGNET_DENSITY"].AllowEditing = false;
+            grdMain.Cols["ITEM_SIZE_MIN"].AllowEditing = true;
+            grdMain.Cols["ITEM_SIZE_MAX"].AllowEditing = true;
+            grdMain.Cols["MAGNETP_CNCNT"].AllowEditing = true;
+            grdMain.Cols["MAGNET_CURRENT"].AllowEditing = true;
+            grdMain.Cols["ILLUM"].AllowEditing = true; 
+
+            // 저장시 Insert로 처리하기 위해 flag set
+            grdMain.SetData(grdMain.Rows.Count - 1, grdMain.Cols.Count - 1, "추가");
+            grdMain.SetData(grdMain.Rows.Count - 1, 0, "추가");
+
+            // Insert 배경색 지정
+            grdMain.Rows[grdMain.Rows.Count - 1].Style = grdMain.Styles["InsColor"];
+
+            //// 커서위치 결정
+            grdMain.Row = 0;
+            grdMain.Col = 0;
+        }
+
+        private void btnDelRow_Click(object sender, EventArgs e)
+        {
+            C1FlexGrid selectedGrd = grdMain as C1FlexGrid;
+
+            if (selectedGrd.Rows.Count < 2 || selectedGrd.Row < 1)
+            {
+                return;
+            }
+
+            //mj 추가되었지만 행삭제로 지울때
+            if (selectedGrd.Rows[selectedGrd.Row][selectedGrd.Cols.Count - 1].ToString() == "추가")
+            {
+                selectedGrd.RemoveItem(selectedGrd.Row);
+
+                return;
+            }
+
+            // 저장시 Delete로 처리하기 위해 flag set
+            selectedGrd.Rows[selectedGrd.Row][selectedGrd.Cols.Count - 1] = "삭제";
+            selectedGrd.Rows[selectedGrd.Row][0] = "삭제";
+
+            // Delete 배경색 지정
+            selectedGrd.Rows[selectedGrd.Row].Style = selectedGrd.Styles["DelColor"];
+
+            // 커서위치 결정
+            selectedGrd.Row = 0;
+            selectedGrd.Col = 0;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void item_size_tb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            vf.KeyPressEvent_number(sender, e);
+        }
+
+        #endregion 컨트롤 이벤트 설정
+
+        #region 그리드 BeforeEdit, AfterEdit 설정
+
+        private void grdMain_BeforeEdit(object sender, RowColEventArgs e)
+        {
+            if (grdMain.Row < 1 || grdMain.GetData(grdMain.Row, grdMain.Col) == null)
+            {
+                return;
+            }
+
+            // 수정여부 확인을 위해 저장
+            strBefValue = grdMain.GetData(grdMain.Row, grdMain.Col).ToString();
+        }
+
+        private void grdMain_AfterEdit(object sender, RowColEventArgs e)
+        {
+
+            string set_value = "";
+
+            // No,구분은 수정 불가
+            if (grdMain.Col == 0 || grdMain.Col == grdMain.Cols.Count - 1)
+            {
+                grdMain.SetData(grdMain.Row, grdMain.Col, strBefValue);
+                return;
+            }
+
+            // 수정된 내용이 없으면 Update 처리하지 않는다.
+            if (strBefValue == grdMain.GetData(grdMain.Row, grdMain.Col).ToString().Trim())
+                return;
+
+            // 추가된 열에 대한 수정은 update 처리
+            if (grdMain.GetData(grdMain.Row, 0).ToString() != "추가")
+            {
+                // 규격 수정 불가
+                if (e.Col == grdMain.Cols["ITEM_SIZE_MIN"].Index || e.Col == grdMain.Cols["ITEM_SIZE_MAX"].Index)
+                {
+                    grdMain.SetData(e.Row, e.Col, strBefValue);
+                    return;
+                } 
+
+                // 저장시 UPDATE로 처리하기 위해 flag set
+                grdMain.SetData(grdMain.Row, grdMain.Cols.Count - 1, "수정");
+                grdMain.SetData(grdMain.Row, 0, "수정");
+                
+                // Update 배경색 지정
+                grdMain.Rows[grdMain.Row].Style = grdMain.Styles["UpColor"];
+            }
+            else
+            {
+                if (grdMain.Col == grdMain.Cols["ITEM_SIZE_MIN"].Index)
+                {
+                    set_value = vf.Format(vf.CInt(grdMain.GetData(grdMain.Row, "ITEM_SIZE_MIN").ToString()).ToString().Trim(), "0000");
+                    grdMain.SetData(grdMain.Row, "ITEM_SIZE_MIN", set_value);
+                }
+
+                if (grdMain.Col == grdMain.Cols["ITEM_SIZE_MAX"].Index)
+                {
+                    set_value = vf.Format(vf.CInt(grdMain.GetData(grdMain.Row, "ITEM_SIZE_MAX").ToString()).ToString().Trim(), "0000");
+                    grdMain.SetData(grdMain.Row, "ITEM_SIZE_MAX", set_value);
+                }
+
+                if (grdMain.Col == grdMain.Cols["MAGNET_CURRENT"].Index)
+                {
+                    
+                }
+            }
+
+            if (grdMain.GetData(grdMain.Row, "ITEM_SIZE_MIN") != null
+                    && grdMain.GetData(grdMain.Row, "ITEM_SIZE_MAX") != null
+                    && grdMain.GetData(grdMain.Row, "MAGNET_CURRENT") != null)
+            {
+                Set_MAGNET_DENSITY();
+            }
+        }
+
+        private void Set_MAGNET_DENSITY()
+        {
+            DataTable dtWgt = null;
+
+            //디비선언
+            OracleConnection conn = cd.OConnect();
+
+            OracleCommand cmd = new OracleCommand();
+            OracleTransaction transaction = null;
+            try
+            {
+                conn.Open();
+                cmd.Connection = conn;
+                transaction = conn.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                if (grdMain.Row > 0)
+                {
+                    string sql1 = string.Format("SELECT DISTINCT ");
+                    sql1 += string.Format("ROUND(FN_GET_MAGNET_DENSITY('{0}','{1}','{2}'),3) AS MAGNET_DENSITY ",
+                                            grdMain.GetData(grdMain.Row, "ITEM_SIZE_MIN")
+                                           ,grdMain.GetData(grdMain.Row, "ITEM_SIZE_MAX")
+                                           ,grdMain.GetData(grdMain.Row, "MAGNET_CURRENT"));
+                    sql1 += string.Format("from TB_MPI_STDINFO ");
+
+                    dtWgt = cd.FindDataTable(sql1);
+                    grdMain.SetData(grdMain.Row, "MAGNET_DENSITY", dtWgt.Rows[0]["MAGNET_DENSITY"].ToString());
+                    bndWgt = dtWgt.ToString();
+                    editRow = grdMain.Row;
+                }
+            }
+            catch (Exception ex)
+            {
+                //실행후 실패 : 
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        #endregion 그리드 BeforeEdit, AfterEdit 설정
+
+        #region 저장 설정
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            string sql1 = string.Empty;
+            string strMsg = string.Empty;
+
+            #region 항목체크
+            string minValue = string.Empty;
+            string minColsCation = string.Empty;
+            string minColsNM = string.Empty;
+            string check_table_NM1 = string.Empty;
+
+            string maxValue = string.Empty;
+            string maxColsCaption = string.Empty;
+            string maxColsNM = string.Empty;
+            string check_table_NM2 = string.Empty;
+
+            string check_value3 = string.Empty;
+            string check_Cols_NM3 = string.Empty;
+            string check_field_NM3 = string.Empty;
+            string check_table_NM3 = string.Empty;
+
+            string check_value4 = string.Empty;
+            string check_Cols_NM4 = string.Empty;
+            string check_field_NM4 = string.Empty;
+            string check_table_NM4 = string.Empty;
+
+            string illumValue = string.Empty;
+            string illumColsNM = string.Empty;
+            string illumColsCation = string.Empty;
+            string illumTableNM = string.Empty;
+
+            string check_keyColNM = string.Empty;
+            string check_keyValue = string.Empty;
+
+            string check_NM = string.Empty;
+
+            string gubun_value = string.Empty;
+            string show_msg = string.Empty;
+            int checkrow = 0;
+
+            bool isChange = false;
+            
+            //입력항목 체크
+            for (checkrow = 1; checkrow < grdMain.Rows.Count; checkrow++)
+            {
+                gubun_value = grdMain.GetData(checkrow, 0).ToString();
+
+                if (gubun_value == "삭제" || gubun_value == "수정")
+                {
+                    isChange = true;
+                }
+
+                if (gubun_value == "추가")
+                {
+                    #region ITEM_SIZE_MIN 체크
+                    minColsNM = "ITEM_SIZE_MIN";
+                    check_table_NM1 = "TB_MPI_STDINFO";
+                    minValue = grdMain.GetData(checkrow, minColsNM).ToString();
+                    minColsCation = grdMain.Cols[minColsNM].Caption;
+
+                    if (string.IsNullOrEmpty(minValue))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", minColsCation);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    else
+                    {
+                        if (vf.compareMinMax(minValue, grdMain, checkrow))
+                        {
+                            grdMain.Select(checkrow, 1, true);
+                            return;
+                        }
+                    }
+
+                    if (vf.isContainHangul(minValue))
+                    {
+                        MessageBox.Show("한글이 포함되어서는 안됩니다.");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.getStrLen(minValue) > 4)
+                    {
+                        MessageBox.Show("숫자 4자 이하로 입력하시기 바랍니다..");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    // 명이입력되지 않은경우 체크
+                    minColsNM = "ITEM_SIZE_MIN";
+                    check_NM = grdMain.GetData(checkrow, minColsNM).ToString();
+                    minColsCation = grdMain.Cols[minColsNM].Caption;
+
+                    if (string.IsNullOrEmpty(check_NM))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", minColsCation);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    isChange = true;
+                    #endregion ITEM_SIZE_MIN 체크
+
+                    #region ITEM_SIZE_MAX 체크
+                    maxColsNM = "ITEM_SIZE_MAX";
+                    check_table_NM2 = "TB_MPI_STDINFO";
+                    maxValue = grdMain.GetData(checkrow, maxColsNM).ToString();
+                    maxColsCaption = grdMain.Cols[maxColsNM].Caption;
+
+                    if (string.IsNullOrEmpty(maxValue))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", maxColsCaption);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    else
+                    {
+                        if (vf.compareMinMax(maxValue, grdMain, checkrow))
+                        {
+                            grdMain.Select(checkrow, 1, true);
+                            return;
+                        }
+                    }
+
+                    if (vf.isContainHangul(maxValue))
+                    {
+                        MessageBox.Show("한글이 포함되어서는 안됩니다.");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.getStrLen(maxValue) > 4)
+                    {
+                        MessageBox.Show("숫자 4자 이하로 입력하시기 바랍니다..");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.Has_Item(check_table_NM2, maxColsNM, maxValue) && vf.Has_Item(check_table_NM1, minColsNM, minValue))
+                    {
+                        show_msg = string.Format("{0}와(과) {1}가 중복되었습니다.", minColsCation, maxColsCaption);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    isChange = true;
+                    #endregion ITEM_SIZE_MAX 체크
+
+                    #region MAGNETP_CNCNT 체크
+                    check_field_NM3 = "MAGNETP_CNCNT";
+                    check_table_NM3 = "TB_MPI_STDINFO";
+                    check_value3 = grdMain.GetData(checkrow, check_field_NM3).ToString();
+                    check_Cols_NM3 = grdMain.Cols[check_field_NM3].Caption;
+
+                    if (string.IsNullOrEmpty(check_value3))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", check_Cols_NM3);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.isContainHangul(check_value3))
+                    {
+                        MessageBox.Show("한글이 포함되어서는 안됩니다.");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.getStrLen(check_value3) > 4)
+                    {
+                        MessageBox.Show("숫자 4자 이하로 입력하시기 바랍니다..");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    #endregion MAGNETP_CNCNT 체크
+
+                    #region MAGNET_CURRENT 체크
+                    check_field_NM4 = "MAGNET_CURRENT";
+                    check_table_NM4 = "TB_MPI_STDINFO";
+                    check_value4 = grdMain.GetData(checkrow, check_field_NM4).ToString();
+                    check_Cols_NM4 = grdMain.Cols[check_field_NM4].Caption;
+
+                    if (string.IsNullOrEmpty(check_value4))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", check_Cols_NM4);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.isContainHangul(check_value4))
+                    {
+                        MessageBox.Show("한글이 포함되어서는 안됩니다.");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.getStrLen(check_value4) > 4)
+                    {
+                        MessageBox.Show("숫자 4자 이하로 입력하시기 바랍니다..");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    #endregion MAGNET_CURRENT 체크
+
+                    #region min max 중복 체크
+                    if (vf.CInt(minValue) >= vf.CInt(maxValue))
+                    {
+                        string message = string.Format("{0}의 값이 {1}값보다 크거나 같습니다.", minColsCation, maxColsCaption);
+                        MessageBox.Show(message);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    if (vf.IsSameRangeMinMax(check_table_NM1, minValue, maxValue))
+                    {
+                        string message = string.Format("중복하는 범위가 이미 존재합니다.");
+                        MessageBox.Show(message);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+                    #endregion
+
+                    #region ILLUM 체크
+                    illumColsNM = "ILLUM";
+                    illumColsCation = grdMain.Cols[illumColsNM].Caption;
+                    illumTableNM = "TB_MPI_STDINFO";
+                    illumValue = grdMain.GetData(checkrow, illumColsNM).ToString();
+
+                    if (string.IsNullOrEmpty(illumValue))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", illumColsCation);
+                        MessageBox.Show(show_msg);
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.isContainHangul(illumValue))
+                    {
+                        MessageBox.Show("한글이 포함되어서는 안됩니다.");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    if (vf.getStrLen(illumValue) > 4)
+                    {
+                        MessageBox.Show("숫자 4자 이하로 입력하시기 바랍니다..");
+                        grdMain.Select(checkrow, 1, true);
+                        return;
+                    }
+
+                    #endregion
+
+                }
+
+            }
+
+            if (isChange)
+            {
+                if (MessageBox.Show("저장하시겠습니까?", Text, MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            #endregion 삭제항목체크
+
+            int row = 0;
+            int InsCnt = 0;
+            int UpCnt = 0;
+            int DelCnt = 0;
+
+            DataTable dt = null;
+
+            //디비선언
+            OracleConnection conn = cd.OConnect();
+
+            OracleCommand cmd = new OracleCommand();
+            OracleTransaction transaction = null;
+
+            try
+            {
+                conn.Open();
+                cmd.Connection = conn;
+                transaction = conn.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                #region grdMain1
+                for (row = 1; row < grdMain.Rows.Count; row++)
+                {
+                    // Update 처리
+                    if (grdMain.GetData(row, 0).ToString() == "추가")
+                    {
+                        sql1  = string.Format("INSERT INTO TB_MPI_STDINFO");
+                        sql1 += string.Format("(      ");
+                        sql1 += string.Format("     ITEM_SIZE_MIN ");
+                        sql1 += string.Format("     ,ITEM_SIZE_MAX ");
+                        sql1 += string.Format("     ,MAGNETP_CNCNT ");
+                        sql1 += string.Format("     ,MAGNET_CURRENT ");
+                        sql1 += string.Format("     ,ILLUM  ");
+                        sql1 += string.Format("     ,REGISTER  ");
+                        sql1 += string.Format("     ,REG_DDTT  ");
+                        sql1 += string.Format(") ");
+                        sql1 += string.Format("VALUES ");
+                        sql1 += string.Format("(      ");
+                        sql1 += string.Format("       '{0}' ", grdMain.GetData(row, "ITEM_SIZE_MIN"));
+                        sql1 += string.Format("      ,'{0}' ", grdMain.GetData(row, "ITEM_SIZE_MAX"));
+                        sql1 += string.Format("      ,'{0}' ", grdMain.GetData(row, "MAGNETP_CNCNT"));
+                        sql1 += string.Format("      ,'{0}' ", grdMain.GetData(row, "MAGNET_CURRENT"));
+                        sql1 += string.Format("      ,'{0}' ", grdMain.GetData(row, "ILLUM"));
+                        sql1 += string.Format("      ,'{0}' ", ck.UserID);
+                        sql1 += string.Format("      ,SYSDATE ");
+                        sql1 += string.Format(") ");
+
+                        cmd.CommandText = sql1;
+                        cmd.ExecuteNonQuery();
+                        InsCnt++;
+                    }
+                    else if (grdMain.GetData(row, 0).ToString() == "수정") 
+                    {
+                        sql1  = string.Format("UPDATE TB_MPI_STDINFO ");
+                        sql1 += string.Format("SET  ILLUM = '{0}'            ", grdMain.GetData(row, "ILLUM"));
+                        sql1 += string.Format("    ,MAGNETP_CNCNT  = '{0}'   ", grdMain.GetData(row, "MAGNETP_CNCNT"));
+                        sql1 += string.Format("    ,MAGNET_CURRENT = '{0}'   ", grdMain.GetData(row, "MAGNET_CURRENT"));
+                        sql1 += string.Format("    ,MODIFIER       = '{0}'   ", ck.UserID);
+                        sql1 += string.Format("    ,MOD_DDTT       = SYSDATE ");
+                        sql1 += string.Format("WHERE ITEM_SIZE_MIN = '{0}' ", grdMain.GetData(row, "ITEM_SIZE_MIN"));
+                        sql1 += string.Format("  AND ITEM_SIZE_MAX = '{0}' ", grdMain.GetData(row, "ITEM_SIZE_MAX"));
+                        //sql1 += string.Format("  AND MAGNETP_CNCNT = '{0}'  ", grdMain.GetData(row, 3));
+                        //sql1 += string.Format("  AND MAGNET_CURRENT = '{0}'  ", grdMain.GetData(row, 4));
+
+                        cmd.CommandText = sql1;
+                        cmd.ExecuteNonQuery();
+                        UpCnt++;
+                    }
+                    else if (grdMain.GetData(row, 0).ToString() == "삭제")
+                    {
+                        sql1  = string.Format("DELETE ");
+                        sql1 += string.Format("FROM TB_MPI_STDINFO ");
+                        sql1 += string.Format("WHERE ITEM_SIZE_MIN = '{0}' ", grdMain.GetData(row, "ITEM_SIZE_MIN"));
+                        sql1 += string.Format("  AND ITEM_SIZE_MAX = '{0}' ", grdMain.GetData(row, "ITEM_SIZE_MAX"));
+
+                        cmd.CommandText = sql1;
+                        cmd.ExecuteNonQuery();
+                        DelCnt++;
+                    }
+                }
+                #endregion grdMain1 
+                //실행후 성공
+                transaction.Commit();
+
+                btnDisplay_Click(null, null);
+
+                string message = "정상적으로 저장되었습니다.";
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), message);
+            }
+            catch (Exception ex)
+            {
+                //실행후 실패 : 
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+
+                // 추가되었을시에 중복성으로 실패시 메시지 표시
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (cmd != null)
+                    cmd.Dispose();
+                if (conn != null)
+                    conn.Close();       //데이터베이스연결해제
+                if (transaction != null)
+                    transaction.Dispose();
+            }
+        }
+
+        #endregion 저장 설정
+
+        #region 조회 설정
+
+        private void SetDataBinding()
+        {
+            string sql1 = string.Format("SELECT TO_CHAR(ROWNUM) AS NUM ");
+            sql1 += string.Format("      ,X.* ");
+            sql1 += string.Format("FROM  ( ");
+            sql1 += string.Format("        SELECT ITEM_SIZE_MIN ");  //--규격MIN 
+            sql1 += string.Format("              ,ITEM_SIZE_MAX ");  //--규격MAX 
+            sql1 += string.Format("              ,MAGNETP_CNCNT ");  //--자분농도;
+            sql1 += string.Format("              , MAGNET_CURRENT ");  // --자화전류 
+            sql1 += string.Format("              ,ILLUM ");          //--조도 
+            sql1 += string.Format("              ,ROUND(FN_GET_MAGNET_DENSITY(ITEM_SIZE_MIN, ITEM_SIZE_MAX, MAGNET_CURRENT),3) AS MAGNET_DENSITY ");  //--자화밀도
+            sql1 += string.Format("              ,'' AS GUBUN ");          //--조도 
+            sql1 += string.Format("        FROM  TB_MPI_STDINFO ");
+            sql1 += string.Format("        WHERE TO_NUMBER(ITEM_SIZE_MIN) <= NVL(TO_NUMBER('{0}'),9999)", txtitem);
+            sql1 += string.Format("        AND TO_NUMBER(ITEM_SIZE_MAX) >= NVL(TO_NUMBER('{0}'),0000)", txtitem);
+            sql1 += string.Format("        ORDER BY ITEM_SIZE_MIN, ITEM_SIZE_MAX ");
+            sql1 += string.Format("      ) X ");
+
+            olddt = cd.FindDataTable(sql1);
+
+            moddt = olddt.Copy();
+            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            grdMain.SetDataBinding(moddt, null, true);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+
+            clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + moddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+
+            grdMain.Row = -1;
+        }
+
+        #endregion 조회 설정
+
+        private void grdMain_StartEdit(object sender, RowColEventArgs e)
+        {
+            C1FlexGrid grd = sender as C1FlexGrid;
+
+            if (grd.GetData(grd.Row, "GUBUN").ToString() != "추가")
+            {
+                if (   grd.ColSel == grd.Cols["NUM"].Index 
+                    || grd.ColSel == grd.Cols["ITEM_SIZE_MIN"].Index 
+                    || grd.ColSel == grd.Cols["ITEM_SIZE_MAX"].Index
+                    //|| grd.ColSel == grd.Cols["MAGNETP_CNCNT"].Index
+                    //|| grd.ColSel == grd.Cols["MAGNET_CURRENT"].Index
+                    || grd.ColSel == grd.Cols["MAGNET_DENSITY"].Index
+                    )
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
+    }
+}

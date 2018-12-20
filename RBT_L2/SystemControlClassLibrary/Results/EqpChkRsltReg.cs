@@ -1,0 +1,582 @@
+﻿using ComLib;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+using C1.Win.C1FlexGrid;
+using ComLib.clsMgr;
+using System.Data.OracleClient;
+using System.Collections.Specialized;
+using System.Collections;
+
+namespace SystemControlClassLibrary.information
+{
+    public partial class EqpChkRsltReg : Form
+    {
+        #region 변수 설정 
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsCom ck = new clsCom();
+
+        DataTable olddt;
+        DataTable moddt;
+
+        clsStyle cs = new clsStyle();
+
+        private  string line_id = "";
+
+        private  string gongjung_id = "";
+
+        private  string gubun = "";
+
+        private DateTime start_date;
+        private DateTime end_date;
+
+        // 셀의 수정전 값
+        private Object strBefValue = "";
+
+        private  string ownerNM = "";
+        private  string titleNM = "";
+
+        #endregion 변수 설정 
+
+        #region 로딩, 생성자 설정
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        public EqpChkRsltReg(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+
+            Load += EqpChkRsltReg_Load1;
+
+            grdMain.AfterEdit += GrdMain_AfterEdit;
+            grdMain.BeforeEdit += GrdMain_BeforeEdit;
+            grdMain.DoubleClick += GrdMain_DoubleClick;
+
+            cboLine_GP.SelectedValueChanged += cboLine_GP_SelectedValueChanged;
+
+            gongjung_cb.SelectedValueChanged += Gongjung_cb_SelectedValueChanged;
+
+            cbGubun.SelectedValueChanged += Gubun_cb_SelectedValueChanged;
+            
+        }
+
+        private void EqpChkRsltReg_Load1(object sender, EventArgs e)
+        {
+            this.BackColor = Color.White;
+
+            InitControl();
+
+            Button_Click(btnDisplay, null);
+        }
+        #endregion 로딩, 생성자 설정
+
+        #region Init Control 설정
+        private void InitControl()
+        {
+            cs.InitPicture(pictureBox1);
+            cs.InitTitle(title_lb, ownerNM, titleNM);
+
+            cs.InitPanel(panel1);
+
+            cs.InitLabel(line_lb);
+            cs.InitLabel(gongjung_lb);
+            cs.InitLabel(gubun_lb);
+            cs.InitLabel(date_lb);
+
+            cs.InitCombo(cboLine_GP, StringAlignment.Near);
+            cs.InitCombo(gongjung_cb, StringAlignment.Near);
+            cs.InitCombo(cbGubun, StringAlignment.Near);
+
+            // Button Color Set
+            cs.InitButton(btnExcel);
+            cs.InitButton(btnSave);
+            cs.InitButton(btnDisplay);
+            cs.InitButton(btnClose);
+
+            cs.InitDateEdit(start_dt);
+            cs.InitDateEdit(end_dt);
+
+            start_dt.ValueChanged += Start_dt_ValueChanged;
+            end_dt.ValueChanged += End_dt_ValueChanged;
+
+            start_date = start_dt.Value = DateTime.Now;
+            end_date = end_dt.Value = DateTime.Now;
+
+
+            InitGrd_Main();
+
+            SetComboBox();
+        }
+        #endregion Init Control 설정
+
+        #region Init Grid Main 설정
+        private void InitGrd_Main()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            var crCellRange = grdMain.GetCellRange(0, grdMain.Cols["CHECK_YN"].Index);
+            crCellRange.Style = grdMain.Styles["ModifyStyle"];
+
+            grdMain.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            for (int col = 0; col < grdMain.Cols.Count; col++)
+            {
+                grdMain.Cols[col].AllowEditing = false;
+            }
+
+            grdMain.Cols["CHECK_YN"].AllowEditing = true;
+
+            grdMain.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain.Cols["EQP_NM"].Width = 200;
+            grdMain.Cols["CHECK_ITEM"].Width = 300;
+            grdMain.Cols["CHECK_PLN_DATE"].Width = 150;
+            grdMain.Cols["CHECK_GAP"].Width = 50;
+            grdMain.Cols["CHECK_CYCLE"].Width = 50;
+            grdMain.Cols["CHECK_YN"].Width = 100;
+            grdMain.Cols["CHECK_WR_DATE"].Width = 150;
+            grdMain.Cols["GUBUN"].Width = 0;
+
+            #region 1. grdMain head 및 row  align 설정
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["EQP_NM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHECK_ITEM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdMain.Cols["CHECK_PLN_DATE"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHECK_GAP"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHECK_CYCLE"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdMain.Cols["CHECK_YN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHECK_WR_DATE"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            #endregion
+
+            grdMain.AllowMerging = C1.Win.C1FlexGrid.AllowMergingEnum.Custom;
+
+            grdMain.MergedRanges.Add(grdMain.GetCellRange(0, grdMain.Cols["CHECK_GAP"].Index, 0, grdMain.Cols["CHECK_CYCLE"].Index));
+        }
+        #endregion Init Grid Main 설정
+
+        #region  GrdMain의 BeforeEdit, AfterEdit 설정
+        private void GrdMain_BeforeEdit(object sender, RowColEventArgs e)
+        {
+            C1FlexGrid editedGrd = sender as C1FlexGrid;
+
+            int editedRow = e.Row;
+            int editedCol = e.Col;
+
+            if (editedRow <= 0 || editedGrd.GetData(editedRow, editedCol) == null || editedCol != editedGrd.Cols["CHECK_YN"].Index)
+            {
+                return;
+            }
+            // 수정여부 확인을 위해 저장
+            strBefValue = editedGrd.GetData(editedRow, editedCol);
+        }
+
+        private void GrdMain_AfterEdit(object sender, RowColEventArgs e)
+        {
+            C1FlexGrid editedGrd = sender as C1FlexGrid;
+
+            int editedRow = e.Row;
+            int editedCol = e.Col;
+
+            if (editedRow <= 0 || editedGrd.GetData(editedRow, editedCol) == null || editedCol != editedGrd.Cols["CHECK_YN"].Index)
+            {
+                return;
+            }
+
+            // No,구분은 수정 불가
+            if (editedCol == 0 || editedCol == editedGrd.Cols["GUBUN"].Index)
+            {
+                editedGrd.SetData(editedRow, editedCol, strBefValue);
+                return;
+            }
+
+            // 수정된 내용이 없으면 Update 처리하지 않는다.
+            if (strBefValue == editedGrd.GetData(editedRow, editedCol))
+                return;
+
+            // 추가된 열에 대한 수정은 INSERT 처리
+            if (editedGrd.GetData(editedRow, "GUBUN").ToString() != "추가")
+            {
+                if (editedGrd.Col == 1)
+                {
+                    editedGrd.SetData(editedRow, editedGrd.Col, strBefValue);
+                    return;
+                }
+                // 저장시 UPDATE로 처리하기 위해 flag set
+                editedGrd.SetData(editedRow, "GUBUN", "수정");
+                editedGrd.SetData(editedRow, "L_NO", "수정");
+
+                // Update 배경색 지정
+                editedGrd.Rows[editedRow].Style = editedGrd.Styles["UpColor"];
+            }
+        }
+        #endregion  GrdMain의 BeforeEdit, AfterEdit 설정
+
+        #region 저장 설정
+        private void SaveData()
+        {
+            #region 삭제항목체크
+
+            string gubun_value = string.Empty;
+            int checkrow = 0;
+
+            bool isChange = false;
+            //삭제할 항목이 있는지 파악하고 물어보고 진행
+            for (checkrow = 1; checkrow < grdMain.Rows.Count; checkrow++)
+            {
+                gubun_value = grdMain.GetData(checkrow, "GUBUN").ToString();
+
+                if (gubun_value == "수정")
+                {
+                    isChange = true;
+                }
+            }
+
+            if (isChange)
+            {
+                if (MessageBox.Show("저장하시겠습니까?", Text, MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+            #endregion 삭제항목체크
+
+            string strQry = string.Empty;
+            string strMsg = string.Empty;
+
+            int row = 0;
+            int InsCnt = 0;
+            int UpCnt = 0;
+            int DelCnt = 0;
+
+            //디비선언
+            OracleConnection conn = cd.OConnect();
+
+            OracleCommand cmd = new OracleCommand();
+            OracleTransaction transaction = null;
+
+            try
+            {
+                conn.Open();
+                cmd.Connection = conn;
+                transaction = conn.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                for (row = 1; row < grdMain.Rows.Count; row++)
+                {
+                    // Update 처리
+                    if (grdMain.GetData(row, grdMain.Cols.Count - 1).ToString() == "수정")
+                    {
+                        strQry = string.Format("UPDATE TB_EQP_CHECK_WR SET  ");
+                        strQry += string.Format("CHECK_YN = '{0}',        ", vf.StringToString(grdMain.GetData(row, "CHECK_YN").ToString()));
+                        strQry += string.Format("CHECK_WR_DATE = '{0}',   ", vf.Format(grdMain.GetData(row, "CHECK_WR_DATE"), "yyyyMMdd"));
+                        strQry += string.Format("MODIFIER = '{0}',   ", ck.UserID);
+                        strQry += string.Format("MOD_DDTT = SYSDATE    ");//vf.BoolToString((Boolean)grdSub.GetData(row, "USE_YN")));
+                        strQry += string.Format("WHERE LINE_GP = '{0}' ", moddt.Rows[row - 1]["LINE_GP"]);
+                        strQry += string.Format("and  EQP_CD = '{0}' ", moddt.Rows[row - 1]["EQP_CD"]);
+                        strQry += string.Format("and  ITEM_CD =  '{0}'   ", moddt.Rows[row - 1]["ITEM_CD"]);
+                        strQry += string.Format("and  CHECK_SEQ =  '{0}'   ", moddt.Rows[row - 1]["CHECK_SEQ"]);
+
+                        cmd.CommandText = strQry;
+                        cmd.ExecuteNonQuery();
+
+                        UpCnt++;
+                    }
+                    else if (grdMain.GetData(row, grdMain.Cols.Count - 1).ToString() == "삭제")
+                    {
+                        strQry = string.Format("DELETE FROM TB_EQP_INFO WHERE EQP_CD = '{0}'", grdMain.GetData(row, "EQP_CD"));
+
+                        strMsg = " 설비: " + grdMain.GetData(row, "EQP_CD").ToString() + "를 삭제 ";
+
+                        cmd.CommandText = strQry;
+                        cmd.ExecuteNonQuery();
+
+                        DelCnt++;
+                    }
+                }
+
+                //실행후 성공
+                transaction.Commit();
+
+                Button_Click(btnDisplay, null);
+                //SetDataBinding();
+
+                // 성공시에 추가 수정 삭제 상황을 초기화시킴
+                InitGrd_Main();
+
+                string message = "정상적으로 저장되었습니다.";
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), message);
+            }
+            catch (Exception ex)
+            {
+                //실행후 실패 : 
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+
+                // 추가되었을시에 중복성으로 실패시 메시지 표시
+                MessageBox.Show("저장에 실패하였습니다.");
+            }
+            finally
+            {
+                if (cmd != null)
+                    cmd.Dispose();
+                if (conn != null)
+                    conn.Close();       //데이터베이스연결해제
+                if (transaction != null)
+                    transaction.Dispose();
+            }
+            return;
+        }
+        #endregion 저장 설정
+
+        #region SetDataBinding 설정
+
+        private bool SetDataBinding()
+        {
+            string strQry = string.Empty;
+
+            bool isAnd = false;
+
+            try
+            {
+                strQry += string.Format("SELECT TO_CHAR(ROWNUM) AS L_NO ");
+                strQry += string.Format("      ,LINE_GP ");
+                strQry += string.Format("      ,EQP_CD ");
+                strQry += string.Format("      ,ITEM_CD ");
+                strQry += string.Format("      ,CHECK_SEQ ");
+                strQry += string.Format("      ,EQP_NM          ");
+                strQry += string.Format("      ,CHECK_ITEM       ");
+                strQry += string.Format("      ,TO_DATE(CHECK_PLN_DATE, 'YYYYMMDD') AS CHECK_PLN_DATE   ");
+                strQry += string.Format("      ,CHECK_GAP   ");
+                strQry += string.Format("      ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'CHECK_CYCLE' AND CD_ID = X.CHECK_CYCLE) AS CHECK_CYCLE   ");
+                strQry += string.Format("      ,(CASE WHEN CHECK_YN = 'Y' THEN 'True' ELSE 'False' END) AS CHECK_YN         ");
+                strQry += string.Format("      ,TO_DATE(CHECK_WR_DATE, 'YYYYMMDD') AS CHECK_WR_DATE    ");
+                strQry += string.Format("      ,'' AS GUBUN    ");
+                strQry += string.Format("FROM  (       ");
+                strQry += string.Format("SELECT A.LINE_GP ");
+                strQry += string.Format("      ,A.EQP_CD ");
+                strQry += string.Format("      ,A.ITEM_CD ");
+                strQry += string.Format("      ,A.CHECK_SEQ ");
+                strQry += string.Format("      ,B.EQP_NM ");
+                strQry += string.Format("      ,A.CHECK_ITEM ");
+                strQry += string.Format("      ,A.CHECK_PLN_DATE ");
+                strQry += string.Format("      ,C.CHECK_GAP ");
+                strQry += string.Format("      ,A.CHECK_CYCLE ");
+                strQry += string.Format("      ,A.CHECK_YN ");
+                strQry += string.Format("      ,A.CHECK_WR_DATE ");
+                strQry += string.Format("FROM   TB_EQP_CHECK_WR A ");
+                strQry += string.Format("      ,TB_EQP_INFO     B ");
+                strQry += string.Format("      ,TB_EQP_CHECK_ITEM     C ");
+                strQry += string.Format("WHERE A.LINE_GP    = B.LINE_GP ");
+                strQry += string.Format("AND   A.EQP_CD     = B.EQP_CD ");
+                strQry += string.Format("AND   A.EQP_CD     = C.EQP_CD ");
+                strQry += string.Format("AND   A.ITEM_CD     = C.ITEM_CD ");
+                strQry += string.Format("AND   A.LINE_GP     = C.LINE_GP ");
+                strQry += string.Format("AND   A.LINE_GP    = :P_LINE_GP ");
+                strQry += string.Format("AND   A.CHECK_YN   LIKE :P_GP || '%' ");
+                strQry += string.Format("AND   A.ROUTING_CD = :P_ROUTING_CD ");
+                strQry += string.Format("AND   A.CHECK_PLN_DATE BETWEEN :P_FR_DATE AND :P_TO_DATE ");
+                strQry += string.Format("ORDER BY A.EQP_CD, A.ITEM_CD, A.CHECK_SEQ ");
+                strQry += string.Format(") X ");
+
+                string[] parm = new string[5];
+                parm[0] = ":P_LINE_GP|" + line_id;
+                parm[1] = ":P_ROUTING_CD|" + gongjung_id;
+                parm[2] = ":P_GP|" + gubun;
+                parm[3] = ":P_FR_DATE|" + vf.Format(start_date, "yyyyMMdd");
+                parm[4] = ":P_TO_DATE|" + vf.Format(end_date, "yyyyMMdd");
+
+                olddt = cd.FindDataTable(strQry, parm);
+
+                moddt = olddt.Copy();
+
+                Cursor = Cursors.AppStarting;
+                grdMain.SetDataBinding(moddt, null, true);
+                Cursor = Cursors.Default;
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt.Rows.Count.ToString() + "건이 조회 되었습니다.");
+
+                grdMain.Row = -1;
+                Refreash();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion SetDataBinding 설정
+
+        #region ComboBox 설정
+        private void SetComboBox()
+        {
+            cd.SetCombo(cboLine_GP, "LINE_GP", "", false, ck.Line_gp);
+
+            // 공정
+            cd.SetCombo(gongjung_cb, "ROUTING_CD");
+
+            // 구분
+            SetGuBun_GP();
+        }
+        #endregion ComboBox 설정
+
+        #region 이벤트 설정
+
+        #region Click 이벤트 설정
+        private void Button_Click(object sender, EventArgs e)
+        {
+            switch (((Button)sender).Name)
+            {
+                case "btnDisplay":
+                    cd.InsertLogForSearch(ck.UserID, btnDisplay);
+                    SetDataBinding();  // 조회 버튼을 통한 데이터입력
+                    Refreash();
+                    break;
+
+                case "btnSave":
+                    SaveData();
+
+                    break;
+
+                case "btnExcel":
+                    SaveExcel();
+                    break;
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion Click 이벤트 설정
+
+        #region SelectedValueChanged 설정
+        private void Gubun_cb_SelectedValueChanged(object sender, EventArgs e)
+            {
+                string result_index = string.Empty;
+
+                if (cbGubun.SelectedIndex >= 0)
+                {
+                    result_index = cbGubun.SelectedItem as string;
+                }
+            }
+            private void Gongjung_cb_SelectedValueChanged(object sender, EventArgs e)
+            {
+                string gongjung_nm = string.Empty;
+                if (gongjung_cb.SelectedIndex >=0)
+                {
+                    gongjung_nm = gongjung_cb.SelectedItem as string;
+
+                    gongjung_id = cd.Find_CD_ID("ROUTING_CD", gongjung_nm);
+                }
+            }
+
+            private void cboLine_GP_SelectedValueChanged(object sender, EventArgs e)
+            {
+                line_id = ((ComLib.DictionaryList)cboLine_GP.SelectedItem).fnValue;
+                ck.Line_gp = line_id;
+            }
+            #endregion SelectedValueChanged 설정
+
+        #region ValueChanged 설정
+        private void Start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            start_date = start_dt.Value;
+
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        private void End_dt_ValueChanged(object sender, EventArgs e)
+        {
+            end_date = end_dt.Value;
+
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+        #endregion ValueChanged 설정
+
+        #region 기타 이벤트 설정
+
+        private void GrdMain_DoubleClick(object sender, EventArgs e)
+        {
+            if (grdMain.Row <= 0)
+            {
+                return;
+            }
+
+            if (grdMain.ColSel == 5)
+            {
+                grdMain.AllowEditing = true;
+                grdMain.Cols[6].AllowEditing = false;
+            }
+        }
+
+        private void SaveExcel()
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+
+        private void Refreash()
+        {
+            InitGrd_Main();
+        }
+
+        private void SetGuBun_GP()
+        {
+            cbGubun.DataSource = vf.GetCheckList();
+            cbGubun.DisplayMember = "fnText";
+            cbGubun.ValueMember = "fnValue";
+
+            cbGubun.SelectedIndex = 0;
+        }
+      
+        private void grdMain_CellChecked(object sender, RowColEventArgs e)
+        {
+            C1FlexGrid editedGrd = sender as C1FlexGrid;
+
+            int editedRow = e.Row;
+            int editedCol = e.Col;
+
+            int index_check_date = editedGrd.Cols["CHECK_WR_DATE"].Index;
+
+            string editedValue = editedGrd.GetData(editedRow, editedCol).ToString();
+
+            if (editedValue == "True")
+            {
+                editedGrd.SetData(editedRow, index_check_date, DateTime.Now);
+            }
+            else
+            {
+                editedGrd.SetData(editedRow, index_check_date, null);
+            }
+        }
+
+        private void cbGubun_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gubun = ((ComLib.DictionaryList)cbGubun.SelectedItem).fnValue;
+        }
+        #endregion 기타 이벤트 설정
+
+        #endregion 이벤트 설정
+    }
+}

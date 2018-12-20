@@ -1,0 +1,651 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+
+
+namespace SystemControlClassLibrary
+{
+    public partial class UseLogMgmt : Form
+    {
+
+        private static int oldValue = 0;
+        private int selectedrow = 0;
+
+        clsStyle cs = new clsStyle();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsCom ck = new clsCom();
+
+        // 셀의 수정전 값
+        private static string strBefValue = "";
+        // 셀별 수정 정보(이전/이후)
+        private static string ownerNM = "";
+        private static string titleNM = "";
+        private bool _first = true;
+
+        DataTable grdMain1_dt = null;
+        DataTable grdSub1_dt = null;
+        DataTable grdMain2_dt = null;
+        DataTable grdSub2_dt = null;
+
+        DataTable olddt_grdMain1 = null;
+        DataTable moddt_grdMain1 = null;
+        DataTable olddt_grdMain2 = null;
+        DataTable moddt_grdMain2 = null;
+        DataTable olddt_grdSub1 = null;
+        DataTable moddt_grdSub1 = null;
+        DataTable olddt_grdSub2 = null;
+        DataTable moddt_grdSub2 = null;
+        bool _CanSaveSearchLog = false;
+        bool CanDateChange = false;
+
+        public UseLogMgmt(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+            InitializeComponent();
+
+            Load += UseLogMgmt_Load;
+
+            btnDisplay.Click += Button_Click;
+            btnExcel.Click += Button_Click;
+
+            grdMain1.RowColChange += GrdMain1_RowColChange;
+            grdMain2.RowColChange += GrdMain1_RowColChange;
+
+            grdMain1.Click += grdMain1_Click;
+            grdMain2.Click += grdMain2_Click;
+
+
+        }
+
+        private void InitControl()
+        {
+
+            clsStyle.Style.InitPicture(pictureBox1);
+
+            clsStyle.Style.InitTitle(lblUserLogTitle,  ownerNM, titleNM);
+
+            clsStyle.Style.InitPanel(panel1);
+
+            // Button Color Set
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnDisplay);
+            clsStyle.Style.InitButton(btnClose);
+
+
+            clsStyle.Style.InitTab(TabOpt);
+            TabOpt.Indent = 0;
+
+            //시간 데이터 default 값 적용 
+            start_dt.Value = DateTime.Now;
+            end_dt.Value = DateTime.Now;
+
+            clsStyle.Style.InitDateEdit(start_dt);
+            clsStyle.Style.InitDateEdit(end_dt);
+            start_dt.ValueChanged += Start_dt_ValueChanged;
+            end_dt.ValueChanged += End_dt_ValueChanged;
+            // 그리드 초기화
+            InitGrid();
+
+            //그리드 초기 데이터 테이블 생성
+            MakeGridDT();
+
+            TabOpt.SelectedTab = TabOpt1;
+        }
+        private void End_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        private void Start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        #region 그리드 초기 데이터 생성 및 그리드 초기화 함수
+        private void InitDataTab1()
+        {
+            grdMain1.SetDataBinding(grdMain1_dt, null, true);
+
+            grdSub1.SetDataBinding(grdSub1_dt, null, true);
+        }
+
+        private void InitDataTab2()
+        {
+            grdMain2.SetDataBinding(grdMain2_dt, null, true);
+
+            grdSub2.SetDataBinding(grdSub2_dt, null, true);
+
+        }
+
+        private void MakeGridDT()
+        {
+            MakegrdMain1DT();
+
+            MakegrdSub1DT();
+
+            MakegrdMain2DT();
+
+            MakegrdSub2DT();
+        }
+
+        private void MakegrdSub2DT()
+        {
+            grdSub2_dt = new DataTable();
+
+            grdSub2_dt.Columns.Add(new DataColumn("L_NO", typeof(string)));
+            grdSub2_dt.Columns.Add(new DataColumn("USER_ID", typeof(string)));
+            grdSub2_dt.Columns.Add(new DataColumn("USER_NM", typeof(string)));
+            grdSub2_dt.Columns.Add(new DataColumn("USE_CNT", typeof(string)));
+        }
+
+        private void MakegrdMain2DT()
+        {
+            grdMain2_dt = new DataTable();
+
+            grdMain2_dt.Columns.Add(new DataColumn("L_NO", typeof(string)));
+            grdMain2_dt.Columns.Add(new DataColumn("SCR_ID", typeof(string)));
+            grdMain2_dt.Columns.Add(new DataColumn("SCR_NM", typeof(string)));
+            grdMain2_dt.Columns.Add(new DataColumn("USE_CNT", typeof(string)));
+        }
+       
+
+
+        private void MakegrdSub1DT()
+        {
+            grdSub1_dt = new DataTable();
+
+            grdSub1_dt.Columns.Add(new DataColumn("L_NO", typeof(string)));
+            grdSub1_dt.Columns.Add(new DataColumn("SCR_NM", typeof(string)));
+            grdSub1_dt.Columns.Add(new DataColumn("USE_CNT", typeof(string)));
+        }
+
+        private void MakegrdMain1DT()
+        {
+            grdMain1_dt = new DataTable();
+
+            grdMain1_dt.Columns.Add(new DataColumn("L_NO", typeof(string)));
+            grdMain1_dt.Columns.Add(new DataColumn("USER_ID", typeof(string)));
+            grdMain1_dt.Columns.Add(new DataColumn("NAME", typeof(string)));
+            grdMain1_dt.Columns.Add(new DataColumn("CNT", typeof(string)));
+        }
+
+        private void InitGrid()
+        {
+            InitgrdMain1();
+
+            InitgrdSub1();
+
+            InitgrdMain2();
+
+            InitgrdSub2();
+        }
+
+        private void InitgrdSub2()
+        {
+            clsStyle.Style.InitGrid_search(grdSub2);
+
+            grdSub2.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            grdSub2.AllowEditing = false;
+
+            grdSub2.Cols["L_NO"].Width = cs.L_No_Width;
+            grdSub2.Cols["USER_ID"].Width = 220;
+            grdSub2.Cols["USER_NM"].Width = 200;
+            grdSub2.Cols["USE_CNT"].Width = 150;
+
+            #region 1. grdMain head 및 row  align 설정
+            grdSub2.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+            grdSub2.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;     // No col은 1 이고 왼쪽 가운데 정렬로 한다.
+            grdSub2.Cols["USER_ID"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdSub2.Cols["USER_NM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdSub2.Cols["USE_CNT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            #endregion
+
+            grdSub2.ExtendLastCol = true;
+        }
+
+        private void InitgrdMain2()
+        {
+            clsStyle.Style.InitGrid_search(grdMain2);
+
+            grdMain2.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            grdMain2.AllowEditing = false;
+
+            grdMain2.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain2.Cols["SCR_ID"].Width = 130;
+            grdMain2.Cols["SCR_NM"].Width = 130;
+            grdMain2.Cols["USE_CNT"].Width = 130;
+            grdMain2.Cols["LAST_DDTT"].Width = 130;
+
+            #region 1. grdMain head 및 row  align 설정
+            grdMain2.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+            grdMain2.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;     // No col은 1 이고 왼쪽 가운데 정렬로 한다.
+            grdMain2.Cols["SCR_ID"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain2.Cols["SCR_NM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdMain2.Cols["USE_CNT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain2.Cols["LAST_DDTT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            #endregion
+            grdMain2.ExtendLastCol = true;
+        }
+
+        private void InitgrdSub1()
+        {
+            clsStyle.Style.InitGrid_search(grdSub1);
+
+            grdSub1.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            grdSub1.AllowEditing = false;
+
+            grdSub1.Cols["L_NO"].Width = cs.L_No_Width;
+            grdSub1.Cols["SCR_NM"].Width = 320;
+            grdSub1.Cols["USE_CNT"].Width = 150;
+
+            #region 1. grdMain head 및 row  align 설정
+            grdSub1.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+            grdSub1.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;     // No col은 1 이고 왼쪽 가운데 정렬로 한다.
+            grdSub1.Cols["SCR_NM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdSub1.Cols["USE_CNT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            #endregion
+
+            grdSub1.ExtendLastCol = true;
+        }
+
+        private void InitgrdMain1()
+        {
+            clsStyle.Style.InitGrid_search(grdMain1);
+
+            grdMain1.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            grdMain1.AllowEditing = false;
+
+            grdMain1.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain1.Cols["USER_ID"].Width = 220;
+            grdMain1.Cols["NAME"].Width = 180;
+            grdMain1.Cols["CNT"].Width = 120;
+
+            #region 1. grdMain head 및 row  align 설정
+            grdMain1.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+            grdMain1.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;     // No col은 1 이고 왼쪽 가운데 정렬로 한다.
+            grdMain1.Cols["USER_ID"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdMain1.Cols["NAME"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+            grdMain1.Cols["CNT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            #endregion
+        }
+
+        #endregion 그리드 초기 데이터 생성 및 그리드 초기화 함수
+
+        private void GrdMain1_RowColChange(object sender, EventArgs e)
+        {
+            int maxrow = 0;
+            int oldSel = 0;
+            string str = string.Empty;
+            string temp = string.Empty;
+
+            selectedrow = grdMain1.RowSel;
+        }
+
+       
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+
+            switch (((Button)sender).Name)
+            {
+                case "btnDisplay":
+                    if (_CanSaveSearchLog)
+                    {
+                        cd.InsertLogForSearch(ck.UserID, btnDisplay);
+                    }
+                
+                    SetDataBinding();
+                    
+                    break;
+
+                case "btnExcel":
+                    SaveExcel();
+                    break;
+            }
+        }
+
+        private void SaveExcel()
+        {
+
+            vf.SaveExcel(titleNM, grdMain1);
+
+        }
+
+        private void UseLogMgmt_Load(object sender, System.EventArgs e)
+        {
+
+            this.BackColor = Color.White;
+
+            InitControl();
+
+
+            // date value change event 가능하게 설정함..하지않으면 초기 설정에서 에러 발생
+            CanDateChange = true;
+            _CanSaveSearchLog = true;
+            Button_Click(btnDisplay, null);
+
+        }
+
+
+
+
+        /// <summary>
+        /// 조회시에 사용
+        /// </summary>
+        /// <returns></returns>
+        private void SetDataBinding()
+        {
+            //활성화된 텝의 그리드를 조회한다..
+
+            C1FlexGrid selectedGrd = SelectedGrd_InTab();
+
+            if (selectedGrd.Name == "grdMain1")
+            {
+                // tab grd 전체 데이터 초기화
+                InitDataTab1();
+
+                SetDataBinding_grdMain1();
+
+            }
+            else if (selectedGrd.Name == "grdMain2")
+            {
+                // tab grd 전체 데이터 초기화
+                InitDataTab2();
+
+                SetDataBinding_grdMain2();
+
+            }
+            return ;
+
+        }
+
+        private C1FlexGrid SelectedGrd_InTab()
+        {
+            C1FlexGrid selectedGrd = null;
+
+            C1.Win.C1Command.C1DockingTabPage selectedTab = TabOpt.SelectedTab;
+
+            string grd_Nm = "";
+            if (selectedTab.Name == "TabOpt1")
+            {
+                grd_Nm = "grdMain1";
+            }
+            else if (selectedTab.Name == "TabOpt2")
+            {
+                grd_Nm = "grdMain2";
+            }
+            else
+            {
+                grd_Nm = "grdMain1";
+            }
+
+            return selectedGrd = (C1FlexGrid)selectedTab.Controls.Find(grd_Nm, true)[0];
+        }
+
+        private void SetDataBinding_grdMain1()
+        {
+            // main1 main2 데이터를 시간에 의해 검색해서 데이터 입력
+            // sub1 sub2 데이터가 있을때 데이터 입력
+            try
+            {
+                string sql1 = string.Empty;
+                sql1 += string.Format("SELECT ROWNUM AS L_NO ");
+                sql1 += string.Format("      ,N.* ");
+                sql1 += string.Format("FROM( ");
+                sql1 += string.Format("        SELECT A.USER_ID ");
+                sql1 += string.Format("              ,MAX(B.NM) AS NAME ");
+                sql1 += string.Format("              ,COUNT(*) AS CNT ");
+                sql1 += string.Format("        FROM TB_CM_LOGINHIS A ");
+                sql1 += string.Format("            ,TB_CM_USER     B ");
+                sql1 += string.Format("        WHERE A.USER_ID = B.USER_ID(+) ");
+                sql1 += string.Format("        AND TO_CHAR(A.LOGIN_DDTT, 'YYYY-MM-DD') BETWEEN '{0}' AND '{1}' ", vf.Format(start_dt.Value, "yyyy-MM-dd"), vf.Format(end_dt.Value, "yyyy-MM-dd"));
+                sql1 += string.Format("        GROUP BY A.USER_ID ");
+                sql1 += string.Format("    ) N ");
+
+                // datatable 입력후에 grid 설정해주어야함...
+                olddt_grdMain1 = cd.FindDataTable(sql1);
+                if (_first == false)
+                {
+                    //if (olddt_grdMain1 == null || olddt_grdMain1.Rows.Count == 0)
+                    //{
+                    //    MessageBox.Show("자료가 없습니다.", "확인", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    //    start_dt.Focus();
+                    //}
+                }
+
+                _first = false;
+
+                moddt_grdMain1 = olddt_grdMain1.Copy();
+
+                this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+                grdMain1.SetDataBinding(moddt_grdMain1, null, true);
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt_grdMain1.Rows.Count.ToString() + "건이 조회 되었습니다.");
+                
+                if (grdMain1.Rows.Count >1)
+                {
+                    Selected_grdMain1(1);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return ;
+            }
+
+            return;
+        }
+
+        private void SetDataBinding_grdMain2()
+        {
+            try
+            {
+                string sql1 = string.Empty;
+                sql1 += string.Format("SELECT ROWNUM AS L_NO ");
+                sql1 += string.Format("      ,N.* ");
+                sql1 += string.Format("FROM ");
+                sql1 += string.Format("( ");
+                sql1 += string.Format("    SELECT A.SCR_ID ");
+                sql1 += string.Format("          ,MAX(B.SCR_NM) AS SCR_NM ");
+                sql1 += string.Format("          ,COUNT(*) AS USE_CNT ");
+                sql1 += string.Format("          ,(SELECT Max(USE_DDTT)  FROM TB_CM_SCR_USEHIS Where SCR_ID = A.SCR_ID) AS LAST_DDTT");
+                sql1 += string.Format("    FROM TB_CM_SCR_USEHIS A ");
+                sql1 += string.Format("        ,TB_CM_SCR        B ");
+                sql1 += string.Format("    WHERE A.SCR_ID = B.SCR_ID(+) ");
+                sql1 += string.Format("    AND TO_CHAR(A.USE_DDTT, 'YYYY-MM-DD') BETWEEN '{0}' AND '{1}' ", vf.Format(start_dt.Value, "yyyy-MM-dd"), vf.Format(end_dt.Value, "yyyy-MM-dd"));
+                sql1 += string.Format("    GROUP BY A.SCR_ID ");
+                sql1 += string.Format(") N ");
+
+
+                // datatable 입력후에 grid 설정해주어야함...
+                olddt_grdMain2 = cd.FindDataTable(sql1);
+                if (_first == false)
+                {
+                    if (olddt_grdMain2 == null || olddt_grdMain2.Rows.Count == 0)
+                    {
+                        MessageBox.Show("자료가 없습니다.", "확인", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        start_dt.Focus();
+                    }
+                }
+
+                _first = false;
+
+                moddt_grdMain2 = olddt_grdMain2.Copy();
+
+                this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+                grdMain2.SetDataBinding(moddt_grdMain2, null, true);
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt_grdMain2.Rows.Count.ToString() + "건이 조회 되었습니다.");
+
+                if (grdMain2.Rows.Count > 1)
+                {
+                    Selected_grdMain2(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return;
+
+            }
+
+            return;
+        }
+
+
+        
+
+        
+
+        private void grdMain1_Click(object sender, EventArgs e)
+        {
+            if (grdMain1.Rows.Count <= 1 || grdMain1.RowSel < 0)
+                return;
+
+            Selected_grdMain1(grdMain1.RowSel);
+
+        }
+
+        private void Selected_grdMain1(int SelectedRow)
+        {
+            string selected_user_id = grdMain1.Rows[SelectedRow]["USER_ID"].ToString();
+
+            string sql1 = string.Empty;
+            sql1 += string.Format("SELECT ROWNUM AS L_NO ");
+            sql1 += string.Format("      ,N.* ");
+            sql1 += string.Format("FROM ");
+            sql1 += string.Format("   ( ");
+            sql1 += string.Format("       SELECT MAX(B.SCR_NM) AS SCR_NM ");
+            sql1 += string.Format("             ,COUNT(*) AS USE_CNT ");
+            sql1 += string.Format("       FROM TB_CM_SCR_USEHIS A ");
+            sql1 += string.Format("           ,TB_CM_SCR        B ");
+            sql1 += string.Format("       WHERE A.SCR_ID = B.SCR_ID(+) ");
+            sql1 += string.Format("       AND A.USER_ID = '{0}' ", selected_user_id);
+            sql1 += string.Format("       AND TO_CHAR(A.USE_DDTT, 'YYYY-MM-DD') BETWEEN '{0}' AND '{1}' ", vf.Format(start_dt.Value, "yyyy-MM-dd"), vf.Format(end_dt.Value, "yyyy-MM-dd"));
+            sql1 += string.Format("       GROUP BY A.SCR_ID ");
+            sql1 += string.Format("    ) N ");
+
+            // datatable 입력후에 grid 설정해주어야함...
+            olddt_grdSub1 = cd.FindDataTable(sql1);
+
+            moddt_grdSub1 = olddt_grdSub1.Copy();
+
+            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            grdSub1.SetDataBinding(moddt_grdSub1, null, true);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+
+            clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt_grdSub1.Rows.Count.ToString() + "건이 조회 되었습니다.");
+        }
+
+        private void grdMain2_Click(object sender, EventArgs e)
+        {
+            if (grdMain2.Rows.Count <= 1 || grdMain2.RowSel < 0)
+                return;
+
+            Selected_grdMain2(grdMain2.RowSel);
+
+        }
+
+        private void Selected_grdMain2(int SelectedRow)
+        {
+            string scr_id = grdMain2.Rows[grdMain2.RowSel]["SCR_ID"].ToString();
+
+            string sql1 = string.Empty;
+
+            sql1 += string.Format("SELECT ROWNUM AS L_NO, ");
+            sql1 += string.Format("  N.* ");
+            sql1 += string.Format("FROM( ");
+            sql1 += string.Format("    SELECT A.USER_ID ");
+            sql1 += string.Format("    ,MAX(B.NM) AS USER_NM ");
+            sql1 += string.Format("    ,COUNT(*) AS USE_CNT ");
+            sql1 += string.Format("    FROM TB_CM_SCR_USEHIS A ");
+            sql1 += string.Format("        ,TB_CM_USER B ");
+            sql1 += string.Format("    WHERE A.USER_ID = B.USER_ID(+) ");
+            sql1 += string.Format("    AND A.SCR_ID = '{0}' ", scr_id);
+            sql1 += string.Format("    AND TO_CHAR(A.USE_DDTT, 'YYYY-MM-DD') BETWEEN '{0}' AND '{1}' ", vf.Format(start_dt.Value, "yyyy-MM-dd"), vf.Format(end_dt.Value, "yyyy-MM-dd"));
+            sql1 += string.Format("    GROUP BY A.USER_ID ");
+            sql1 += string.Format("    ) N ");
+
+            // datatable 입력후에 grid 설정해주어야함...
+            olddt_grdSub2 = cd.FindDataTable(sql1);
+
+            moddt_grdSub2 = olddt_grdSub2.Copy();
+
+            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            grdSub2.SetDataBinding(moddt_grdSub2, null, true);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+
+            clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt_grdSub2.Rows.Count.ToString() + "건이 조회 되었습니다.");
+
+        }
+
+        private void c1FlexGrid1_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+
+        private void grdMain2_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void TabOpt_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Button_Click(btnDisplay, null);
+           // SetDataBinding();
+        }
+
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            if (CanDateChange)
+            {
+                Button_Click(btnDisplay, null);
+            }
+        }
+
+        private void end_dt_ValueChanged(object sender, EventArgs e)
+        {
+            if (CanDateChange)
+            {
+                Button_Click(btnDisplay, null);
+            }
+        }
+    }
+
+}
+
+

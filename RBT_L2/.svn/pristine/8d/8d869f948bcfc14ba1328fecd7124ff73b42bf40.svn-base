@@ -1,0 +1,609 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+using ComLib;
+using ComLib.clsMgr;
+using C1.Win.C1FlexGrid;
+using System.Data.OracleClient;
+
+namespace SystemControlClassLibrary
+{
+    public partial class CrtOrd : Form
+    {
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsCom ck = new clsCom();
+
+        DataTable olddt;
+        DataTable moddt;
+        DataTable logdt;
+
+        private int selectedrow = 0;
+        private string poc_state = "";
+        private string gangjung_id = "";
+        clsStyle cs = new clsStyle();
+
+        // 셀별 수정 정보(이전/이후)
+        private static string[][] strModi = new string[0][];
+
+        private static string ownerNM = "";
+        private static string titleNM = "";
+
+        public CrtOrd(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+
+            Load += CrtOrd_Load;
+
+            btnDisplay.Click += Button_Click;
+            btnExcel.Click += Button_Click;
+
+            grdMain.RowColChange += GrdMain_RowColChange;
+
+            cbPOCstate.SelectedIndexChanged += CbPOCstate_SelectedIndexChanged;
+        }
+
+        private void CbPOCstate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            poc_state = ((ComLib.DictionaryList)cbPOCstate.SelectedItem).fnValue;
+        }
+
+        private void InitControl()
+        {
+            cs.InitPicture(pictureBox1);
+
+            cs.InitTitle(title_lb, ownerNM, titleNM);
+
+            cs.InitPanel(panel1);
+
+            cs.InitLabel(label1);
+            cs.InitLabel(label2);
+            cs.InitLabel(label3);
+            cs.InitLabel(label4);
+            cs.InitLabel(label5);
+            cs.InitLabel(label6);
+
+            cs.InitTextBox(txtHEAT);
+            cs.InitTextBox(txtPOC);
+            cs.InitTextBox(txtSIZE);
+            cs.InitTextBox(gangjong_id_tb);
+            cs.InitTextBox(gangjong_Nm_tb);
+
+            cs.InitCombo(cbPOCstate);
+
+            // Button Color Set
+            cs.InitButton(btnExcel);
+            cs.InitButton(btnDisplay);
+            cs.InitButton(btnClose);
+            cs.InitButton(btnPOCFin);
+
+            cs.InitCombo(cbPOCstate, StringAlignment.Near);
+
+            //시간 데이터 default 값 적용 
+            start_dt.Value = DateTime.Now;
+            end_dt.Value = DateTime.Now;
+
+            //dateEdit Init()
+            cs.InitDateEdit(start_dt);
+            cs.InitDateEdit(end_dt);
+
+            InitGrid();
+        }
+
+        private void InitGrid()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            grdMain.AllowEditing = false;
+
+            grdMain.Cols["L_NO"                ].Caption = "NO";         
+            grdMain.Cols["CR_ORD_DATE"         ].Caption = "정정지시일자";    
+            grdMain.Cols["POC_PROG_STAT_NM"    ].Caption = "POC상태";         
+            grdMain.Cols["POC_NO"              ].Caption = "POC";         
+            grdMain.Cols["HEAT"                ].Caption = "HEAT";         
+            grdMain.Cols["FACTORY"             ].Caption = "공장";         
+            grdMain.Cols["STEEL"               ].Caption = "강종";          
+            grdMain.Cols["STEEL_NM"            ].Caption = "강종명";          
+            grdMain.Cols["ITEM"                ].Caption = "품목";          
+            grdMain.Cols["ITEM_SIZE"           ].Caption = "규격";          
+            grdMain.Cols["LENGTH"              ].Caption = "길이(m)";        
+            grdMain.Cols["UOM_NM"              ].Caption = "단위";         
+            grdMain.Cols["BUNDLE_QTY"          ].Caption = "번들수";         
+            grdMain.Cols["ORD_WGT"             ].Caption = "지시중량(kg)";   
+            grdMain.Cols["MILL_DATE"           ].Caption = "압연일자";       
+            grdMain.Cols["HEAT_YN"             ].Caption = "열처리여부";     
+            grdMain.Cols["PITCH"               ].Caption = "PITCH";         
+            grdMain.Cols["COMPANY_NM"          ].Caption = "업체명"; //업체명
+            grdMain.Cols["SURFACE_LEVEL_NM"    ].Caption = "표면등급";       
+            grdMain.Cols["POST_PROC_ROUTING_NM"].Caption = "정정공정";       
+            grdMain.Cols["SPEC_NO"             ].Caption = "사양서번호";     
+            grdMain.Cols["LENGTH_1"            ].Caption = "길이1";         
+            grdMain.Cols["LENGTH_2"            ].Caption = "길이2";         
+            grdMain.Cols["MARKET_GP_NM"        ].Caption = "시장구분";       
+            grdMain.Cols["SIZE_MIN"            ].Caption = "SIZE_MIN";       
+            grdMain.Cols["SIZE_MAX"            ].Caption = "SIZE_MAX";       
+            grdMain.Cols["LENGTH_MIN"          ].Caption = "길이MIN";        
+            grdMain.Cols["LENGTH_MAX"          ].Caption = "길이MAX";        
+            grdMain.Cols["DEVIATION"           ].Caption = "편경차";         
+            grdMain.Cols["PACKING_METHOD_NM"   ].Caption = "포장방법";       
+            grdMain.Cols["ALLOW_FAULT_DEPTH"   ].Caption = "허용결함깊이";   
+            grdMain.Cols["MEMO"                ].Caption = "특기사항";       
+            grdMain.Cols["USAGE_NM"            ].Caption = "용도";         
+            grdMain.Cols["MFG_METHOD_NM"       ].Caption = "제조방법";       
+            grdMain.Cols["LINE_GP"             ].Caption = "라인";         
+            grdMain.Cols["WORK_ORD_DATE"       ].Caption = "투입지시일자";   
+            grdMain.Cols["WORK_RANK"           ].Caption = "순위";         
+            grdMain.Cols["WORK_UOM"            ].Caption = "작업단위";       
+            grdMain.Cols["FINISH_PCS"          ].Caption = "완료본수";       
+            grdMain.Cols["FINISH_WGT"          ].Caption = "완료중량";       
+            grdMain.Cols["FINISH_YN"           ].Caption = "완료여부";       
+            grdMain.Cols["FINISH_DATE"         ].Caption = "완료일자";       
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            grdMain.Cols["L_NO"                ].TextAlign = cs.L_NO_TextAlign;        
+            grdMain.Cols["CR_ORD_DATE"         ].TextAlign = cs.DATE_TextAlign;   
+            grdMain.Cols["POC_PROG_STAT_NM"    ].TextAlign = cs.POC_PROG_STAT_NM_TextAlign;
+            grdMain.Cols["POC_NO"              ].TextAlign = cs.POC_NO_TextAlign;
+            grdMain.Cols["HEAT"                ].TextAlign = cs.HEAT_TextAlign;
+            grdMain.Cols["FACTORY"             ].TextAlign = cs.FACTORY_TextAlign;
+            grdMain.Cols["STEEL"               ].TextAlign = cs.STEEL_TextAlign;
+            grdMain.Cols["STEEL_NM"            ].TextAlign = cs.STEEL_NM_TextAlign;
+            grdMain.Cols["ITEM"                ].TextAlign = cs.ITEM_TextAlign;
+            grdMain.Cols["ITEM_SIZE"           ].TextAlign = cs.ITEM_SIZE_TextAlign;
+            grdMain.Cols["LENGTH"              ].TextAlign = cs.LENGTH_TextAlign;
+            grdMain.Cols["UOM_NM"              ].TextAlign = cs.UOM_TextAlign;
+            grdMain.Cols["BUNDLE_QTY"          ].TextAlign = cs.BUNDLE_QTY_TextAlign;
+            grdMain.Cols["ORD_WGT"             ].TextAlign = cs.WGT_TextAlign;
+            grdMain.Cols["MILL_DATE"           ].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["HEAT_YN"             ].TextAlign = cs.HEAT_YN_TextAlign;
+            grdMain.Cols["PITCH"               ].TextAlign = cs.PITCH_TextAlign;
+            grdMain.Cols["COMPANY_NM"          ].TextAlign = cs.COMPANY_NM_TextAlign;
+            grdMain.Cols["SURFACE_LEVEL_NM"    ].TextAlign = cs.SURFACE_LEVEL_TextAlign;
+            grdMain.Cols["POST_PROC_ROUTING_NM"].TextAlign = cs.POST_PROC_ROUTING_NM_TextAlign;
+            grdMain.Cols["SPEC_NO"             ].TextAlign = cs.SPEC_NO_TextAlign;
+            grdMain.Cols["LENGTH_1"            ].TextAlign = cs.LENGTH_TextAlign;
+            grdMain.Cols["LENGTH_2"            ].TextAlign = cs.LENGTH_TextAlign;
+            grdMain.Cols["MARKET_GP_NM"        ].TextAlign = cs.MARKET_GP_TextAlign;
+            grdMain.Cols["SIZE_MIN"            ].TextAlign = cs.SIZE_MIN_TextAlign;
+            grdMain.Cols["SIZE_MAX"            ].TextAlign = cs.SIZE_MAX_TextAlign;
+            grdMain.Cols["LENGTH_MIN"          ].TextAlign = cs.LENGTH_MIN_TextAlign;
+            grdMain.Cols["LENGTH_MAX"          ].TextAlign = cs.LENGTH_MAX_TextAlign;
+            grdMain.Cols["DEVIATION"           ].TextAlign = cs.DEVIATION_TextAlign;
+            grdMain.Cols["PACKING_METHOD_NM"   ].TextAlign = cs.PACKING_METHOD_NM_TextAlign;
+            grdMain.Cols["ALLOW_FAULT_DEPTH"   ].TextAlign = cs.ALLOW_FAULT_DEPTH_TextAlign;
+            grdMain.Cols["MEMO"                ].TextAlign = cs.MEMO_TextAlign;
+            grdMain.Cols["USAGE_NM"            ].TextAlign = cs.USAGE_CD_NM_TextAlign;
+            grdMain.Cols["MFG_METHOD_NM"       ].TextAlign = cs.MFG_METHOD_TextAlign;
+            grdMain.Cols["LINE_GP"             ].TextAlign = cs.LINE_GP_TextAlign;
+            grdMain.Cols["WORK_ORD_DATE"       ].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["WORK_RANK"           ].TextAlign = cs.WORK_RANK_TextAlign;
+            grdMain.Cols["WORK_UOM"            ].TextAlign = cs.WORK_UOM_TextAlign;
+            grdMain.Cols["FINISH_PCS"          ].TextAlign = cs.FINISH_PCS_TextAlign;
+            grdMain.Cols["FINISH_WGT"          ].TextAlign = cs.FINISH_WGT_TextAlign;
+            grdMain.Cols["FINISH_YN"           ].TextAlign = cs.FINISH_YN_TextAlign;
+            grdMain.Cols["FINISH_DATE"         ].TextAlign = cs.DATE_TextAlign;
+
+            grdMain.Cols["L_NO"                ].Width = cs.L_No_Width;        
+            grdMain.Cols["CR_ORD_DATE"         ].Width = cs.Date_8_Width;   
+            grdMain.Cols["POC_PROG_STAT_NM"    ].Width = cs.POC_PROG_STAT_NM_Width;
+            grdMain.Cols["POC_NO"              ].Width = cs.POC_NO_Width;
+            grdMain.Cols["HEAT"                ].Width = cs.HEAT_Width;
+            grdMain.Cols["FACTORY"             ].Width = 0;
+            grdMain.Cols["STEEL"               ].Width = cs.STEEL_Width;
+            grdMain.Cols["STEEL_NM"            ].Width = cs.STEEL_NM_Width + 10;
+            grdMain.Cols["ITEM"                ].Width = cs.ITEM_Width;
+            grdMain.Cols["ITEM_SIZE"           ].Width = cs.ITEM_SIZE_Width;
+            grdMain.Cols["LENGTH"              ].Width = cs.LENGTH_Width;
+            grdMain.Cols["UOM_NM"              ].Width = 0;
+            grdMain.Cols["BUNDLE_QTY"          ].Width = cs.BUNDLE_QTY_Width;
+            grdMain.Cols["ORD_WGT"             ].Width = cs.Wgt_Width;
+            grdMain.Cols["MILL_DATE"           ].Width = cs.Date_8_Width;
+            grdMain.Cols["HEAT_YN"             ].Width = cs.HEAT_YN_Width;
+            grdMain.Cols["PITCH"               ].Width = cs.PITCH_Width;
+            grdMain.Cols["COMPANY_NM"          ].Width = cs.Company_NM_Width;
+            grdMain.Cols["SURFACE_LEVEL_NM"    ].Width = cs.Surface_Level_NM_Width;
+            grdMain.Cols["POST_PROC_ROUTING_NM"].Width = cs.POST_PROC_ROUTING_NM_Width;
+            grdMain.Cols["SPEC_NO"             ].Width = cs.SPEC_NO_Width;
+            grdMain.Cols["LENGTH_1"            ].Width = cs.LENGTH_Width;
+            grdMain.Cols["LENGTH_2"            ].Width = cs.LENGTH_Width;
+            grdMain.Cols["MARKET_GP_NM"        ].Width = cs.MARKET_GP_NM_Width;
+            grdMain.Cols["SIZE_MIN"            ].Width = cs.LENGTH_MIN_Width;
+            grdMain.Cols["SIZE_MAX"            ].Width = cs.LENGTH_MAX_Width;
+            grdMain.Cols["LENGTH_MIN"          ].Width = cs.LENGTH_MIN_Width;
+            grdMain.Cols["LENGTH_MAX"          ].Width = cs.LENGTH_MAX_Width;
+            grdMain.Cols["DEVIATION"           ].Width = cs.DEVIATION_Width;
+            grdMain.Cols["PACKING_METHOD_NM"   ].Width = cs.PACKING_METHOD_NM_Width;
+            grdMain.Cols["ALLOW_FAULT_DEPTH"   ].Width = cs.ALLOW_FAULT_DEPTH_Width;
+            grdMain.Cols["MEMO"                ].Width = cs.MEMO_Width;
+            grdMain.Cols["USAGE_NM"            ].Width = cs.Usage_CD_NM_Width;
+            grdMain.Cols["MFG_METHOD_NM"       ].Width = cs.MFG_METHOD_NM_Width;
+            grdMain.Cols["LINE_GP"             ].Width = 0;
+            grdMain.Cols["WORK_ORD_DATE"       ].Width = 0;
+            grdMain.Cols["WORK_RANK"           ].Width = 0;
+            grdMain.Cols["WORK_UOM"            ].Width = 0;
+            grdMain.Cols["FINISH_PCS"          ].Width = 0;
+            grdMain.Cols["FINISH_WGT"          ].Width = 0;
+            grdMain.Cols["FINISH_YN"           ].Width = 0;
+            grdMain.Cols["FINISH_DATE"         ].Width = 0;
+        }
+
+        private void GrdMain_RowColChange(object sender, EventArgs e)
+        {
+            int maxrow = 0;
+            int oldSel = 0;
+            string str = string.Empty;
+            string temp = string.Empty;
+
+            selectedrow = grdMain.RowSel;
+        }
+
+        private void Button_Click(object sender, EventArgs e)
+        {
+
+            switch (((Button)sender).Name)
+            {
+                case "btnDisplay":
+
+                    SetDataBinding();
+
+                    break;
+
+                case "btnExcel":
+                    SaveExcel();
+                    break;
+            }
+        }
+
+        private void SaveExcel()
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+
+        private void CrtOrd_Load(object sender, System.EventArgs e)
+        {
+            InitControl();
+
+            SetComboBox1();
+
+            Button_Click(btnDisplay, null);
+
+            EventCreate();      //사용자정의 이벤트
+        }
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        private bool SetDataBinding()
+        {
+            try
+            {
+                string start_date = start_dt.Value.ToString();
+                start_date = (start_date.Substring(0, 4) + start_date.Substring(5, 2) + start_date.Substring(8, 2));
+                string end_date = end_dt.Value.ToString();
+                end_date = (end_date.Substring(0, 4) + end_date.Substring(5, 2) + end_date.Substring(8, 2));
+
+                txtPOC.Value = txtPOC.Text;
+                txtHEAT.Value = txtHEAT.Text;
+
+
+                string sql1 = string.Format(" SELECT ROWNUM AS L_NO  ");
+                sql1 += string.Format("             ,X.* ");
+                sql1 += string.Format("       FROM ( ");
+                sql1 += string.Format("                SELECT TO_DATE(CR_ORD_DATE, 'YYYY-MM-DD') AS CR_ORD_DATE ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'POC_PROG_STAT' AND CD_ID = A.POC_PROG_STAT) AS POC_PROG_STAT_NM  ");
+                sql1 += string.Format("               ,POC_NO  ");
+                sql1 += string.Format("               ,HEAT  ");
+                sql1 += string.Format("               ,FACTORY  ");
+                sql1 += string.Format("               ,STEEL  ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = A.STEEL) AS STEEL_NM ");
+                sql1 += string.Format("               ,ITEM  ");
+                sql1 += string.Format("               ,ITEM_SIZE  ");
+                sql1 += string.Format("               ,LENGTH  ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'UOM' AND CD_ID = A.UOM) AS UOM_NM  ");
+                sql1 += string.Format("               ,BUNDLE_QTY  ");
+                sql1 += string.Format("               ,ORD_WGT  ");
+                sql1 += string.Format("               ,TO_DATE(MILL_DATE, 'YYYY-MM-DD') AS  MILL_DATE");
+                sql1 += string.Format("               ,HEAT_YN  ");
+                sql1 += string.Format("               ,PITCH  ");
+                sql1 += string.Format("               ,COMPANY_NM  ");
+                sql1 += string.Format("               ,(SELECT  CD_ID || ' ' || CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'SURFACE_LEVEL' AND CD_ID = A.SURFACE_LEVEL ) AS SURFACE_LEVEL_NM ");
+                sql1 += string.Format("               ,(SELECT CD_ID || ' ' || CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'POST_PROC_ROUTING' AND CD_ID = A.POST_PROC_ROUTING) AS POST_PROC_ROUTING_NM ");
+                sql1 += string.Format("               ,SPEC_NO  ");
+                sql1 += string.Format("               ,LENGTH_1  ");
+                sql1 += string.Format("               ,LENGTH_2  ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'MARKET_GP' AND CD_ID = A.MARKET_GP) AS MARKET_GP_NM  ");
+                sql1 += string.Format("               ,SIZE_MIN   ");
+                sql1 += string.Format("               ,SIZE_MAX  ");
+                sql1 += string.Format("               ,LENGTH_MIN  ");
+                sql1 += string.Format("               ,LENGTH_MAX  ");
+                sql1 += string.Format("               ,DEVIATION ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'PACKING_METHOD' AND CD_ID = A.PACKING_METHOD) AS PACKING_METHOD_NM   ");
+                sql1 += string.Format("               ,ALLOW_FAULT_DEPTH  ");
+                sql1 += string.Format("               ,MEMO  ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'USAGE_CD' AND CD_ID = A.USAGE_CD)     AS USAGE_NM      ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'MFG_METHOD' AND CD_ID = A.MFG_METHOD) AS MFG_METHOD_NM ");
+                sql1 += string.Format("               ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'LINE_GP' AND CD_ID = A.LINE_GP)       AS LINE_GP       ");
+                sql1 += string.Format("               ,TO_DATE(WORK_ORD_DATE, 'YYYY-MM-DD')  ");
+                sql1 += string.Format("               ,WORK_RANK  ");
+                sql1 += string.Format("               ,WORK_UOM  ");
+                sql1 += string.Format("               ,FINISH_PCS  ");
+                sql1 += string.Format("               ,FINISH_WGT  ");
+                sql1 += string.Format("               ,FINISH_YN  ");
+                sql1 += string.Format("               ,FINISH_DATE ");
+                sql1 += string.Format("               FROM TB_CR_ORD A ");
+                sql1 += string.Format("               WHERE  CR_ORD_DATE BETWEEN '{0}' AND '{1}' ", start_date, end_date);    //:P_FR_DATE AND :P_TO_DATE
+                sql1 += string.Format("               AND    POC_PROG_STAT LIKE  '{0}' || '%' ", poc_state);
+                sql1 += string.Format("               AND    HEAT      LIKE '%' || '{0}' || '%'", txtHEAT.Text);  //:P_HEAT
+                sql1 += string.Format("               AND    STEEL     LIKE '%{0}' || '%'", gangjung_id); //:P_STEEL
+                sql1 += string.Format("               AND    ITEM_SIZE LIKE '%{0}' || '%'", txtSIZE.Text); //:P_ITEM_SIZE
+                sql1 += string.Format("               AND    POC_NO    LIKE '%{0}' || '%'", txtPOC.Text); //:P_POC_NO
+                sql1 += string.Format("               AND    STEEL    LIKE '%{0}' || '%'", gangjong_id_tb.Text); //:STEEL
+                sql1 += string.Format("               ORDER BY CR_ORD_DATE DESC, POC_PROG_STAT ASC, POC_NO DESC ");
+                sql1 += string.Format("            ) X ");
+
+                olddt = cd.FindDataTable(sql1);
+
+                logdt = olddt.Copy();
+
+                moddt = olddt.Copy();
+
+                this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+                grdMain.SetDataBinding(moddt, null, true);
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt.Rows.Count.ToString() + "건이 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return false;
+            }
+            return true;
+        }
+
+        private void SetComboBox1()
+        {
+            cd.SetCombo(cbPOCstate, "POC_PROG_STAT", "", true);
+        }
+
+        private void grdMain_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSteel_Click(object sender, EventArgs e)
+        {
+            Popup.SearchSteelNm popup = new Popup.SearchSteelNm();
+            popup.Owner = this; //A폼을 지정하게 된다.
+            popup.StartPosition = FormStartPosition.CenterScreen;
+            popup.ShowDialog();
+            if (ck.StrKey1 != "")
+            {
+                gangjong_id_tb.Text = ck.StrKey1;
+                gangjong_Nm_tb.Text = ck.StrKey2;
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void gangjong_id_tb_TextChanged(object sender, EventArgs e)
+        {
+            gangjong_Nm_tb.Text = "";
+            gangjung_id = "";
+        }
+
+        private void gangjong_id_tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            //[Enter] Key는 다음 컨트롤로 이동
+            if (e.KeyCode == Keys.Enter) SendKeys.Send("{TAB}");
+        }
+
+        //사용자이벤트 생성
+        private void EventCreate()
+        {
+            this.gangjong_id_tb.LostFocus += new System.EventHandler(gangjong_id_tb_LostFocus);            //강종ID
+        }
+
+        //강종ID(LostFocus)
+        private void gangjong_id_tb_LostFocus(object sender, EventArgs e)
+        {
+            if (gangjong_id_tb.Text == "")
+            {
+                gangjong_Nm_tb.Text = "";
+                gangjung_id = "";
+            }
+            else
+            {
+                gangjong_Nm_tb.Text = cd.Find_Steel_NM_By_ID(gangjong_id_tb.Text);
+
+                if (gangjong_Nm_tb.Text.Length == 0)
+                {
+                    if (MessageBox.Show(" 해당 강종에 따른 강종명을 찾을 수 없습니다.", "", MessageBoxButtons.OK) == DialogResult.OK)
+                    {
+                        gangjong_Nm_tb.Text = "";
+                        gangjong_id_tb.Focus();
+                        return;
+                    }
+                }
+                else
+                    gangjung_id = gangjong_id_tb.Text;
+            }
+        }
+        
+        private void txtSIZE_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            vf.KeyPressEvent_number(sender, e);
+        }
+
+        private void cbPOCstate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtSIZE_KeyDown(object sender, KeyEventArgs e)
+        {
+            int pKey = e.KeyValue;
+
+            //엔터 눌렀을 시, //  Tab 눌렀을때.
+            if (pKey == 13 || pKey == 9)
+            {
+                SendKeys.Send("{TAB}");
+                txtSIZE.Text = vf.Format(txtSIZE.Text, "0000");
+                //SetDataBinding();  // 조회 버튼을 통한 데이터입력
+            }
+        }
+
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnPOCFin_Click(object sender, EventArgs e)
+        {
+            C1FlexGrid grd = grdMain as C1FlexGrid;
+            if (grd.Row < 1)
+            {
+                return;
+            }
+
+            string _spName = "SP_CR_POC_CLOSE";
+            string _poc_No = grd.GetData(grd.Row, "POC_NO").ToString();
+            string _RegOrCancel = "CAN";
+            string _user_id = ck.UserID;
+
+            string msg = string.Format(" POC : {0} \n POC종결취소 하시겠습니까?", _poc_No);
+
+            if (MessageBox.Show(msg, Text, MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+            else
+            {
+                ValidResp rsp = PocFinOrCancel(_spName, _poc_No, _RegOrCancel, _user_id);
+
+                if (rsp.Successful)
+                {
+                    Button_Click(btnDisplay, null);
+
+                    clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), rsp.Information);
+                }
+            }
+        }
+
+        private ValidResp PocFinOrCancel(string _spName, string _poc_No, string RegOrCancel, string _user_id)
+        {
+            ValidResp rsp = new ValidResp();
+            rsp.Successful = false;
+            rsp.Information = string.Empty;
+
+            OracleConnection conn = cd.OConnect();
+            OracleCommand cmd = new OracleCommand();
+            OracleTransaction transaction = null;
+
+            string result_msg = string.Empty;
+
+            try
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = _spName;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                OracleParameter op;
+
+                op = new OracleParameter("P_POC_NO", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = _poc_No;    // poc
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_PROC_GP", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = RegOrCancel;
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_USER_ID", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = _user_id;    // 사용자 id 가져와서 입력
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_PROC_STAT", OracleType.VarChar);
+                op.Direction = ParameterDirection.Output;
+                op.Size = 4000;
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_PROC_MSG", OracleType.VarChar);
+                op.Direction = ParameterDirection.Output;
+                op.Size = 4000;
+                cmd.Parameters.Add(op);
+
+                conn.Open();
+                transaction = cmd.Connection.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                cmd.ExecuteOracleScalar();
+
+                string result_stat = Convert.ToString(cmd.Parameters["P_PROC_STAT"].Value);
+                result_msg = Convert.ToString(cmd.Parameters["P_PROC_MSG"].Value);
+
+                transaction.Commit();
+
+                if (result_stat == "ERR")
+                {
+                    rsp.Successful = false;
+                    rsp.Information = result_msg;
+
+                    string error_msg = "POC_NO:" + _poc_No
+                                 + " " + "User_id:" + _user_id
+                                 + " " + "Error_msg:" + result_msg;
+                    clsMsg.Log.Alarm(Alarms.Error, "POC종결취소", clsMsg.Log.__Line(), error_msg);
+                    MessageBox.Show(result_msg);
+                }
+                else
+                {
+                    rsp.Successful = true;
+                    rsp.Information = result_msg;
+
+                    string success_msg = "POC_NO:" + _poc_No
+                                 + " " + "User_id:" + _user_id
+                                 + " " + "Result_msg:" + result_msg;
+                    clsMsg.Log.Alarm(Alarms.Modified, "POC종결취소", clsMsg.Log.__Line(), success_msg);
+                }
+            }
+
+            catch (Exception ex)
+            {
+                //실행후 실패 : 
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+
+                // 추가되었을시에 중복성으로 실패시 메시지 표시
+                MessageBox.Show(result_msg);
+                return rsp;
+            }
+            finally
+            {
+                if (cmd != null)
+                    cmd.Dispose();
+                if (cmd.Connection != null)
+                    cmd.Connection.Close();       //데이터베이스연결해제
+                if (transaction != null)
+                    transaction.Dispose();
+            }
+            return rsp;
+        }
+    }
+}

@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using SystemControlClassLibrary.UC.UC_temp;
+
+namespace SystemControlClassLibrary.UC.sub_UC
+{
+    public partial class UC_Length : UC_temp1
+    {
+        public UC_Length()
+        {
+            InitializeComponent();
+
+            tbLength.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+        }
+
+
+        [Description("Length"), Category("Contents")]
+        public string Length
+        {
+            get
+            {
+                return tbLength.Text;
+            }
+            set
+            {
+
+                tbLength.Text = value;
+                this.Invalidate();
+            }
+        }
+
+        public Color LabelForeColor
+        {
+            get
+            {
+                return c1Label1.ForeColor;
+            }
+            set
+            {
+
+                c1Label1.ForeColor = value;
+                this.Invalidate();
+            }
+        }
+
+        [Description("ReadOnly"), Category("Contents")]
+        public bool ReadOnly
+        {
+            get
+            {
+                return tbLength.ReadOnly;
+            }
+            set
+            {
+
+                tbLength.ReadOnly = value;
+                this.Invalidate();
+            }
+        }
+        private void tbLength_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            vf.KeyPressEvent_decimal(sender, e);
+        }
+    }
+}

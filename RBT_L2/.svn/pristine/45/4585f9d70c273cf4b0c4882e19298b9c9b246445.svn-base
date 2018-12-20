@@ -1,0 +1,810 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+namespace SystemControlClassLibrary
+{
+    public partial class L1ReceiveInfoInq : Form
+    {
+        #region 변수선언
+        clsStyle cs = new clsStyle();
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        DataTable olddt;
+
+        private string line_gp = "";
+        private string tc_cd = ""; 
+        private string ownerNM = "";
+        private string titleNM = "";
+
+        private string start_date;
+        private string end_date;
+        bool _CanSaveSearchLog = false;
+        #endregion
+
+        #region 화면
+        public L1ReceiveInfoInq(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+        }
+
+        private void L1ReceiveInfoInq_Load(object sender, System.EventArgs e)
+        {
+            InitControl();
+
+            SetComboBox(ck.Line_gp);
+            _CanSaveSearchLog = true;
+            btnDisplay_Click(null, null);
+        }
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        private void InitControl()
+        {
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+
+            clsStyle.Style.InitButton(btnClose);
+
+            cs.InitCombo(cboLine_GP, StringAlignment.Center);
+            cs.InitCombo(cbo_TC_CD, StringAlignment.Near);
+            //일자 데이터 default 값 적용 
+            start_dt.Value = DateTime.Now;
+            end_dt.Value = DateTime.Now;
+            start_dt.ValueChanged += Start_dt_ValueChanged;
+            end_dt.ValueChanged += End_dt_ValueChanged;
+            InitGrid();
+        }
+        private void End_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        private void Start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        #endregion
+
+        #region "콤보박스 설정"
+        private void SetComboBox(string _ling_gp)
+        {
+            cd.SetCombo(cboLine_GP, "LINE_GP", "", false, _ling_gp);
+
+            SetComboTC_CD(_ling_gp);
+        }
+
+        private void SetComboTC_CD(string _line_gp)
+        {
+            cd.SetCombo_TC_CD(cbo_TC_CD, "TC_CD", _line_gp, false, "");
+        }
+        #endregion
+
+        #region 조회
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+
+            if (_CanSaveSearchLog)
+            {
+                cd.InsertLogForSearch(ck.UserID, btnDisplay);
+            }
+
+            try
+            {
+                string sql1 = "";
+
+                start_date = start_dt.Value.ToString("yyyyMMdd");
+                end_date = end_dt.Value.ToString("yyyyMMdd");
+
+                #region sql 설정
+                sql1 = string.Format("SELECT TC_CD,");
+                sql1 += string.Format("IF_SEQ, ");
+                sql1 += string.Format("PROC_STAT, ");
+                sql1 += string.Format("TO_CHAR(TO_DATE(RECEIVE_DDTT, 'YYYY-MM-DD HH24:MI:SS'),'YYYY-MM-DD HH24:MI:SS' ) AS RECEIVE_DDTT,");
+                sql1 += string.Format("DATA_01, ");
+                sql1 += string.Format("DATA_02, ");
+                sql1 += string.Format("DATA_03, ");
+                sql1 += string.Format("DATA_04, ");
+                sql1 += string.Format("DATA_05, ");
+                sql1 += string.Format("DATA_06, ");
+                sql1 += string.Format("DATA_07, ");
+                sql1 += string.Format("DATA_08, ");
+                sql1 += string.Format("DATA_09, ");
+                sql1 += string.Format("DATA_10, ");
+                sql1 += string.Format("DATA_11, ");
+                sql1 += string.Format("DATA_12, ");
+                sql1 += string.Format("DATA_13, ");
+                sql1 += string.Format("DATA_14, ");
+                sql1 += string.Format("DATA_15, ");
+                sql1 += string.Format("DATA_16, ");
+                sql1 += string.Format("DATA_17, ");
+                sql1 += string.Format("DATA_18, ");
+                sql1 += string.Format("DATA_19, ");
+                sql1 += string.Format("DATA_20, ");
+                sql1 += string.Format("DATA_21, ");
+                sql1 += string.Format("DATA_22, ");
+                sql1 += string.Format("DATA_23, ");
+                sql1 += string.Format("DATA_24, ");
+                sql1 += string.Format("DATA_25, ");
+                sql1 += string.Format("DATA_26, ");
+                sql1 += string.Format("DATA_27, ");
+                sql1 += string.Format("DATA_28, ");
+                sql1 += string.Format("DATA_29, ");
+                sql1 += string.Format("DATA_30, ");
+                sql1 += string.Format("DATA_31, ");
+                sql1 += string.Format("DATA_32, ");
+                sql1 += string.Format("DATA_33, ");
+                sql1 += string.Format("DATA_34, ");
+                sql1 += string.Format("DATA_35, ");
+                sql1 += string.Format("DATA_36, ");
+                sql1 += string.Format("DATA_37, ");
+                sql1 += string.Format("DATA_38, ");
+                sql1 += string.Format("DATA_39, ");
+                sql1 += string.Format("DATA_40, ");
+                sql1 += string.Format("DATA_41, ");
+                sql1 += string.Format("DATA_42, ");
+                sql1 += string.Format("DATA_43, ");
+                sql1 += string.Format("DATA_44, ");
+                sql1 += string.Format("DATA_45, ");
+                sql1 += string.Format("DATA_46, ");
+                sql1 += string.Format("DATA_47, ");
+                sql1 += string.Format("DATA_48, ");
+                sql1 += string.Format("DATA_49, ");
+                sql1 += string.Format("DATA_50, ");
+                sql1 += string.Format("DATA_51, ");
+                sql1 += string.Format("DATA_52, ");
+                sql1 += string.Format("DATA_53, ");
+                sql1 += string.Format("DATA_54, ");
+                sql1 += string.Format("DATA_55, ");
+                sql1 += string.Format("DATA_56, ");
+                sql1 += string.Format("DATA_57, ");
+                sql1 += string.Format("DATA_58, ");
+                sql1 += string.Format("DATA_59, ");
+                sql1 += string.Format("DATA_60, ");
+                sql1 += string.Format("DATA_61, ");
+                sql1 += string.Format("DATA_62, ");
+                sql1 += string.Format("DATA_63, ");
+                sql1 += string.Format("DATA_64, ");
+                sql1 += string.Format("DATA_65, ");
+                sql1 += string.Format("DATA_66, ");
+                sql1 += string.Format("DATA_67, ");
+                sql1 += string.Format("DATA_68, ");
+                sql1 += string.Format("DATA_69, ");
+                sql1 += string.Format("DATA_70, ");
+                sql1 += string.Format("DATA_71, ");
+                sql1 += string.Format("DATA_72, ");
+                sql1 += string.Format("DATA_73, ");
+                sql1 += string.Format("DATA_74, ");
+                sql1 += string.Format("DATA_75, ");
+                sql1 += string.Format("DATA_76, ");
+                sql1 += string.Format("DATA_77, ");
+                sql1 += string.Format("DATA_78, ");
+                sql1 += string.Format("DATA_79, ");
+                sql1 += string.Format("DATA_80, ");
+                sql1 += string.Format("DATA_81, ");
+                sql1 += string.Format("DATA_82, ");
+                sql1 += string.Format("DATA_83, ");
+                sql1 += string.Format("DATA_84, ");
+                sql1 += string.Format("DATA_85, ");
+                sql1 += string.Format("DATA_86, ");
+                sql1 += string.Format("DATA_87, ");
+                sql1 += string.Format("DATA_88, ");
+                sql1 += string.Format("DATA_89, ");
+                sql1 += string.Format("DATA_90, ");
+                sql1 += string.Format("DATA_91, ");
+                sql1 += string.Format("DATA_92, ");
+                sql1 += string.Format("DATA_93, ");
+                sql1 += string.Format("DATA_94, ");
+                sql1 += string.Format("DATA_95, ");
+                sql1 += string.Format("DATA_96, ");
+                sql1 += string.Format("DATA_97, ");
+                sql1 += string.Format("DATA_98, ");
+                sql1 += string.Format("DATA_99, ");
+                sql1 += string.Format("DATA_100, ");
+                sql1 += string.Format("DATA_101, ");
+                sql1 += string.Format("DATA_102, ");
+                sql1 += string.Format("DATA_103, ");
+                sql1 += string.Format("DATA_104, ");
+                sql1 += string.Format("DATA_105, ");
+                sql1 += string.Format("DATA_106, ");
+                sql1 += string.Format("DATA_107, ");
+                sql1 += string.Format("DATA_108, ");
+                sql1 += string.Format("DATA_109, ");
+                sql1 += string.Format("DATA_110  ");
+
+                //라인별로 테이블 변경 설정
+                if (line_gp == "#3")
+                {
+                    sql1 += string.Format("FROM TB_L1_RECEIVE_RB2 ");
+                    sql1 += string.Format("WHERE :P_LINE_GP = '#3' ");
+                }
+                else
+                {
+                    sql1 += string.Format("FROM TB_L1_RECEIVE_RB1 ");
+                    sql1 += string.Format("WHERE: P_LINE_GP IN ('#1', '#2') ");
+                }
+
+                sql1 += string.Format("AND TC_CD = :P_TC_CD   ");
+                sql1 += string.Format("AND RECEIVE_DDTT >= :P_FR_DATE ||'000000'  ");
+                sql1 += string.Format("AND RECEIVE_DDTT <= :P_TO_DATE ||'999999'  ");
+                sql1 += string.Format("ORDER BY IF_SEQ DESC ");
+                #endregion sql 설정
+
+                string[] param = new string[4];
+                param[0] = ":P_LINE_GP|" + line_gp;
+                //param[1] = ":P_FR_DATE|" + vf.Format(start_date, "yyyyMMdd");
+                //param[2] = ":P_TO_DATE|" + vf.Format(end_date, "yyyyMMdd");
+                param[1] = ":P_FR_DATE|" + start_date;
+                param[2] = ":P_TO_DATE|" + end_date;
+                param[3] = ":P_TC_CD|" + tc_cd;
+                
+
+                olddt = cd.FindDataTable(sql1,param);
+                Cursor.Current = Cursors.WaitCursor;
+                grdMain.SetDataBinding(olddt, null, true);
+                Cursor.Current = Cursors.Default;
+
+                grdMain.AutoSizeCols();
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + olddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+            }
+        }
+        #endregion
+
+        #region 닫기
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
+        #region "엑셀파일 생성"
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+        #endregion
+
+        #region 이벤트
+        private void cboLine_GP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            line_gp = ((DictionaryList)cboLine_GP.SelectedItem).fnValue;
+            ck.Line_gp = line_gp;
+            SetComboTC_CD(line_gp); 
+            btnDisplay_Click(null, null);
+        }
+        private void cbo_TC_CD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbo_TC_CD.SelectedItem != null)
+            {
+                tc_cd = ((ComLib.DictionaryList)cbo_TC_CD.SelectedItem).fnValue;
+            }
+            
+        }
+
+        private void start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            start_date = start_dt.ToString();
+        }
+
+        private void end_dt_ValueChanged(object sender, EventArgs e)
+        {
+            end_date = end_dt.ToString();
+        }
+        #endregion
+
+        #region 그리드 설정
+        private void InitGrid()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            //grdMain.BackColor = Color.White;
+            grdMain.AutoResize = true;
+            grdMain.AllowEditing = false;
+            grdMain.Cols.Frozen = 4;
+
+            #region CAPTION 설정
+            grdMain.Cols[0].Caption = "T/C코드";
+            grdMain.Cols[1].Caption = "I/F순번";
+            grdMain.Cols[2].Caption = "상태";
+            grdMain.Cols[3].Caption = "수신일시";
+            grdMain.Cols[4].Caption = "DATA_01";
+            grdMain.Cols[5].Caption = "DATA_02";
+            grdMain.Cols[6].Caption = "DATA_03";
+            grdMain.Cols[7].Caption = "DATA_04";
+            grdMain.Cols[8].Caption = "DATA_05";
+            grdMain.Cols[9].Caption = "DATA_06";
+            grdMain.Cols[10].Caption = "DATA_07";
+            grdMain.Cols[11].Caption = "DATA_08";
+            grdMain.Cols[12].Caption = "DATA_09";
+            grdMain.Cols[13].Caption = "DATA_10";
+            grdMain.Cols[14].Caption = "DATA_11";
+            grdMain.Cols[15].Caption = "DATA_12";
+            grdMain.Cols[16].Caption = "DATA_13";
+            grdMain.Cols[17].Caption = "DATA_14";
+            grdMain.Cols[18].Caption = "DATA_15";
+            grdMain.Cols[19].Caption = "DATA_16";
+            grdMain.Cols[20].Caption = "DATA_17";
+            grdMain.Cols[21].Caption = "DATA_18";
+            grdMain.Cols[22].Caption = "DATA_19";
+            grdMain.Cols[23].Caption = "DATA_20";
+            grdMain.Cols[24].Caption = "DATA_21";
+            grdMain.Cols[25].Caption = "DATA_22";
+            grdMain.Cols[26].Caption = "DATA_23";
+            grdMain.Cols[27].Caption = "DATA_24";
+            grdMain.Cols[28].Caption = "DATA_25";
+            grdMain.Cols[29].Caption = "DATA_26";
+            grdMain.Cols[30].Caption = "DATA_27";
+            grdMain.Cols[31].Caption = "DATA_28";
+            grdMain.Cols[32].Caption = "DATA_29";
+            grdMain.Cols[33].Caption = "DATA_30";
+            grdMain.Cols[34].Caption = "DATA_31";
+            grdMain.Cols[35].Caption = "DATA_32";
+            grdMain.Cols[36].Caption = "DATA_33";
+            grdMain.Cols[37].Caption = "DATA_34";
+            grdMain.Cols[38].Caption = "DATA_35";
+            grdMain.Cols[39].Caption = "DATA_36";
+            grdMain.Cols[40].Caption = "DATA_37";
+            grdMain.Cols[41].Caption = "DATA_38";
+            grdMain.Cols[42].Caption = "DATA_39";
+            grdMain.Cols[43].Caption = "DATA_40";
+            grdMain.Cols[44].Caption = "DATA_41";
+            grdMain.Cols[45].Caption = "DATA_42";
+            grdMain.Cols[46].Caption = "DATA_43";
+            grdMain.Cols[47].Caption = "DATA_44";
+            grdMain.Cols[48].Caption = "DATA_45";
+            grdMain.Cols[49].Caption = "DATA_46";
+            grdMain.Cols[50].Caption = "DATA_47";
+            grdMain.Cols[51].Caption = "DATA_48";
+            grdMain.Cols[52].Caption = "DATA_49";
+            grdMain.Cols[53].Caption = "DATA_50";
+            grdMain.Cols[54].Caption = "DATA_51";
+            grdMain.Cols[55].Caption = "DATA_52";
+            grdMain.Cols[56].Caption = "DATA_53";
+            grdMain.Cols[57].Caption = "DATA_54";
+            grdMain.Cols[58].Caption = "DATA_55";
+            grdMain.Cols[59].Caption = "DATA_56";
+            grdMain.Cols[60].Caption = "DATA_57";
+            grdMain.Cols[61].Caption = "DATA_58";
+            grdMain.Cols[62].Caption = "DATA_59";
+            grdMain.Cols[63].Caption = "DATA_60";
+            grdMain.Cols[64].Caption = "DATA_61";
+            grdMain.Cols[65].Caption = "DATA_62";
+            grdMain.Cols[66].Caption = "DATA_63";
+            grdMain.Cols[67].Caption = "DATA_64";
+            grdMain.Cols[68].Caption = "DATA_65";
+            grdMain.Cols[69].Caption = "DATA_66";
+            grdMain.Cols[70].Caption = "DATA_67";
+            grdMain.Cols[71].Caption = "DATA_68";
+            grdMain.Cols[72].Caption = "DATA_69";
+            grdMain.Cols[73].Caption = "DATA_70";
+            grdMain.Cols[74].Caption = "DATA_71";
+            grdMain.Cols[75].Caption = "DATA_72";
+            grdMain.Cols[76].Caption = "DATA_73";
+            grdMain.Cols[77].Caption = "DATA_74";
+            grdMain.Cols[78].Caption = "DATA_75";
+            grdMain.Cols[79].Caption = "DATA_76";
+            grdMain.Cols[80].Caption = "DATA_77";
+            grdMain.Cols[81].Caption = "DATA_78";
+            grdMain.Cols[82].Caption = "DATA_79";
+            grdMain.Cols[83].Caption = "DATA_80";
+            grdMain.Cols[84].Caption = "DATA_81";
+            grdMain.Cols[85].Caption = "DATA_82";
+            grdMain.Cols[86].Caption = "DATA_83";
+            grdMain.Cols[87].Caption = "DATA_84";
+            grdMain.Cols[88].Caption = "DATA_85";
+            grdMain.Cols[89].Caption = "DATA_86";
+            grdMain.Cols[90].Caption = "DATA_87";
+            grdMain.Cols[91].Caption = "DATA_88";
+            grdMain.Cols[92].Caption = "DATA_89";
+            grdMain.Cols[93].Caption = "DATA_90";
+            grdMain.Cols[94].Caption = "DATA_91";
+            grdMain.Cols[95].Caption = "DATA_92";
+            grdMain.Cols[96].Caption = "DATA_93";
+            grdMain.Cols[97].Caption = "DATA_94";
+            grdMain.Cols[98].Caption = "DATA_95";
+            grdMain.Cols[99].Caption = "DATA_96";
+            grdMain.Cols[100].Caption = "DATA_97";
+            grdMain.Cols[101].Caption = "DATA_98";
+            grdMain.Cols[102].Caption = "DATA_99";
+            grdMain.Cols[103].Caption = "DATA_100";
+            grdMain.Cols[104].Caption = "DATA_101";
+            grdMain.Cols[105].Caption = "DATA_102";
+            grdMain.Cols[106].Caption = "DATA_103";
+            grdMain.Cols[107].Caption = "DATA_104";
+            grdMain.Cols[108].Caption = "DATA_105";
+            grdMain.Cols[109].Caption = "DATA_106";
+            grdMain.Cols[110].Caption = "DATA_107";
+            grdMain.Cols[111].Caption = "DATA_108";
+            grdMain.Cols[112].Caption = "DATA_109";
+            grdMain.Cols[113].Caption = "DATA_110";
+            #endregion CAPTION 설정
+
+            #region NAME설정
+            //NAME
+            grdMain.Cols[0].Name = "TC_CD";
+            grdMain.Cols[1].Name = "IF_SEQ";
+            grdMain.Cols[2].Name = "PROC_STAT";
+            grdMain.Cols[3].Name = "RECEIVE_DDTT";
+            grdMain.Cols[4].Name = "DATA_01";
+            grdMain.Cols[5].Name = "DATA_02";
+            grdMain.Cols[6].Name = "DATA_03";
+            grdMain.Cols[7].Name = "DATA_04";
+            grdMain.Cols[8].Name = "DATA_05";
+            grdMain.Cols[9].Name = "DATA_06";
+            grdMain.Cols[10].Name = "DATA_07";
+            grdMain.Cols[11].Name = "DATA_08";
+            grdMain.Cols[12].Name = "DATA_09";
+            grdMain.Cols[13].Name = "DATA_10";
+            grdMain.Cols[14].Name = "DATA_11";
+            grdMain.Cols[15].Name = "DATA_12";
+            grdMain.Cols[16].Name = "DATA_13";
+            grdMain.Cols[17].Name = "DATA_14";
+            grdMain.Cols[18].Name = "DATA_15";
+            grdMain.Cols[19].Name = "DATA_16";
+            grdMain.Cols[20].Name = "DATA_17";
+            grdMain.Cols[21].Name = "DATA_18";
+            grdMain.Cols[22].Name = "DATA_19";
+            grdMain.Cols[23].Name = "DATA_20";
+            grdMain.Cols[24].Name = "DATA_21";
+            grdMain.Cols[25].Name = "DATA_22";
+            grdMain.Cols[26].Name = "DATA_23";
+            grdMain.Cols[27].Name = "DATA_24";
+            grdMain.Cols[28].Name = "DATA_25";
+            grdMain.Cols[29].Name = "DATA_26";
+            grdMain.Cols[30].Name = "DATA_27";
+            grdMain.Cols[31].Name = "DATA_28";
+            grdMain.Cols[32].Name = "DATA_29";
+            grdMain.Cols[33].Name = "DATA_30";
+            grdMain.Cols[34].Name = "DATA_31";
+            grdMain.Cols[35].Name = "DATA_32";
+            grdMain.Cols[36].Name = "DATA_33";
+            grdMain.Cols[37].Name = "DATA_34";
+            grdMain.Cols[38].Name = "DATA_35";
+            grdMain.Cols[39].Name = "DATA_36";
+            grdMain.Cols[40].Name = "DATA_37";
+            grdMain.Cols[41].Name = "DATA_38";
+            grdMain.Cols[42].Name = "DATA_39";
+            grdMain.Cols[43].Name = "DATA_40";
+            grdMain.Cols[44].Name = "DATA_41";
+            grdMain.Cols[45].Name = "DATA_42";
+            grdMain.Cols[46].Name = "DATA_43";
+            grdMain.Cols[47].Name = "DATA_44";
+            grdMain.Cols[48].Name = "DATA_45";
+            grdMain.Cols[49].Name = "DATA_46";
+            grdMain.Cols[50].Name = "DATA_47";
+            grdMain.Cols[51].Name = "DATA_48";
+            grdMain.Cols[52].Name = "DATA_49";
+            grdMain.Cols[53].Name = "DATA_50";
+            grdMain.Cols[54].Name = "DATA_51";
+            grdMain.Cols[55].Name = "DATA_52";
+            grdMain.Cols[56].Name = "DATA_53";
+            grdMain.Cols[57].Name = "DATA_54";
+            grdMain.Cols[58].Name = "DATA_55";
+            grdMain.Cols[59].Name = "DATA_56";
+            grdMain.Cols[60].Name = "DATA_57";
+            grdMain.Cols[61].Name = "DATA_58";
+            grdMain.Cols[62].Name = "DATA_59";
+            grdMain.Cols[63].Name = "DATA_60";
+            grdMain.Cols[64].Name = "DATA_61";
+            grdMain.Cols[65].Name = "DATA_62";
+            grdMain.Cols[66].Name = "DATA_63";
+            grdMain.Cols[67].Name = "DATA_64";
+            grdMain.Cols[68].Name = "DATA_65";
+            grdMain.Cols[69].Name = "DATA_66";
+            grdMain.Cols[70].Name = "DATA_67";
+            grdMain.Cols[71].Name = "DATA_68";
+            grdMain.Cols[72].Name = "DATA_69";
+            grdMain.Cols[73].Name = "DATA_70";
+            grdMain.Cols[74].Name = "DATA_71";
+            grdMain.Cols[75].Name = "DATA_72";
+            grdMain.Cols[76].Name = "DATA_73";
+            grdMain.Cols[77].Name = "DATA_74";
+            grdMain.Cols[78].Name = "DATA_75";
+            grdMain.Cols[79].Name = "DATA_76";
+            grdMain.Cols[80].Name = "DATA_77";
+            grdMain.Cols[81].Name = "DATA_78";
+            grdMain.Cols[82].Name = "DATA_79";
+            grdMain.Cols[83].Name = "DATA_80";
+            grdMain.Cols[84].Name = "DATA_81";
+            grdMain.Cols[85].Name = "DATA_82";
+            grdMain.Cols[86].Name = "DATA_83";
+            grdMain.Cols[87].Name = "DATA_84";
+            grdMain.Cols[88].Name = "DATA_85";
+            grdMain.Cols[89].Name = "DATA_86";
+            grdMain.Cols[90].Name = "DATA_87";
+            grdMain.Cols[91].Name = "DATA_88";
+            grdMain.Cols[92].Name = "DATA_89";
+            grdMain.Cols[93].Name = "DATA_90";
+            grdMain.Cols[94].Name = "DATA_91";
+            grdMain.Cols[95].Name = "DATA_92";
+            grdMain.Cols[96].Name = "DATA_93";
+            grdMain.Cols[97].Name = "DATA_94";
+            grdMain.Cols[98].Name = "DATA_95";
+            grdMain.Cols[99].Name = "DATA_96";
+            grdMain.Cols[100].Name = "DATA_97";
+            grdMain.Cols[101].Name = "DATA_98";
+            grdMain.Cols[102].Name = "DATA_99";
+            grdMain.Cols[103].Name = "DATA_100";
+            grdMain.Cols[104].Name = "DATA_101";
+            grdMain.Cols[105].Name = "DATA_102";
+            grdMain.Cols[106].Name = "DATA_103";
+            grdMain.Cols[107].Name = "DATA_104";
+            grdMain.Cols[108].Name = "DATA_105";
+            grdMain.Cols[109].Name = "DATA_106";
+            grdMain.Cols[110].Name = "DATA_107";
+            grdMain.Cols[111].Name = "DATA_108";
+            grdMain.Cols[112].Name = "DATA_109";
+            grdMain.Cols[113].Name = "DATA_110";
+            #endregion NAME설정
+
+            #region  width 설정
+            //WIDTH
+            grdMain.Cols["TC_CD"].Width = 100;
+            grdMain.Cols["IF_SEQ"].Width = 130;
+            grdMain.Cols["PROC_STAT"].Width = 70;
+            grdMain.Cols["RECEIVE_DDTT"].Width = 190;
+            grdMain.Cols["DATA_01"].Width = 100;
+            grdMain.Cols["DATA_02"].Width = 100;
+            grdMain.Cols["DATA_03"].Width = 100;
+            grdMain.Cols["DATA_04"].Width = 100;
+            grdMain.Cols["DATA_05"].Width = 100;
+            grdMain.Cols["DATA_06"].Width = 100;
+            grdMain.Cols["DATA_07"].Width = 100;
+            grdMain.Cols["DATA_08"].Width = 100;
+            grdMain.Cols["DATA_09"].Width = 100;
+            grdMain.Cols["DATA_10"].Width = 100;
+            grdMain.Cols["DATA_11"].Width = 100;
+            grdMain.Cols["DATA_12"].Width = 100;
+            grdMain.Cols["DATA_13"].Width = 100;
+            grdMain.Cols["DATA_14"].Width = 100;
+            grdMain.Cols["DATA_15"].Width = 100;
+            grdMain.Cols["DATA_16"].Width = 100;
+            grdMain.Cols["DATA_17"].Width = 100;
+            grdMain.Cols["DATA_18"].Width = 100;
+            grdMain.Cols["DATA_19"].Width = 100;
+            grdMain.Cols["DATA_20"].Width = 100;
+            grdMain.Cols["DATA_21"].Width = 100;
+            grdMain.Cols["DATA_22"].Width = 100;
+            grdMain.Cols["DATA_23"].Width = 100;
+            grdMain.Cols["DATA_24"].Width = 100;
+            grdMain.Cols["DATA_25"].Width = 100;
+            grdMain.Cols["DATA_26"].Width = 100;
+            grdMain.Cols["DATA_27"].Width = 100;
+            grdMain.Cols["DATA_28"].Width = 100;
+            grdMain.Cols["DATA_29"].Width = 100;
+            grdMain.Cols["DATA_30"].Width = 100;
+            grdMain.Cols["DATA_31"].Width = 100;
+            grdMain.Cols["DATA_32"].Width = 100;
+            grdMain.Cols["DATA_33"].Width = 100;
+            grdMain.Cols["DATA_34"].Width = 100;
+            grdMain.Cols["DATA_35"].Width = 100;
+            grdMain.Cols["DATA_36"].Width = 100;
+            grdMain.Cols["DATA_37"].Width = 100;
+            grdMain.Cols["DATA_38"].Width = 100;
+            grdMain.Cols["DATA_39"].Width = 100;
+            grdMain.Cols["DATA_40"].Width = 100;
+            grdMain.Cols["DATA_41"].Width = 100;
+            grdMain.Cols["DATA_42"].Width = 100;
+            grdMain.Cols["DATA_43"].Width = 100;
+            grdMain.Cols["DATA_44"].Width = 100;
+            grdMain.Cols["DATA_45"].Width = 100;
+            grdMain.Cols["DATA_46"].Width = 100;
+            grdMain.Cols["DATA_47"].Width = 100;
+            grdMain.Cols["DATA_48"].Width = 100;
+            grdMain.Cols["DATA_49"].Width = 100;
+            grdMain.Cols["DATA_50"].Width = 100;
+            grdMain.Cols["DATA_51"].Width = 100;
+            grdMain.Cols["DATA_52"].Width = 100;
+            grdMain.Cols["DATA_53"].Width = 100;
+            grdMain.Cols["DATA_54"].Width = 100;
+            grdMain.Cols["DATA_55"].Width = 100;
+            grdMain.Cols["DATA_56"].Width = 100;
+            grdMain.Cols["DATA_57"].Width = 100;
+            grdMain.Cols["DATA_58"].Width = 100;
+            grdMain.Cols["DATA_59"].Width = 100;
+            grdMain.Cols["DATA_60"].Width = 100;
+            grdMain.Cols["DATA_61"].Width = 100;
+            grdMain.Cols["DATA_62"].Width = 100;
+            grdMain.Cols["DATA_63"].Width = 100;
+            grdMain.Cols["DATA_64"].Width = 100;
+            grdMain.Cols["DATA_65"].Width = 100;
+            grdMain.Cols["DATA_66"].Width = 100;
+            grdMain.Cols["DATA_67"].Width = 100;
+            grdMain.Cols["DATA_68"].Width = 100;
+            grdMain.Cols["DATA_69"].Width = 100;
+            grdMain.Cols["DATA_70"].Width = 100;
+            grdMain.Cols["DATA_71"].Width = 100;
+            grdMain.Cols["DATA_72"].Width = 100;
+            grdMain.Cols["DATA_73"].Width = 100;
+            grdMain.Cols["DATA_74"].Width = 100;
+            grdMain.Cols["DATA_75"].Width = 100;
+            grdMain.Cols["DATA_76"].Width = 100;
+            grdMain.Cols["DATA_77"].Width = 100;
+            grdMain.Cols["DATA_78"].Width = 100;
+            grdMain.Cols["DATA_79"].Width = 100;
+            grdMain.Cols["DATA_80"].Width = 100;
+            grdMain.Cols["DATA_81"].Width = 100;
+            grdMain.Cols["DATA_82"].Width = 100;
+            grdMain.Cols["DATA_83"].Width = 100;
+            grdMain.Cols["DATA_84"].Width = 100;
+            grdMain.Cols["DATA_85"].Width = 100;
+            grdMain.Cols["DATA_86"].Width = 100;
+            grdMain.Cols["DATA_87"].Width = 100;
+            grdMain.Cols["DATA_88"].Width = 100;
+            grdMain.Cols["DATA_89"].Width = 100;
+            grdMain.Cols["DATA_90"].Width = 100;
+            grdMain.Cols["DATA_91"].Width = 100;
+            grdMain.Cols["DATA_92"].Width = 100;
+            grdMain.Cols["DATA_93"].Width = 100;
+            grdMain.Cols["DATA_94"].Width = 100;
+            grdMain.Cols["DATA_95"].Width = 100;
+            grdMain.Cols["DATA_96"].Width = 100;
+            grdMain.Cols["DATA_97"].Width = 100;
+            grdMain.Cols["DATA_98"].Width = 100;
+            grdMain.Cols["DATA_99"].Width = 100;
+            grdMain.Cols["DATA_100"].Width = 100;
+            grdMain.Cols["DATA_101"].Width = 100;
+            grdMain.Cols["DATA_102"].Width = 100;
+            grdMain.Cols["DATA_103"].Width = 100;
+            grdMain.Cols["DATA_104"].Width = 100;
+            grdMain.Cols["DATA_105"].Width = 100;
+            grdMain.Cols["DATA_106"].Width = 100;
+            grdMain.Cols["DATA_107"].Width = 100;
+            grdMain.Cols["DATA_108"].Width = 100;
+            grdMain.Cols["DATA_109"].Width = 100;
+            grdMain.Cols["DATA_110"].Width = 100;
+
+
+
+            #endregion  width 설정
+
+            #region TextAlign 설정
+            //TextAlign
+            grdMain.Cols["TC_CD"].TextAlign = TextAlignEnum.CenterCenter;
+            grdMain.Cols["IF_SEQ"].TextAlign = TextAlignEnum.CenterCenter;
+            grdMain.Cols["PROC_STAT"].TextAlign = TextAlignEnum.CenterCenter;
+            grdMain.Cols["RECEIVE_DDTT"].TextAlign = TextAlignEnum.CenterCenter;
+            grdMain.Cols["DATA_01"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_02"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_03"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_04"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_05"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_06"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_07"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_08"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_09"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_10"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_11"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_12"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_13"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_14"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_15"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_16"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_17"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_18"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_19"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_20"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_21"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_22"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_23"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_24"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_25"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_26"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_27"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_28"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_29"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_30"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_31"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_32"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_33"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_34"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_35"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_36"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_37"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_38"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_39"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_40"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_41"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_42"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_43"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_44"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_45"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_46"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_47"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_48"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_49"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_50"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_51"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_52"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_53"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_54"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_55"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_56"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_57"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_58"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_59"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_60"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_61"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_62"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_63"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_64"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_65"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_66"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_67"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_68"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_69"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_70"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_71"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_72"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_73"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_74"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_75"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_76"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_77"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_78"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_79"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_80"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_81"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_82"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_83"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_84"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_85"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_86"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_87"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_88"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_89"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_90"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_91"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_92"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_93"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_94"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_95"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_96"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_97"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_98"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_99"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_100"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_101"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_102"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_103"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_104"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_105"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_106"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_107"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_108"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_109"].TextAlign = TextAlignEnum.RightCenter;
+            grdMain.Cols["DATA_110"].TextAlign = TextAlignEnum.RightCenter;
+            #endregion TextAlign 설정
+        }
+
+        #endregion
+
+
+    }
+}
+
+
