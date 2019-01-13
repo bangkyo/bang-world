@@ -1,0 +1,193 @@
+D:\RBT_L2\RBT_L2\bin\Release\excel_Temp\MPI조업일보.xlsx
+D:\RBT_L2\RBT_L2\bin\Release\excel_Temp\가동속보.xlsx
+D:\RBT_L2\RBT_L2\bin\Release\excel_Temp\툭수강_정정공장_가동속보.xlsx
+D:\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.config
+D:\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.manifest
+D:\RBT_L2\RBT_L2\bin\Release\RBT_L2.application
+D:\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe
+D:\RBT_L2\RBT_L2\bin\Release\RBT_L2.pdb
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.dll
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.dll
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.dll
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.dll
+D:\RBT_L2\RBT_L2\bin\Release\ComLib.dll
+D:\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.dll
+D:\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.dll
+D:\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Base.dll
+D:\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.dll
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.xml
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.xml
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.xml
+D:\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.xml
+D:\RBT_L2\RBT_L2\bin\Release\ComLib.pdb
+D:\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.pdb
+D:\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.xml
+D:\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.xml
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.csprojResolveAssemblyReference.cache
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.About.resources
+D:\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.LoginForm.resources
+D:\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.MainForm.resources
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.Password.resources
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.ProgressBar.resources
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.Properties.Resources.resources
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.csproj.GenerateResource.Cache
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.licenses
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.TrustInfo.xml
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.manifest
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.application
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe
+D:\RBT_L2\RBT_L2\obj\Release\RBT_L2.pdb
+D:\RBT_L2 - sum\RBT_L2\bin\Release\excel_Temp\MPI조업일보.xlsx
+D:\RBT_L2 - sum\RBT_L2\bin\Release\excel_Temp\가동속보.xlsx
+D:\RBT_L2 - sum\RBT_L2\bin\Release\excel_Temp\툭수강_정정공장_가동속보.xlsx
+D:\RBT_L2 - sum\RBT_L2\bin\Release\RBT_L2.exe.config
+D:\RBT_L2 - sum\RBT_L2\bin\Release\RBT_L2.exe.manifest
+D:\RBT_L2 - sum\RBT_L2\bin\Release\RBT_L2.application
+D:\RBT_L2 - sum\RBT_L2\bin\Release\RBT_L2.exe
+D:\RBT_L2 - sum\RBT_L2\bin\Release\RBT_L2.pdb
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1Command.2.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1Input.2.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1List.2.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ComLib.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\SystemControlClassLibrary.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ChartFX.WinForms.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ChartFX.WinForms.Base.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.dll
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1Command.2.xml
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.xml
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1Input.2.xml
+D:\RBT_L2 - sum\RBT_L2\bin\Release\C1.Win.C1List.2.xml
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ComLib.pdb
+D:\RBT_L2 - sum\RBT_L2\bin\Release\SystemControlClassLibrary.pdb
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ChartFX.WinForms.xml
+D:\RBT_L2 - sum\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.xml
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.csprojResolveAssemblyReference.cache
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.About.resources
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_LEVEL2.LoginForm.resources
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_LEVEL2.MainForm.resources
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.Password.resources
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.ProgressBar.resources
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.Properties.Resources.resources
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.csproj.GenerateResource.Cache
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.exe.licenses
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.TrustInfo.xml
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.exe.manifest
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.application
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.exe
+D:\RBT_L2 - sum\RBT_L2\obj\Release\RBT_L2.pdb
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\MPI조업일보.xlsx
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\가동속보.xlsx
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\툭수강_정정공장_가동속보.xlsx
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.config
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.manifest
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.application
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.pdb
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ComLib.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Base.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.dll
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.xml
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.xml
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.xml
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.xml
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ComLib.pdb
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.pdb
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.csprojResolveAssemblyReference.cache
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.About.resources
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.LoginForm.resources
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.MainForm.resources
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.Password.resources
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.ProgressBar.resources
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.Properties.Resources.resources
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.csproj.GenerateResource.Cache
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.licenses
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.TrustInfo.xml
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.manifest
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.application
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe
+D:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.pdb
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\MPI조업일보.xlsx
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\가동속보.xlsx
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\툭수강_정정공장_가동속보.xlsx
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.config
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.manifest
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.application
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.pdb
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ComLib.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Base.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.dll
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ComLib.pdb
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.pdb
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.csprojResolveAssemblyReference.cache
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.About.resources
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.LoginForm.resources
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.MainForm.resources
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.Password.resources
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.ProgressBar.resources
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.Properties.Resources.resources
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.csproj.GenerateResource.Cache
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.licenses
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.TrustInfo.xml
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.manifest
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.application
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe
+E:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.pdb
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\MPI조업일보.xlsx
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\가동속보.xlsx
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\excel_Temp\툭수강_정정공장_가동속보.xlsx
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.config
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe.manifest
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.application
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.exe
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\RBT_L2.pdb
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ComLib.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Base.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.dll
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Command.2.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1FlexGrid.2.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1Input.2.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\C1.Win.C1List.2.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ComLib.pdb
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\SystemControlClassLibrary.pdb
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\bin\Release\ChartFX.WinForms.Adornments.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.csprojResolveAssemblyReference.cache
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.About.resources
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.LoginForm.resources
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_LEVEL2.MainForm.resources
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.Password.resources
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.ProgressBar.resources
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.Properties.Resources.resources
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.csproj.GenerateResource.Cache
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.licenses
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.TrustInfo.xml
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe.manifest
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.application
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.exe
+F:\level2업무\특수강\소스\RBT_L2\RBT_L2\obj\Release\RBT_L2.pdb

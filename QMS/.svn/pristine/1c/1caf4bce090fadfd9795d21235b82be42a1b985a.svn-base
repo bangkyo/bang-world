@@ -1,0 +1,254 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace SystemControlClassLibrary
+{
+    public partial class LnGrProdRslt : Form
+    {
+        #region 변수선언
+        clsStyle cs = new clsStyle();
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        DataTable olddt;
+
+        private string line_gp = "";
+        private string work_type = "";
+        private string ownerNM = "";
+        private string titleNM = "";
+        bool _CanSaveSearchLog = false;
+        #endregion
+
+        #region 화면
+        public LnGrProdRslt(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+        }
+
+        private void LnProdRsltInq_Load(object sender, System.EventArgs e)
+        {
+           
+            MaximizeBox = false;
+            MinimizeBox = false;
+
+            InitControl();
+
+            SetComboBox();
+            _CanSaveSearchLog = true;
+            btnDisplay_Click(null, null);
+        }
+
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        private void InitControl()
+        {
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+            
+            clsStyle.Style.InitButton(btnDisplay);
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnClose);
+
+            //콤보 설정
+            cs.InitCombo(cboLine_GP, StringAlignment.Center);
+            cs.InitCombo(cbo_Work_Type, StringAlignment.Center);
+
+            //일자 데이터 default 값 적용 
+            start_dt.Value = DateTime.Now;
+            end_dt.Value = DateTime.Now;
+            start_dt.ValueChanged += Start_dt_ValueChanged;
+            end_dt.ValueChanged += End_dt_ValueChanged;
+            InitGrid();
+        }
+        private void End_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        private void Start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+        #endregion
+
+        #region "콤보박스 설정
+        private void SetComboBox()
+        {
+            cd.SetCombo(cboLine_GP, "LINE_GP", "", false, ck.Line_gp);
+            cd.SetCombo(cbo_Work_Type, "WORK_TYPE", "", true);
+        }
+        #endregion
+
+        #region 조회
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            if (_CanSaveSearchLog)
+            {
+                cd.InsertLogForSearch(ck.UserID, btnDisplay);
+            }
+           
+
+            try
+            {
+                string sql1 = "";
+
+                string start_date = start_dt.Value.ToString("yyyyMMdd");
+                string end_date = end_dt.Value.ToString("yyyyMMdd");
+
+                sql1 = string.Format(" SELECT  NVL((SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'LINE_GP' AND CD_ID = X.LINE_GP),X.LINE_GP) AS LINE_GP ");
+                sql1 += string.Format("      , NVL((SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'WORK_TYPE' AND CD_ID = X.WORK_TYPE),X.WORK_TYPE) AS WORK_TYPE ");
+                sql1 += string.Format("      , TO_DATE(X.MFG_DATE, 'YYYY-MM-DD') AS MFG_DATE ");
+                sql1 += string.Format("      , POC_NO ");
+                sql1 += string.Format("      , HEAT ");
+                sql1 += string.Format("      , STEEL_NM ");
+                sql1 += string.Format("      , ITEM ");
+                sql1 += string.Format("      , ITEM_SIZE ");
+                sql1 += string.Format("      , LENGTH ");
+                sql1 += string.Format("      , BUNDLE_QTY ");
+                sql1 += string.Format("      , PCS ");
+                sql1 += string.Format("      , NET_WGT ");
+                sql1 += string.Format(" FROM   ( ");
+                sql1 += string.Format("          SELECT DECODE(GROUPING(B.LINE_GP), 1, '', B.LINE_GP) AS LINE_GP  ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, DECODE(GROUPING(A.MFG_DATE), 1,  DECODE(GROUPING(B.WORK_TYPE), 0,'총계'), '일계'), B.WORK_TYPE) AS WORK_TYPE  ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, '', A.MFG_DATE) AS MFG_DATE  ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, '', A.POC_NO) AS POC_NO ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, '', MAX(A.HEAT))      AS HEAT ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, '', MAX((SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = A.STEEL))) AS STEEL_NM ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, '', MAX(A.ITEM))      AS ITEM ");
+                sql1 += string.Format("               , DECODE(GROUPING(A.POC_NO), 1, '', MAX(A.ITEM_SIZE)) AS ITEM_SIZE ");
+                sql1 += string.Format("               , TO_CHAR(DECODE(GROUPING(A.POC_NO), 1, '', MAX(A.LENGTH)),'990.99')    AS LENGTH ");
+                sql1 += string.Format("               , COUNT(*)         AS BUNDLE_QTY "); //번들수
+                sql1 += string.Format("               , SUM(A.PCS)       AS PCS ");        //본수
+                sql1 += string.Format("               , SUM(B.NET_WGT)   AS NET_WGT ");    //중량
+                sql1 += string.Format("          FROM   TB_BND_WR A ");
+                sql1 += string.Format("               , TB_WGT_WR B ");
+                sql1 += string.Format("          WHERE A.BUNDLE_NO = B.BUNDLE_NO ");
+                sql1 += string.Format("          AND   B.MEAS_DATE BETWEEN '{0}' AND '{1}' ", start_date, end_date);
+                sql1 += string.Format("          AND   NVL(A.DEL_YN,'N') <> 'Y' ");
+                sql1 += string.Format("          AND   NVL(B.DEL_YN,'N') <> 'Y' ");
+                sql1 += string.Format("          AND   B.LINE_GP   LIKE '%{0}%' ", line_gp);
+                sql1 += string.Format("          AND   B.WORK_TYPE LIKE '%{0}%' ", work_type);
+                sql1 += string.Format("          GROUP BY B.LINE_GP, B.WORK_TYPE,ROLLUP(A.MFG_DATE, A.POC_NO) ");
+                sql1 += string.Format("        ) X ");
+
+                olddt = cd.FindDataTable(sql1);
+                Cursor.Current = Cursors.WaitCursor;
+                grdMain.SetDataBinding(olddt, null, true);
+                Cursor.Current = Cursors.Default;
+
+                //근계, 소계, 계 BackColor
+                for (int iRow = 1; iRow < grdMain.Rows.Count; iRow++)
+                {
+
+
+                    //if (grdMain[iRow, 1].ToString().Trim().Replace(" ", "") == "소계")
+                    //{
+                    //    grdMain.Rows[iRow].StyleNew.BackColor = Color.FromArgb(153,204,255);
+                    //}
+
+                    if (grdMain[iRow, 1].ToString().Trim().Replace(" ", "") == "일계")
+                    {
+                        grdMain.Rows[iRow].StyleNew.BackColor = Color.FromArgb(204, 229, 255);
+                    }
+
+                    if (grdMain[iRow, 1].ToString().Trim().Replace(" ", "") == "총계")
+                    {
+                        grdMain.Rows[iRow].StyleNew.BackColor = Color.FromArgb(112, 184, 255);
+                    }
+                }
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + olddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+            }
+        }
+        #endregion
+
+        #region 닫기
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #endregion
+
+        #region "엑셀파일 생성"
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+        #endregion
+
+        #region 그리드 설정
+        private void InitGrid()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            grdMain.BackColor = Color.White;
+            grdMain.AutoResize = true;
+            grdMain.AllowEditing = false;
+            
+            grdMain.Cols["LINE_GP"     ].Width = 70; 
+            grdMain.Cols["WORK_TYPE"   ].Width = 100; 
+            grdMain.Cols["MFG_DATE"    ].Width = 100;        
+            grdMain.Cols["POC_NO"      ].Width = 120; 
+            grdMain.Cols["HEAT"        ].Width = 120;
+            grdMain.Cols["STEEL_NM"    ].Width = 120;
+            grdMain.Cols["ITEM"        ].Width = 100;
+            grdMain.Cols["ITEM_SIZE"   ].Width = 100;   
+            grdMain.Cols["LENGTH"      ].Width = 100;
+            grdMain.Cols["BUNDLE_QTY"  ].Width = 100;  
+            grdMain.Cols["PCS"         ].Width = 100;
+            grdMain.Cols["NET_WGT"     ].Width = 100;
+
+            grdMain.Rows[0].TextAlign = TextAlignEnum.CenterCenter;
+
+            grdMain.Cols["LINE_GP"     ].TextAlign = cs.LINE_GP_TextAlign;       
+            grdMain.Cols["WORK_TYPE"   ].TextAlign = cs.WORK_TYPE_NM_TextAlign;    
+            grdMain.Cols["MFG_DATE"    ].TextAlign = cs.DATE_TextAlign;    
+            grdMain.Cols["POC_NO"      ].TextAlign = cs.POC_NO_TextAlign;        
+            grdMain.Cols["HEAT"        ].TextAlign = cs.HEAT_TextAlign;       
+            grdMain.Cols["STEEL_NM"    ].TextAlign = cs.STEEL_NM_TextAlign;     
+            grdMain.Cols["ITEM"        ].TextAlign = cs.ITEM_TextAlign;       
+            grdMain.Cols["ITEM_SIZE"   ].TextAlign = cs.ITEM_SIZE_TextAlign;       
+            grdMain.Cols["LENGTH"      ].TextAlign = cs.LENGTH_TextAlign;    
+            grdMain.Cols["BUNDLE_QTY"  ].TextAlign = cs.BUNDLE_QTY_TextAlign;     
+            grdMain.Cols["PCS"         ].TextAlign = cs.PCS_TextAlign;       
+            grdMain.Cols["NET_WGT"     ].TextAlign = cs.WGT_TextAlign;
+        }
+        #endregion
+
+        #region 이벤트
+        private void cboLine_GP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            line_gp = ((DictionaryList)cboLine_GP.SelectedItem).fnValue;
+            ck.Line_gp = line_gp;
+            btnDisplay_Click(null, null);
+        }
+
+        private void cbo_Work_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            work_type = ((DictionaryList)cbo_Work_Type.SelectedItem).fnValue;
+            btnDisplay_Click(null, null);
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using SystemControlClassLibrary.UC.UC_temp;
+
+namespace SystemControlClassLibrary.UC.sub_UC
+{
+    public partial class UC_BundleNo : UC_temp1
+    {
+        public UC_BundleNo()
+        {
+            InitializeComponent();
+
+            tbBundleNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+        }
+
+        [Description("BundleNo"), Category("Contents")]
+        public string BundleNo
+        {
+            get
+            {
+                return tbBundleNo.Text;
+            }
+            set
+            {
+
+                tbBundleNo.Text = value;
+                this.Invalidate();
+            }
+        }
+        public Color LabelForeColor
+        {
+            get
+            {
+                return c1Label1.ForeColor;
+            }
+            set
+            {
+
+                c1Label1.ForeColor = value;
+                this.Invalidate();
+            }
+        }
+        [Description("ReadOnly"), Category("Contents")]
+        public bool ReadOnly
+        {
+            get
+            {
+                return tbBundleNo.ReadOnly;
+            }
+            set
+            {
+
+                tbBundleNo.ReadOnly = value;
+                this.Invalidate();
+            }
+        }
+    }
+}

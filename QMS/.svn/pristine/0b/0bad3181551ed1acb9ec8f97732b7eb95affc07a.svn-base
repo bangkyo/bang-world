@@ -1,0 +1,124 @@
+﻿using ComLib;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace SystemControlClassLibrary.Order
+{
+    public partial class CrtInBundleInfo : Form
+    {
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsStyle cs = new clsStyle();
+
+
+        string poc_No = string.Empty;
+        string poc_seq_No = string.Empty;
+        private DataTable olddt;
+        private DataTable moddt;
+
+        public CrtInBundleInfo(string _poc_No, string _poc_seq_No)
+        {
+            poc_No = _poc_No;
+            poc_seq_No = _poc_seq_No; 
+
+            InitializeComponent();
+
+        }
+
+        private void CrtInBundleInfo_Load(object sender, EventArgs e)
+        {
+            initControl();
+
+            SetDataBinding();
+        }
+
+        private void initControl()
+        {
+
+            //cs.InitButton(btnClose);
+
+            #region 유저컨트롤 설정
+            //POC NO
+            uC_POC1.TbText = poc_No;
+
+            //POC SEQ NO
+            uC_POC_SEQ1.TbText = poc_seq_No;
+
+            #endregion
+
+            InitGrd();
+        }
+
+        private void InitGrd()
+        {
+            cs.InitGrid_search(grdMain);
+
+            grdMain.AllowEditing = false;
+
+            int nwidth = (grdMain.Size.Width - cs.L_No_Width - cs.Mill_No_Width) / 3 - 20;
+
+            grdMain.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain.Cols["MILL_NO"].Width = cs.Mill_No_Width;
+            grdMain.Cols["PCS"].Width = nwidth;
+            grdMain.Cols["NET_WGT"].Width = nwidth;
+            grdMain.Cols["MFG_DATE"].Width = nwidth;
+
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["L_NO"].TextAlign = cs.L_NO_TextAlign;
+            grdMain.Cols["MILL_NO"].TextAlign = cs.MILL_NO_TextAlign;
+            grdMain.Cols["PCS"].TextAlign = cs.FINISH_PCS_TextAlign;
+            grdMain.Cols["NET_WGT"].TextAlign = cs.WGT_TextAlign;
+            grdMain.Cols["MFG_DATE"].TextAlign = cs.DATE_TextAlign;
+
+            grdMain.ExtendLastCol = true;
+
+        }
+
+        private void SetDataBinding()
+        {
+            string sql1 = string.Empty;
+            sql1 += string.Format(" SELECT ROWNUM AS L_NO ");
+            sql1 += string.Format("       ,X.* ");
+            sql1 += string.Format(" FROM ");
+            sql1 += string.Format("     ( ");
+            sql1 += string.Format("         SELECT  ");
+            sql1 += string.Format("                MILL_NO ");
+            sql1 += string.Format("               ,PCS ");
+            sql1 += string.Format("               ,NET_WGT ");
+            sql1 += string.Format("               ,TO_DATE(MFG_DATE) AS MFG_DATE ");
+            sql1 += string.Format("         FROM  TB_CR_ORD_BUNDLEINFO ");
+            sql1 += string.Format("         WHERE POC_NO = NVL(:P_POC_NO, ' ') ");
+            sql1 += string.Format("         AND   POC_SEQ = NVL(:P_POC_SEQ, ' ') ");
+            sql1 += string.Format("         ORDER BY MFG_DATE, MILL_NO ");
+            sql1 += string.Format("     ) X ");
+
+            string[] parm = new string[2];
+            parm[0] = ":P_POC_NO|" + poc_No;
+            parm[1] = ":P_POC_SEQ|" + poc_seq_No;
+            
+
+            olddt = cd.FindDataTable(sql1, parm);
+
+            moddt = olddt.Copy();
+            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            grdMain.SetDataBinding(moddt, null, true);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+        
+    }
+}

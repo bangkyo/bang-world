@@ -1,0 +1,617 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Data;
+using System.Diagnostics;
+using System.Data.OracleClient;
+using System.Windows.Forms;
+using System.Collections;
+
+namespace SystemControlClassLibrary.information
+{
+    public partial class UserMgmt : Form
+    {
+        clsCom ck = new clsCom();
+
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+
+        DataTable olddt;
+        DataTable moddt;
+
+        ListDictionary ngTest_Value = null;
+
+        List<string> msg;
+        List<string> modifList;
+        List<string> checkList;
+        List<string> good_ng_List;
+
+        clsStyle cs = new clsStyle();
+
+        // 셀의 수정전 값
+        private string strBefValue = "";
+
+        ListDictionary acl_Grp_ID_CB = null;
+
+        private bool _first = true;
+        private static string ownerNM = "";
+        private static string titleNM = "";
+
+        private string txtid = "";
+        private string txtnm = "";
+        private string txtdept = "";
+
+        string head = "";
+        string modified_item = "";
+        string beforeModfy = "";
+        string afterModfy = "";
+        private static bool flag = false;
+
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        public UserMgmt(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ck.StrKey1 = "";
+            ck.StrKey2 = "";
+
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+
+
+        }
+
+        private void UserMgmt_Load(object sender, EventArgs e)
+        {
+            InitControl();
+
+            //SetDataBinding();
+
+            btnDisplay_Click(null, null);
+        }
+
+        private void InitControl()
+        {
+            clsStyle.Style.InitPicture(pictureBox1);
+
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+
+            clsStyle.Style.InitPanel(panel1);
+
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnSave);
+            clsStyle.Style.InitButton(btnDisplay);
+            clsStyle.Style.InitButton(btnRowAdd);
+            clsStyle.Style.InitButton(btnDelRow);
+            clsStyle.Style.InitButton(btnClose);
+
+            InitGrd_Main();
+        }
+
+        private void InitGrd_Main()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            var crCellRange = grdMain.GetCellRange(0, grdMain.Cols["NM"].Index, 0, grdMain.Cols["ACL_GRP_ID"].Index);
+            crCellRange.Style = grdMain.Styles["ModifyStyle"];
+
+            grdMain.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            int level1 = 50; // 2자리
+            int level2 = 60; // 4자리
+            int level3 = 100; // 6자리
+            int level4 = 140; // 8자리이상
+
+            grdMain.Cols["NUM"].Width = cs.L_No_Width;
+            grdMain.Cols["USER_ID"].Width = 170;
+            grdMain.Cols["NM"].Width = 170;
+            grdMain.Cols["PASSWD"].Width = 120;
+            grdMain.Cols["DEPT_CD"].Width = 140;
+            grdMain.Cols["POST_CD"].Width = 70;
+            grdMain.Cols["INCHRG_LINE"].Width = 90;
+            grdMain.Cols["TEL_NO"].Width = 140;
+            grdMain.Cols["MAIL_ID"].Width = 140;
+            grdMain.Cols["ACL_GRP_ID"].Width = 120;
+            grdMain.Cols["GUBUN"].Width = 0;
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["NUM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["USER_ID"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["NM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["PASSWD"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["DEPT_CD"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["POST_CD"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["INCHRG_LINE"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["TEL_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["MAIL_ID"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["ACL_GRP_ID"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["GUBUN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            acl_Grp_ID_CB = new ListDictionary();
+
+            DataTable dt = cd.Find_ACL_GRP_ID();
+
+            acl_Grp_ID_CB.Add(" ", " ");
+
+            foreach (DataRow datarow in dt.Rows)
+            {
+                acl_Grp_ID_CB.Add(datarow["ACL_GRP_ID"], datarow["ACL_GRP_ID"]);
+            }
+
+            grdMain.Cols["ACL_GRP_ID"].DataMap = acl_Grp_ID_CB;
+            grdMain.Cols["ACL_GRP_ID"].TextAlign = TextAlignEnum.CenterCenter; // 윤영
+
+            grdMain.AllowEditing = true;
+
+            grdMain.DrawMode = C1.Win.C1FlexGrid.DrawModeEnum.OwnerDraw;
+
+            grdMain.ExtendLastCol = true;
+        }
+       
+
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            SetDataBinding();
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+
+        private void txtNM_TextChanged(object sender, EventArgs e)
+        {
+            txtnm = txtNM1.Text;
+        }
+
+        private void txtUserID_TextChanged(object sender, EventArgs e)
+        {
+            txtid = txtUserID.Text;
+        }
+        private void txtDept_TextChanged(object sender, EventArgs e)
+        {
+            txtdept = txtDept1.Text;
+        }
+        private void rowadd_btn_Click(object sender, EventArgs e)
+        {
+
+            // 수정가능 하도록 열추가
+            grdMain.AllowEditing = true;
+
+            //추가 행 데이터 디폴트 값넣기
+            grdMain.Rows.Add();
+
+            IEnumerator enumerator = acl_Grp_ID_CB.Keys.GetEnumerator();
+            enumerator.MoveNext();
+            object first = enumerator.Current;
+
+            grdMain.SetData(grdMain.Rows.Count - 1, "ACL_GRP_ID", first); 
+
+            grdMain.SetData(grdMain.Rows.Count - 1, 0, (grdMain.Rows.Count - 1).ToString());
+
+            // 저장시 Insert로 처리하기 위해 flag set
+            grdMain.SetData(grdMain.Rows.Count - 1, grdMain.Cols.Count - 1, "추가");
+            grdMain.SetData(grdMain.Rows.Count - 1, 0, "추가");
+
+            // Insert 배경색 지정
+            grdMain.Rows[grdMain.Rows.Count - 1].Style = grdMain.Styles["InsColor"];
+
+            //// 커서위치 결정
+            grdMain.Row = 0;
+            grdMain.Col = 0;
+
+        }
+        private void rowdel_btn_Click(object sender, EventArgs e)
+        {
+            if (grdMain.Rows.Count < 2 || grdMain.Row < 1)
+            {
+                return;
+            }
+
+            //mj 추가되었지만 행삭제로 지울때
+            if (grdMain.Rows[grdMain.Row][grdMain.Cols.Count - 1].ToString() == "추가")
+            {
+                grdMain.RemoveItem(grdMain.Row);
+
+                return;
+            }
+
+            // 저장시 Delete로 처리하기 위해 flag set
+            grdMain.Rows[grdMain.Row][grdMain.Cols.Count - 1] = "삭제";
+            grdMain.Rows[grdMain.Row][0] = "삭제";
+            // Delete 배경색 지정
+            grdMain.Rows[grdMain.Row].Style = grdMain.Styles["DelColor"];
+
+            // 커서위치 결정
+            grdMain.Row = 0;
+            grdMain.Col = 0;
+        }
+        private void grdMain_BeforeEdit(object sender, RowColEventArgs e)
+        {
+            C1FlexGrid grd = sender as C1FlexGrid;
+
+            if (e.Row < 1 || grd.GetData(e.Row, e.Col) == null)
+            {
+                return;
+            }
+
+            // NO COLUMN 수정불가하게..
+            if (e.Col == grd.Cols["NUM"].Index || (e.Col == grd.Cols["USER_ID"].Index && grdMain.GetData(e.Row, grd.Cols["GUBUN"].Index).ToString() != "추가"))  //특정 Row 와 Cell 지정하여 사용하세요
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            // 수정여부 확인을 위해 저장
+            strBefValue = grd.GetData(e.Row, e.Col).ToString();
+        }
+
+        private void grdMain_AfterEdit(object sender, RowColEventArgs e)
+        {
+            // No,구분은 수정 불가
+            if (grdMain.Col == 0 || grdMain.Col == grdMain.Cols.Count - 1)
+            {
+                grdMain.SetData(grdMain.Row, grdMain.Col, strBefValue);
+                return;
+            }
+
+            // 수정된 내용이 없으면 Update 처리하지 않는다.
+            if (strBefValue == grdMain.GetData(grdMain.Row, grdMain.Col).ToString())
+                return;
+
+            // 추가된 열에 대한 수정은 INSERT 처리
+            if (grdMain.GetData(grdMain.Row, grdMain.Cols.Count - 1).ToString() != "추가")
+            {
+                // USER_ID 수정 불가
+                if (grdMain.Col == grdMain.Cols["USER_ID"].Index)
+                {
+                    grdMain.SetData(grdMain.Row, grdMain.Col, strBefValue);
+                    return;
+                }
+
+                // 저장시 UPDATE로 처리하기 위해 flag set
+                grdMain.SetData(grdMain.Row, grdMain.Cols.Count - 1, "수정");
+                grdMain.SetData(grdMain.Row, 0, "수정");
+                // Update 배경색 지정
+                grdMain.Rows[grdMain.Row].Style = grdMain.Styles["UpColor"];
+            }
+
+        }
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+
+            string sql1 = string.Empty;
+            string strMsg = string.Empty;
+
+            #region 항목체크
+            string check_value1 = string.Empty;
+            string check_Cols_NM1 = string.Empty;
+            string check_field_NM1 = string.Empty;
+            string check_table_NM1 = string.Empty;
+
+            string check_value2 = string.Empty;
+            string check_Cols_NM2 = string.Empty;
+            string check_field_NM2 = string.Empty;
+            string check_table_NM2 = string.Empty;
+
+            string check_value3 = string.Empty;
+            string check_Cols_NM3 = string.Empty;
+            string check_field_NM3 = string.Empty;
+            string check_table_NM3 = string.Empty;
+
+            string check_keyColNM = string.Empty;
+            string check_keyValue = string.Empty;
+
+            string check_NM = string.Empty;
+
+            string gubun_value = string.Empty;
+            string show_msg = string.Empty;
+            int checkrow = 0;
+
+            bool isChange = false;
+            //수정항목이 있는지 파악하고 물어보고 진행
+            for (checkrow = 1; checkrow < grdMain.Rows.Count; checkrow++)
+            {
+                gubun_value = grdMain.GetData(checkrow, "GUBUN").ToString();
+
+                if (gubun_value == "삭제" || gubun_value == "수정")
+                {
+                    isChange = true;
+                }
+
+
+                if (gubun_value == "추가" )
+                {
+                    #region USER_ID 체크
+                    check_field_NM1 = "USER_ID";
+                    check_table_NM1 = "TB_CM_USER";
+                    check_value1 = grdMain.GetData(checkrow, check_field_NM1).ToString();
+                    check_Cols_NM1 = grdMain.Cols[check_field_NM1].Caption;
+
+                    if (string.IsNullOrEmpty(check_value1))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", check_Cols_NM1);
+                        MessageBox.Show(show_msg);
+                        return;
+                    }
+
+                    if (vf.isContainHangul(check_value1))
+                    {
+                        MessageBox.Show("한글이 포함되어서는 안됩니다.");
+                        return;
+                    }
+
+                    if (vf.getStrLen(check_value1) > 10)
+                    {
+                        MessageBox.Show("영문 및 숫자 10자 이하로 입력하시기 바랍니다..");
+                        return;
+                    }
+
+                    if (vf.Has_Item(check_table_NM1, check_field_NM1, check_value1) )
+                    {
+                        show_msg = string.Format("{0}가 중복되었습니다. 다시 입력해주세요.", check_Cols_NM1);
+                        MessageBox.Show(show_msg);
+                        return;
+                    }
+                    #endregion USER_ID 체크
+
+                    #region USER_NM 체크
+                    check_field_NM2 = "NM";
+                    check_table_NM2 = "TB_CM_USER";
+                    check_value2 = grdMain.GetData(checkrow, check_field_NM2).ToString();
+                    check_Cols_NM2 = grdMain.Cols[check_field_NM2].Caption;
+
+                    if (string.IsNullOrEmpty(check_value2))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", check_Cols_NM2);
+                        MessageBox.Show(show_msg);
+                        return;
+                    }
+
+                    if (vf.getStrLen(check_value2) > 10)
+                    {
+                        MessageBox.Show("영문 및 한글 10자 이하로 입력하시기 바랍니다..");
+                        return;
+                    }
+
+                    #endregion USER_NM 체크
+
+                    #region PASSWD 체크
+                    check_field_NM3 = "PASSWD";
+                    check_table_NM3 = "TB_CM_USER";
+                    check_value3 = grdMain.GetData(checkrow, check_field_NM3).ToString();
+                    check_Cols_NM3 = grdMain.Cols[check_field_NM3].Caption;
+
+                    if (string.IsNullOrEmpty(check_value3))
+                    {
+                        show_msg = string.Format("{0}를 입력하세요.", check_Cols_NM3);
+                        MessageBox.Show(show_msg);
+                        return;
+                    }
+
+                    if (vf.getStrLen(check_value3) > 30)
+                    {
+                        MessageBox.Show("영문 및 한글, 숫자 30자 이하로 입력하시기 바랍니다..");
+                        return;
+                    }
+
+                    #endregion 
+
+                    if (vf.Has_Item(check_table_NM2, check_field_NM2, check_value2) && vf.Has_Item(check_table_NM1, check_field_NM1, check_value1))
+                    {
+                        show_msg = string.Format("필수요소가 중복되었습니다. 다시 입력해주세요.");
+                        MessageBox.Show(show_msg);
+                        return;
+                    }
+
+
+
+                    isChange = true;
+                }
+
+            }
+
+            if (isChange)
+            {
+                if (MessageBox.Show("저장하시겠습니까?", Text, MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+
+            }
+            #endregion 삭제항목체크
+
+            int row = 0;
+            int InsCnt = 0;
+            int UpCnt = 0;
+            int DelCnt = 0;
+
+
+            DataTable dt = null;
+
+            //디비선언
+            OracleConnection conn = cd.OConnect();
+
+            OracleCommand cmd = new OracleCommand();
+            OracleTransaction transaction = null;
+
+            try
+            {
+
+                conn.Open();
+                cmd.Connection = conn;
+                transaction = conn.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                #region grdMain1
+                for (row = 1; row < grdMain.Rows.Count; row++)
+                {
+                    // Update 처리
+                    if (grdMain.GetData(row, grdMain.Cols.Count - 1).ToString() == "추가")
+                    {
+                        sql1  = string.Format(" INSERT INTO TB_CM_USER ");
+                        sql1 += string.Format("             ( ");
+                        sql1 += string.Format("                USER_ID ");
+                        sql1 += string.Format("               ,NM ");
+                        sql1 += string.Format("               ,PASSWD ");
+                        sql1 += string.Format("               ,DEPT_CD ");
+                        sql1 += string.Format("               ,POST_CD ");
+                        sql1 += string.Format("               ,INCHRG_LINE ");
+                        sql1 += string.Format("               ,TEL_NO ");
+                        sql1 += string.Format("               ,MAIL_ID ");
+                        sql1 += string.Format("               ,ACL_GRP_ID ");
+                        sql1 += string.Format("               ,REGISTER ");
+                        sql1 += string.Format("               ,REG_DDTT ");
+                        sql1 += string.Format("             ) ");
+                        sql1 += string.Format(" VALUES( ");
+                        sql1 += string.Format("         '{0}' ", grdMain.GetData(row, "USER_ID"));             /* USER_ID ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "NM"));                  /* NM ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "PASSWD"));              /* PASSWD ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "DEPT_CD"));             /* DEPT_CD ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "POST_CD"));             /* POST_CD ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "INCHRG_LINE"));         /* INCHRG_LINE ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "TEL_NO"));              /* TEL_NO ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "MAIL_ID"));             /* MAIL_ID ");*/
+                        sql1 += string.Format("        ,'{0}' ", grdMain.GetData(row, "ACL_GRP_ID"));          /* ACL_GRP_ID ");*/
+                        sql1 += string.Format("        ,'{0}' ", ck.UserID);                                   /* REGISTER ");*/
+                        sql1 += string.Format("        ,SYSDATE ");                                            /* REG_DDTT ");*/
+                        sql1 += string.Format("       ) ");
+
+                        //sql1 = string.Format("INSERT INTO TB_CM_USER ( USER_ID, NM, PASSWD, DEPT_CD, POST_CD, INCHRG_LINE, TEL_NO, MAIL_ID, ACL_GRP_ID) VALUES('{0}','{1}','{2}','{3}','{4}','{5}', '{6}', '{7}', '{8}')",
+                        // grdMain.GetData(row, 1), grdMain.GetData(row, 2), grdMain.GetData(row, 3), grdMain.GetData(row, 4), grdMain.GetData(row, 5), grdMain.GetData(row, 6), grdMain.GetData(row, 7), grdMain.GetData(row, 8), grdMain.GetData(row, 9));
+                        cmd.CommandText = sql1;
+                        cmd.ExecuteNonQuery();
+                        InsCnt++;
+                    }
+                    else if (grdMain.GetData(row, grdMain.Cols.Count - 1).ToString() == "수정")
+                    {
+                        sql1  = string.Format(" UPDATE TB_CM_USER ");
+                        sql1 += string.Format(" SET  ");
+                        sql1 += string.Format("       NM = '{0}' "          , grdMain.GetData(row, "NM"));
+                        sql1 += string.Format("       ,PASSWD = '{0}' "     , grdMain.GetData(row, "PASSWD"));
+                        sql1 += string.Format("       ,DEPT_CD = '{0}' "    , grdMain.GetData(row, "DEPT_CD"));
+                        sql1 += string.Format("       ,POST_CD = '{0}' "    , grdMain.GetData(row, "POST_CD"));
+                        sql1 += string.Format("       ,INCHRG_LINE = '{0}' ", grdMain.GetData(row, "INCHRG_LINE"));
+                        sql1 += string.Format("       ,TEL_NO = '{0}'  "    , grdMain.GetData(row, "TEL_NO"));
+                        sql1 += string.Format("       ,MAIL_ID = '{0}' "    , grdMain.GetData(row, "MAIL_ID"));
+                        sql1 += string.Format("       ,ACL_GRP_ID = '{0}' " , grdMain.GetData(row, "ACL_GRP_ID"));
+                        sql1 += string.Format("       ,MODIFIER = '{0}' "   , ck.UserID);
+                        sql1 += string.Format("       ,MOD_DDTT = SYSDATE ");
+                        sql1 += string.Format(" WHERE USER_ID = '{0}' ", grdMain.GetData(row, "USER_ID"));
+
+                        cmd.CommandText = sql1;
+                        cmd.ExecuteNonQuery();
+                        UpCnt++;
+                    }
+                    else if (grdMain.GetData(row, grdMain.Cols.Count - 1).ToString() == "삭제")
+                    {
+                        sql1 = string.Format(" DELETE FROM TB_CM_USER WHERE USER_ID = '{0}'", grdMain.GetData(row, "USER_ID"));
+
+                        cmd.CommandText = sql1;
+                        cmd.ExecuteNonQuery();
+                        DelCnt++;
+                    }
+                }
+                #endregion grdMain1 
+                //실행후 성공
+                transaction.Commit();
+                btnDisplay_Click(null, null);
+                //SetDataBinding();
+
+                // 성공시에 추가 수정 삭제 상황을 초기화시킴
+                //InitGrd_Main();
+
+                string message = "정상적으로 저장되었습니다.";
+
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), message);
+            }
+            catch (Exception ex)
+            {
+                //실행후 실패 : 
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+                // 추가되었을시에 중복성으로 실패시 메시지 표시
+                MessageBox.Show("저장에 실패하였습니다. Error: "+ ex.Message);
+            }
+            finally
+            {
+                if (cmd != null)
+                    cmd.Dispose();
+                if (conn != null)
+                    conn.Close();       //데이터베이스연결해제
+                if (transaction != null)
+                    transaction.Dispose();
+            }
+
+        }
+        private void SetDataBinding()
+        {
+            string sql1 = string.Empty;
+            sql1  = string.Format(" select  TO_CHAR(rownum) as NUM ");
+            sql1 += string.Format("        ,USER_ID ");
+            sql1 += string.Format("        ,NM ");
+            sql1 += string.Format("        ,PASSWD ");
+            sql1 += string.Format("        ,DEPT_CD ");
+            sql1 += string.Format("        ,POST_CD ");
+            sql1 += string.Format("        ,INCHRG_LINE  ");
+            sql1 += string.Format("        ,TEL_NO  ");
+            sql1 += string.Format("        ,MAIL_ID ");
+            sql1 += string.Format("        ,ACL_GRP_ID ");
+            sql1 += string.Format("        ,  '' AS GUBUN ");
+            sql1 += string.Format(" from  TB_CM_USER ");
+            sql1 += string.Format(" where USER_ID LIKE '%{0}%' || '%' ", txtid);
+            sql1 += string.Format(" AND   NM LIKE  '%{0}%' || '%' ", txtnm); //:SCR_ID
+            sql1 += string.Format(" AND   NVL(DEPT_CD, '%') LIKE '%{0}%' || '%' ", txtdept);//:SCR_NM 
+            sql1 += string.Format(" ORDER BY USER_ID DESC ");
+
+            olddt = cd.FindDataTable(sql1);
+
+            moddt = olddt.Copy();
+            Cursor = Cursors.AppStarting;
+            grdMain.SetDataBinding(moddt, null, true);
+            Cursor = Cursors.Default;
+
+            clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), "  " + moddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+
+            grdMain.Row = -1;
+            flag = true;
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void grdMain_OwnerDrawCell(object sender, OwnerDrawCellEventArgs e)
+        {
+            if (e.Row >= grdMain.Rows.Fixed && grdMain.Cols[e.Col].Name == "PASSWD")
+            {
+                e.Text = new string('*', e.Text.Length);
+            }
+        }
+
+        private void grdMain_SetupEditor(object sender, RowColEventArgs e)
+        {
+            TextBox tb = grdMain.Editor as TextBox;
+            if (tb != null)
+            {
+                if (grdMain.Cols[e.Col].Name == "PASSWD")
+                    tb.PasswordChar = '*';
+                else
+                    tb.PasswordChar = (char)0;
+            }
+        }
+    }
+}

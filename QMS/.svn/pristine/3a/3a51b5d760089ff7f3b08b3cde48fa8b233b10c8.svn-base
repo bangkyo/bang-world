@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using SystemControlClassLibrary.UC.UC_temp;
+using ComLib;
+
+namespace SystemControlClassLibrary.UC.sub_UC
+{
+    public partial class UC_Routing_cd : UC_temp1
+    {
+        string _routing_cd = string.Empty;
+
+        public UC_Routing_cd()
+        {
+            InitializeComponent();
+        }
+        [Description("Routing_cd"), Category("Contents")]
+        public string Routing_cd
+        {
+            get
+            {
+                //if (cbLine == null)
+                //{
+                //    cbLine.SelectedIndex = -1;
+                //    return "";
+                //}
+                //else
+                //{
+                //    return ((ComLib.DictionaryList)cbLine.SelectedItem).fnValue;
+                //}
+                //return ((ComLib.DictionaryList)cbRouting_cd.SelectedItem).fnValue;
+                return _routing_cd;
+
+            }
+            set
+            {
+                //if (cbLine == null)
+                //{
+                //    cbLine.SelectedIndex = -1;
+                //}
+                //else
+                //{
+                //    foreach (var item in cbLine.Items)
+                //    {
+                //        if (((DictionaryList)item).fnValue == value)
+                //        {
+                //            cbLine.SelectedIndex = cbLine.Items.IndexOf(item);
+                //        }
+                //    }
+                //}
+
+                foreach (var item in cbRouting_cd.Items)
+                {
+                    if (((DictionaryList)item).fnValue == value)
+                    {
+                        cbRouting_cd.SelectedIndex = cbRouting_cd.Items.IndexOf(item);
+                        _routing_cd = value;
+                    }
+                }
+                //cbLine.SelectedValue = value;
+                this.Invalidate();
+            }
+        }
+
+        [Description("cb_Enable"), Category("Contents")]
+        public bool cb_Enable
+        {
+            get
+            {
+                return cbRouting_cd.Enabled;
+            }
+            set
+            {
+
+                cbRouting_cd.Enabled = value;
+                this.Invalidate();
+            }
+        }
+
+        private void UC_Routing_cd_Load(object sender, EventArgs e)
+        {
+            SetupCombo();
+        }
+        private void SetupCombo()
+        {
+            cs.InitCombo(cbRouting_cd, StringAlignment.Center);
+
+            List<string> list = new List<string>();
+            list.Add("교정");
+            list.Add("면취");
+
+            cd.SetCombo(cbRouting_cd, "ROUTING_CD", "", false, list);
+        }
+
+        private void cbRouting_cd_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Routing_cd = ((DictionaryList)cbRouting_cd.SelectedItem).fnValue;
+        }
+    }
+
+}

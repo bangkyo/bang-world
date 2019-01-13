@@ -1,0 +1,551 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using static ComLib.clsUtil;
+using System.Collections.Specialized;
+using SystemControlClassLibrary.Popup;
+using System;
+using System.Data;
+using System.Data.OracleClient;
+using System.Diagnostics;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections.Generic;
+using SystemControlClassLibrary.UC.sub_UC;
+
+namespace SystemControlClassLibrary
+{
+    public partial class PieceLog : Form
+    {
+        #region 변수 설정
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+
+        clsStyle cs = new clsStyle();
+
+        DataTable olddt;
+        DataTable moddt;
+        DataTable logdt;
+        ListDictionary cboRework = null;
+        private int selectedrow = 0;
+        private string cd_id = "";
+        private string cd_id2 = "";
+        private string work_type = "";
+        private string work_team = "";
+        private string rework_YN = "";
+        private string good_YN = "";
+        private string mlft_YN = "";
+
+        private string txtheat = "";
+        private string txtpoc = "";
+        private string txtitem_size = "";
+        private string txtsteel = "";
+        private string txtsteel_nm = "";
+        private string gangjong_id = "";
+
+        // 셀별 수정 정보(이전/이후)
+        private static string[][] strModi = new string[0][];
+
+        private static string ownerNM = "";
+        private static string titleNM = "";
+
+        #endregion 변수 설정
+
+        #region 초기화 설정
+        public PieceLog(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+            InitializeComponent();
+
+            btnDisplay.Click += Button_Click;
+            btnExcel.Click += Button_Click;
+
+            grdMain.RowColChange += GrdMain_RowColChange;
+
+            cboLine_GP.SelectedIndexChanged += CboLine_GP_SelectedIndexChanged;
+            cbo_ROUTING_Type.SelectedIndexChanged += cbo_ROUTING_Type_SelectedIndexChanged;
+
+            btnSteel.Click += btnSteel_Click;
+        }
+        ~PieceLog()
+        {
+
+        }
+        private void PieceLogInq_Load(object sender, System.EventArgs e)
+        {
+            InitControl();
+
+            SetComboBox1();
+            SetComboBox2();
+            SetComboBox3();
+            SetComboBox4();
+            SetComboBox5();
+            SetComboBox6();
+            SetComboBox7();
+
+            EventCreate();      //사용자정의 이벤트
+
+            Button_Click(btnDisplay, null);
+        }
+        #endregion 초기화 설정
+
+        #region InitControl
+        private void InitControl()
+        {
+            clsStyle.Style.InitPicture(pictureBox1);
+
+            clsStyle.Style.InitTitle(lblSHTRTitle, ownerNM, titleNM);
+
+            clsStyle.Style.InitPanel(panel1);
+
+            //Label
+            clsStyle.Style.InitLabel(label1);
+            clsStyle.Style.InitLabel(label2);
+            clsStyle.Style.InitLabel(label3);
+            clsStyle.Style.InitLabel(label4);
+            clsStyle.Style.InitLabel(label5);
+            clsStyle.Style.InitLabel(label6);
+            clsStyle.Style.InitLabel(label7);
+            clsStyle.Style.InitLabel(label8);
+            clsStyle.Style.InitLabel(label9);
+            clsStyle.Style.InitLabel(label10);
+            clsStyle.Style.InitLabel(label11);
+            clsStyle.Style.InitLabel(label12);
+            clsStyle.Style.InitLabel(label13);
+            clsStyle.Style.InitLabel(label14);
+            clsStyle.Style.InitLabel(label15);
+            clsStyle.Style.InitLabel(label16);
+
+            //Combo
+            clsStyle.Style.InitCombo(cboLine_GP, StringAlignment.Near);
+            clsStyle.Style.InitCombo(cbo_ROUTING_Type, StringAlignment.Near);
+            clsStyle.Style.InitCombo(cbo_Work_Type, StringAlignment.Near);
+            clsStyle.Style.InitCombo(cboTEAM, StringAlignment.Near);
+            clsStyle.Style.InitCombo(cboRework_YN, StringAlignment.Near);
+            clsStyle.Style.InitCombo(CBOGood_YN, StringAlignment.Near);
+            clsStyle.Style.InitCombo(cboMLFT_YN, StringAlignment.Near);
+
+            //Text
+            clsStyle.Style.InitTextBox(txtPOC);
+            clsStyle.Style.InitTextBox(txtHEAT);
+            clsStyle.Style.InitTextBox(tbItemSize);
+            clsStyle.Style.InitTextBox(gangjong_id_tb);
+            clsStyle.Style.InitTextBox(gangjong_Nm_tb);
+            clsStyle.Style.InitTextBox(txtBundleNO);
+            clsStyle.Style.InitTextBox(txtMillNO);
+            clsStyle.Style.InitTextBox(txtRework_SEQ);
+
+            //DateEdit
+            clsStyle.Style.InitDateEdit(start_dt);
+            clsStyle.Style.InitDateEdit(end_dt);
+
+            // Button Color Set
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnDisplay);
+            clsStyle.Style.InitButton(btnClose);
+
+            //시간 데이터 default 값 적용 
+            start_dt.Value = DateTime.Now;
+            end_dt.Value = DateTime.Now;
+            start_dt.ValueChanged += Start_dt_ValueChanged;
+            end_dt.ValueChanged += End_dt_ValueChanged;
+
+            InitGrd_Main();
+        }
+        private void End_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+
+        private void Start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            var modifiedDateEditor = sender as DateTimePicker;
+
+            cs.ReArrageDateEdit(modifiedDateEditor, start_dt, end_dt);
+        }
+        #endregion initControl
+
+        #region InitGridMain
+        private void InitGrd_Main()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+            
+            grdMain.AllowEditing = false;
+
+            grdMain.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain.Cols["MILL_NO"].Width = cs.Mill_No_Width;
+            grdMain.Cols["PIECE_NO"].Width = cs.PIECE_NO_Width;
+            grdMain.Cols["REWORK_SEQ"].Width = cs.REWORK_SEQ_Width;
+            grdMain.Cols["ROUTING_NM"].Width = cs.ROUTING_NM_With;
+            grdMain.Cols["MFG_DATE"].Width = cs.Date_8_Width;
+            grdMain.Cols["ENTRY_DDTT"].Width = cs.Date_8_Width;
+            grdMain.Cols["EXIT_DDTT"].Width = cs.Date_8_Width;
+            grdMain.Cols["WORK_TYPE"].Width = cs.WORK_TYPE_NM_Width;
+            grdMain.Cols["WORK_TEAM"].Width = cs.WORK_TEAM_NM_Width;
+            grdMain.Cols["POC_NO"].Width = cs.POC_NO_Width;
+            grdMain.Cols["POC_SEQ"].Width = cs.POC_SEQ_Width;
+            grdMain.Cols["HEAT"].Width = cs.HEAT_Width;
+            grdMain.Cols["STEEL"].Width = cs.STEEL_Width;
+            grdMain.Cols["STEEL_NM"].Width = cs.STEEL_NM_Width;
+            grdMain.Cols["ITEM"].Width = cs.ITEM_Width;
+            grdMain.Cols["ITEM_SIZE"].Width = cs.ITEM_SIZE_Width;
+            grdMain.Cols["GOOD_YN"].Width = cs.Good_NG_Width;
+            grdMain.Cols["MAT_GOOD_NG"].Width = cs.Good_NG_Width;
+            grdMain.Cols["MLFT_GOOD_NG"].Width = cs.Good_NG_Width;
+            grdMain.Cols["UT_GOOD_NG"].Width = cs.Good_NG_Width;
+            grdMain.Cols["REWORK_YN"].Width = cs.REWORK_YN_Width;
+            grdMain.Cols["BUNDLE_NO"].Width = cs.BUNDLE_NO_Width;
+            grdMain.Cols["MEASURE_LENGTH"].Width = cs.LENGTH_Width;
+            grdMain.Cols["BAD_LENGTH"].Width = cs.LENGTH_Width;
+            grdMain.Cols["MPI_FAULT_NM"].Width = cs.MPI_FAULT_CD_Width; // MPI_FAULT_NM
+            grdMain.Cols["IF_YN"].Width = cs.Good_NG_Width;
+            grdMain.Cols["IF_DDTT"].Width = cs.Date_14_width;
+            grdMain.Cols["LENGTH"].Width = cs.LENGTH_Width;
+            grdMain.Cols["ZONE_CD"].Width = 0;
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+
+            grdMain.Cols["L_NO"].TextAlign = cs.L_NO_TextAlign;
+            grdMain.Cols["MILL_NO"].TextAlign = cs.MILL_NO_TextAlign;
+            grdMain.Cols["PIECE_NO"].TextAlign = cs.PIECE_NO_TextAlign;
+            grdMain.Cols["REWORK_SEQ"].TextAlign = cs.REWORK_SEQ_TextAlign;
+            grdMain.Cols["ROUTING_NM"].TextAlign = cs.ROUTING_NM_TextAlign;
+            grdMain.Cols["MFG_DATE"].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["ENTRY_DDTT"].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["EXIT_DDTT"].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["WORK_TYPE"].TextAlign = cs.WORK_TYPE_TextAlign;
+            grdMain.Cols["WORK_TEAM"].TextAlign = cs.WORK_TEAM_TextAlign;
+            grdMain.Cols["POC_NO"].TextAlign = cs.POC_NO_TextAlign;
+            grdMain.Cols["POC_SEQ"].TextAlign = cs.POC_NO_TextAlign;
+            grdMain.Cols["HEAT"].TextAlign = cs.HEAT_TextAlign;
+            grdMain.Cols["STEEL"].TextAlign = cs.STEEL_TextAlign;
+            grdMain.Cols["STEEL_NM"].TextAlign = cs.STEEL_NM_TextAlign;
+            grdMain.Cols["ITEM"].TextAlign = cs.ITEM_TextAlign;
+            grdMain.Cols["ITEM_SIZE"].TextAlign = cs.ITEM_SIZE_TextAlign;
+            grdMain.Cols["GOOD_YN"].TextAlign = cs.GOOD_YN_TextAlign;
+            grdMain.Cols["MAT_GOOD_NG"].TextAlign = cs.GOOD_YN_TextAlign;
+            grdMain.Cols["MLFT_GOOD_NG"].TextAlign = cs.GOOD_YN_TextAlign;
+            grdMain.Cols["UT_GOOD_NG"].TextAlign = cs.GOOD_YN_TextAlign;
+            grdMain.Cols["REWORK_YN"].TextAlign = cs.REWORK_YN_TextAlign;
+            grdMain.Cols["BUNDLE_NO"].TextAlign = cs.BUNDLE_NO_TextAlign;
+            grdMain.Cols["MEASURE_LENGTH"].TextAlign = cs.LENGTH_TextAlign;
+            grdMain.Cols["BAD_LENGTH"].TextAlign = cs.LENGTH_TextAlign;
+            grdMain.Cols["LENGTH"].TextAlign = cs.LENGTH_TextAlign;
+            grdMain.Cols["MPI_FAULT_NM"].TextAlign = cs.MPI_FAULT_NM_TextAlign; // MPI_FAULT_NM
+            grdMain.Cols["IF_YN"].TextAlign = cs.IF_YN_TextAlign;
+            grdMain.Cols["IF_DDTT"].TextAlign = cs.DATE_TextAlign;
+        }
+        #endregion InitGridMain
+
+        #region SetDataBinding
+        private bool SetDataBinding()
+        {
+            try
+            {
+                this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+
+                string start_date = start_dt.Value.ToString();
+                start_date = (start_date.Substring(0, 4) + start_date.Substring(5, 2) + start_date.Substring(8, 2));
+                string end_date = end_dt.Value.ToString();
+                end_date = (end_date.Substring(0, 4) + end_date.Substring(5, 2) + end_date.Substring(8, 2));
+
+                string sql1 = string.Empty;
+                sql1 += string.Format("SELECT  ROWNUM AS L_NO ");
+                sql1 += string.Format("             ,MILL_NO ");// 압연번들번호
+                sql1 += string.Format("             ,PIECE_NO ");// P.NO
+                sql1 += string.Format("             ,REWORK_SEQ ");// 재작업순번
+                sql1 += string.Format("             ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'ROUTING_CD' AND CD_ID = X.ROUTING_CD) AS ROUTING_NM ");
+                sql1 += string.Format("             ,MFG_DATE "); // 작업일자
+                sql1 += string.Format("             ,ENTRY_DDTT "); // 진입시각
+                sql1 += string.Format("             ,EXIT_DDTT ");   // 진출시각
+                sql1 += string.Format("             ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'WORK_TYPE' AND CD_ID = X.WORK_TYPE) AS WORK_TYPE ");// 근
+                sql1 += string.Format("             ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'WORK_TEAM' AND CD_ID = X.WORK_TEAM) AS WORK_TEAM  ");// 조
+                sql1 += string.Format("             ,POC_NO ");   // POC NO
+                sql1 += string.Format("             ,POC_SEQ ");  // POC 순번
+                sql1 += string.Format("             ,HEAT "); //HEAT
+                sql1 += string.Format("             ,STEEL "); // 강종
+                sql1 += string.Format("             ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = X.STEEL) AS STEEL_NM ");
+                sql1 += string.Format("             ,ITEM ");
+                sql1 += string.Format("             ,ITEM_SIZE ");
+                sql1 += string.Format("             ,GOOD_YN "); // 합부
+                sql1 += string.Format("             ,MAT_GOOD_NG "); // MAT 합부
+                sql1 += string.Format("             ,MLFT_GOOD_NG "); // MLFT 합부
+                sql1 += string.Format("             ,UT_GOOD_NG "); // UT 합부
+                sql1 += string.Format("             ,REWORK_YN "); // 재작업여부
+                sql1 += string.Format("             ,BUNDLE_NO "); // 제품번들번호
+                sql1 += string.Format("             ,MEASURE_LENGTH "); //측정길이
+                sql1 += string.Format("             ,BAD_LENGTH "); //전단길이 // 불량길이
+                sql1 += string.Format("             ,MPI_FAULT_NM "); //MPI결함코드명 
+                sql1 += string.Format("             ,IF_YN "); //IF 여부
+                sql1 += string.Format("             ,IF_DDTT "); //IF 일시
+                sql1 += string.Format("             ,LENGTH ");
+                sql1 += string.Format("             ,ZONE_CD ");
+                sql1 += string.Format("FROM    ( ");
+                sql1 += string.Format("         SELECT   A.MILL_NO  ");  // 압연번들번호
+                sql1 += string.Format("                 ,A.PIECE_NO ");  // P.NO
+                sql1 += string.Format("                 ,A.REWORK_SEQ ");  // 재작업순번
+                sql1 += string.Format("                 ,A.ROUTING_CD ");  // 공정
+                sql1 += string.Format("                 ,TO_CHAR(TO_DATE(A.MFG_DATE,'YYYYMMDD'),'YYYY-MM-DD') AS MFG_DATE "); // 작업일자
+                sql1 += string.Format("                 ,TO_CHAR(A.ENTRY_DDTT,'HH24:MI:SS') AS ENTRY_DDTT "); // 진입시각
+                sql1 += string.Format("                 ,TO_CHAR(A.EXIT_DDTT,'HH24:MI:SS') AS EXIT_DDTT ");   // 진출시각
+                sql1 += string.Format("                 ,A.WORK_TYPE ");// 근
+                sql1 += string.Format("                 ,A.WORK_TEAM ");// 조
+                sql1 += string.Format("                 ,A.POC_NO ");   // POC NO
+                sql1 += string.Format("                 ,A.POC_SEQ ");  // POC 순번
+                sql1 += string.Format("                 ,A.HEAT ");
+                sql1 += string.Format("                 ,A.STEEL ");
+                sql1 += string.Format("                 ,A.ITEM ");
+                sql1 += string.Format("                 ,A.ITEM_SIZE ");
+                sql1 += string.Format("                 ,A.GOOD_YN "); // 합부
+                sql1 += string.Format("                 ,A.MAT_GOOD_NG "); // MAT 합부
+                sql1 += string.Format("                 ,A.MLFT_GOOD_NG "); // MLFT 합부
+                sql1 += string.Format("                 ,A.UT_GOOD_NG "); // UT 합부
+                sql1 += string.Format("                 ,A.REWORK_YN "); // 재작업여부
+                sql1 += string.Format("                 ,A.BUNDLE_NO "); // 제품번들번호
+                sql1 += string.Format("                 ,A.MEASURE_LENGTH "); //측정길이
+                sql1 += string.Format("                 ,A.BAD_LENGTH "); //절단길이 // 불량길이
+                sql1 += string.Format("                 ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'FAULT_CD' AND CD_ID = A.MPI_FAULT_CD) AS MPI_FAULT_NM "); //결함코드명
+                sql1 += string.Format("                 ,A.IF_YN "); //IF 여부
+                sql1 += string.Format("                 ,TO_CHAR(A.IF_DDTT, 'YYYY-MM-DD HH24:MI:SS') AS IF_DDTT  "); //IF 일시
+                sql1 += string.Format("                 ,A.LENGTH ");
+                sql1 += string.Format("                 ,A.ZONE_CD ");
+                sql1 += string.Format("        FROM   TB_CR_PIECE_WR  A ");
+                sql1 += string.Format("        WHERE       A.MFG_DATE   BETWEEN '{0}' AND '{1}' ", start_date, end_date);    //:P_FR_DATE AND :P_TO_DATE
+                sql1 += string.Format("             AND    A.LINE_GP     = '{0}' ", cd_id); //:P_LINE_GP
+                sql1 += string.Format("             AND    A.POC_NO     LIKE '%{0}%' ", txtpoc);    //:P_POC_NO
+                sql1 += string.Format("             AND    A.HEAT       LIKE  '%{0}%' ", txtheat);  //:P_HEAT
+                sql1 += string.Format("             AND    A.ROUTING_CD LIKE '{0}' || '%' ", cd_id2);//, cbo_Work_Type.Text);    //:P_WORK_TYPE
+                sql1 += string.Format("             AND    A.ITEM_SIZE    LIKE '%{0}%'", tbItemSize.Text);  //
+                sql1 += string.Format("             AND    A.STEEL   LIKE NVL('{0}','%')  ", gangjong_id);  //:P_STEEL
+                sql1 += string.Format("             AND    A.WORK_TYPE  LIKE '%{0}%' ", work_type);
+                sql1 += string.Format("             AND    NVL(A.WORK_TEAM,'A')  LIKE '%{0}%' ", work_team);
+                sql1 += string.Format("             AND    A.MILL_NO  LIKE '%{0}%' ", txtMillNO.Text);
+                sql1 += string.Format("             AND    A.REWORK_SEQ  LIKE '%{0}%' ", txtRework_SEQ.Text);
+                sql1 += string.Format("             AND    NVL(A.BUNDLE_NO,'%')  LIKE '%{0}%' ", txtBundleNO.Text);
+                sql1 += string.Format("             AND    NVL(A.REWORK_YN, '%')   LIKE '%{0}%' ", rework_YN);
+                sql1 += string.Format("             AND    NVL(A.GOOD_YN, '%')   LIKE '%{0}%' ", good_YN);
+                sql1 += string.Format("             AND    NVL(A.MLFT_GOOD_NG, '%')   LIKE '%{0}%' ", mlft_YN);
+                sql1 += string.Format("        ORDER BY A.EXIT_DDTT DESC , A.MILL_NO, A.PIECE_NO, A.REWORK_SEQ, A.ROUTING_CD   "); // 압연번들번호, P.NO, 재작업순번, 공정코드
+                sql1 += string.Format("        ) X ");
+                
+                olddt = cd.FindDataTable(sql1);
+
+                logdt = olddt.Copy();
+
+                moddt = olddt.Copy();
+
+                grdMain.SetDataBinding(moddt, null, true);
+                this.Cursor = System.Windows.Forms.Cursors.Default;
+               
+                clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(), moddt.Rows.Count.ToString(), "건 조회 되었습니다.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return false;
+            }
+            return true;
+        }
+        #endregion SetDataBinding
+
+        #region 콤보박스 설정
+        private void SetComboBox1()
+        {
+            cd.SetCombo(cboLine_GP, "LINE_GP", "", false, ck.Line_gp);
+        }
+        private void SetComboBox2()
+        {
+            List<string> Extractlist = new List<string>();
+            Extractlist.Add("PRII");
+            Extractlist.Add("성분분석");
+            Extractlist.Add("계중");
+
+            cd.SetCombo(cbo_ROUTING_Type, "ROUTING_CD", Extractlist, true);
+        }
+        private void SetComboBox3()
+        {
+            cd.SetCombo(cboTEAM, "WORK_TEAM", "", true);
+        }
+        private void SetComboBox4()
+        {
+            cd.SetCombo(cbo_Work_Type, "WORK_TYPE", "", true);
+        }
+        private void SetComboBox5()
+        {
+            cd.SetCombo(CBOGood_YN, "GOOD_NG", "", true);
+        }
+        private void SetComboBox6()
+        {
+            cd.SetCombo(cboMLFT_YN, "GOOD_NG", "", true);
+        }
+        private void SetComboBox7()
+        {
+            cd.SetCombo(cboRework_YN, "REWORK_YN", "", true);
+        }
+        #endregion 콤보박스 설정
+
+        #region 이벤트 설정
+        private void Button_Click(object sender, EventArgs e)
+        {
+            switch (((Button)sender).Name)
+            {
+                case "btnDisplay":
+                    cd.InsertLogForSearch(ck.UserID, btnDisplay);
+                    setTextValue();
+                    SetDataBinding();
+
+                    break;
+
+                case "btnExcel":
+                    SaveExcel();
+                    break;
+            }
+        }
+
+        private void GrdMain_RowColChange(object sender, EventArgs e)
+        {
+            string str = string.Empty;
+            string temp = string.Empty;
+
+            selectedrow = grdMain.RowSel;
+        }
+
+        private void SaveExcel()
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+        private void setTextValue()
+        {
+            txtheat = txtHEAT.Text;
+            txtpoc = txtPOC.Text;
+            txtitem_size = tbItemSize.Text;
+            txtsteel = gangjong_id_tb.Text;
+            txtsteel_nm = gangjong_Nm_tb.Text;
+        }
+
+        private void btnSteel_Click(object sender, EventArgs e)
+        {
+            SearchSteelNm popup = new SearchSteelNm();
+            popup.Owner = this; //A폼을 지정하게 된다.
+            popup.StartPosition = FormStartPosition.CenterScreen;
+            popup.ShowDialog();
+            if (ck.StrKey1 != "")
+            {
+                gangjong_id_tb.Text = ck.StrKey1;
+                gangjong_Nm_tb.Text = ck.StrKey2;
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void gangjong_id_tb_TextChanged(object sender, EventArgs e)
+        {
+            gangjong_Nm_tb.Text = "";
+            gangjong_id = gangjong_id_tb.Text;
+        }
+
+        private void gangjong_id_tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            //[Enter] Key는 다음 컨트롤로 이동
+            if (e.KeyCode == Keys.Enter) SendKeys.Send("{TAB}");
+        }
+
+        //사용자이벤트 생성
+        private void EventCreate()
+        {
+            this.gangjong_id_tb.LostFocus += new System.EventHandler(gangjong_id_tb_LostFocus);            //강종ID
+        }
+
+        //강종ID(LostFocus)
+        private void gangjong_id_tb_LostFocus(object sender, EventArgs e)
+        {
+            if (gangjong_id_tb.Text == "")
+            {
+                gangjong_Nm_tb.Text = "";
+                gangjong_id = "";
+            }
+            else
+            {
+                gangjong_Nm_tb.Text = cd.Find_Steel_NM_By_ID(gangjong_id_tb.Text);
+
+                if (gangjong_Nm_tb.Text.Length == 0)
+                {
+                    if (MessageBox.Show(" 해당 강종에 따른 강종명을 찾을 수 없습니다.", "", MessageBoxButtons.OK) == DialogResult.OK)
+                    {
+                        gangjong_Nm_tb.Text = "";
+                        //gangjong_id_tb.Focus();
+                        return;
+                    }
+                }
+                else
+                    gangjong_id = gangjong_id_tb.Text;
+            }
+        }
+
+        private void tbItemSize_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            vf.KeyPressEvent_number(sender, e);
+        }
+
+        #region SelectedIndexChanged 설정
+        private void CboLine_GP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cd_id = ((ComLib.DictionaryList)cboLine_GP.SelectedItem).fnValue;
+            ck.Line_gp = cd_id;
+        }
+
+        private void cbo_ROUTING_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cd_id2 = ((ComLib.DictionaryList)cbo_ROUTING_Type.SelectedItem).fnValue;
+        }
+
+        private void cbo_Work_Type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+           work_type = ((ComLib.DictionaryList)cbo_Work_Type.SelectedItem).fnValue;
+        }
+
+        private void cboTEAM_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            work_team = ((ComLib.DictionaryList)cboTEAM.SelectedItem).fnValue;
+        }
+
+        private void cboRework_YN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            rework_YN = ((ComLib.DictionaryList)cboRework_YN.SelectedItem).fnValue;
+        }
+
+        private void CBOGood_YN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            good_YN = ((ComLib.DictionaryList)CBOGood_YN.SelectedItem).fnValue;
+        }
+
+        private void cboMLFT_YN_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            mlft_YN = ((ComLib.DictionaryList)cboMLFT_YN.SelectedItem).fnValue;
+        }
+
+        #endregion SelectedIndexChanged 설정
+
+        private void txtRework_SEQ_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            vf.KeyPressEvent_number(sender, e);
+        }
+       
+        #endregion 이벤트 설정
+    }
+}

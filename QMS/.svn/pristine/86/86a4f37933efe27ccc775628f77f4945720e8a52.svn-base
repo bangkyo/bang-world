@@ -1,0 +1,191 @@
+﻿using ComLib;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace SystemControlClassLibrary.Order
+{
+    public partial class CrtInBundleInfo : Form
+    {
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsStyle cs = new clsStyle();
+
+
+        string poc_No = string.Empty;
+        string poc_seq_No = string.Empty;
+        private DataTable olddt;
+        private DataTable moddt;
+
+        private DataTable moddt1;
+
+        public CrtInBundleInfo(string _poc_No, string _poc_seq_No)
+        {
+            poc_No = _poc_No;
+            poc_seq_No = _poc_seq_No; 
+
+            InitializeComponent();
+
+        }
+
+        private void CrtInBundleInfo_Load(object sender, EventArgs e)
+        {
+            initControl();
+
+            if (!string.IsNullOrWhiteSpace(poc_seq_No))
+            {
+                SetDataBindingWithPOCseq();
+            }
+            else
+            {
+                SetDataBindingWithoutPOCseq();
+            }
+            
+        }
+
+        private void initControl()
+        {
+
+            //cs.InitButton(btnClose);
+
+            #region 유저컨트롤 설정
+            //POC NO
+            uC_POC1.TbText = poc_No;
+
+            cs.InitButton_1(btnClose);
+            cs.InitButton_1(btnExcel);
+
+            
+            //POC SEQ NO
+            uC_POC_SEQ1.TbText = poc_seq_No;
+
+            #endregion
+
+            InitGrd();
+
+            if (string.IsNullOrEmpty(poc_seq_No))
+            {
+                uC_POC_SEQ1.Visible = false;
+                grdMain.Cols["CRTIN_YN"].Visible = false;
+            }
+            else
+            {
+                Size = new Size(515, 515);
+            }
+        }
+
+        private void InitGrd()
+        {
+            cs.InitGrid_search(grdMain);
+
+            grdMain.AllowEditing = false;
+
+            int nwidth = (grdMain.Size.Width - cs.L_No_Width - cs.Mill_No_Width) / 3 - 20;
+
+            grdMain.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain.Cols["MILL_NO"].Width = cs.Mill_No_Width;
+            grdMain.Cols["CRTIN_YN"].Width = cs.CRTIN_YN_Width;
+            grdMain.Cols["PCS"].Width = nwidth;
+            grdMain.Cols["NET_WGT"].Width = nwidth;
+            grdMain.Cols["MFG_DATE"].Width = nwidth;
+
+
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["L_NO"].TextAlign = cs.L_NO_TextAlign;
+            grdMain.Cols["MILL_NO"].TextAlign = cs.MILL_NO_TextAlign;
+            grdMain.Cols["PCS"].TextAlign = cs.FINISH_PCS_TextAlign;
+            grdMain.Cols["NET_WGT"].TextAlign = cs.WGT_TextAlign;
+            grdMain.Cols["MFG_DATE"].TextAlign = cs.DATE_TextAlign;
+            grdMain.Cols["CRTIN_YN"].TextAlign = cs.CRTIN_YN_TextAlign;
+
+            grdMain.ExtendLastCol = true;
+
+        }
+
+        private void SetDataBindingWithPOCseq()
+        {
+            string sql1 = string.Empty;
+
+            sql1 += string.Format(" SELECT ROWNUM AS L_NO ");
+            sql1 += string.Format("       ,X.* ");
+            sql1 += string.Format(" FROM ");
+            sql1 += string.Format("     ( ");
+            sql1 += string.Format("         SELECT  ");
+            sql1 += string.Format("                MILL_NO ");
+            sql1 += string.Format("               ,NVL((SELECT 'Y' FROM TB_CR_INPUT_WR B WHERE MILL_NO = A.MILL_NO),'N') AS CRTIN_YN ");
+            sql1 += string.Format("               ,PCS ");
+            sql1 += string.Format("               ,NET_WGT ");
+            sql1 += string.Format("               ,TO_DATE(MFG_DATE) AS MFG_DATE ");
+            sql1 += string.Format("         FROM  TB_CR_ORD_BUNDLEINFO A");
+            sql1 += string.Format("         WHERE POC_NO = NVL(:P_POC_NO, ' ') ");
+            sql1 += string.Format("         AND   POC_SEQ = NVL(:P_POC_SEQ, ' ') ");
+            sql1 += string.Format("         ORDER BY MFG_DATE, MILL_NO ");
+            sql1 += string.Format("     ) X ");
+
+            string[] parm = new string[2];
+            parm[0] = ":P_POC_NO|" + poc_No;
+            parm[1] = ":P_POC_SEQ|" + poc_seq_No;
+            
+
+            olddt = cd.FindDataTable(sql1, parm);
+
+            moddt = olddt.Copy();
+            this.Cursor = Cursors.AppStarting;
+            grdMain.SetDataBinding(moddt, null, true);
+            this.Cursor = Cursors.Default;
+
+            grdMain.AutoSizeCols();
+        }
+
+        private void SetDataBindingWithoutPOCseq()
+        {
+            string sql1 = string.Empty;
+
+            sql1 += string.Format(" SELECT ROWNUM AS L_NO ");
+            sql1 += string.Format("       ,X.* ");
+            sql1 += string.Format(" FROM ");
+            sql1 += string.Format("     ( ");
+            sql1 += string.Format("         SELECT  ");
+            sql1 += string.Format("                MILL_NO ");
+            sql1 += string.Format("               ,NULL AS CRTIN_YN ");
+            sql1 += string.Format("               ,PCS ");
+            sql1 += string.Format("               ,NET_WGT ");
+            sql1 += string.Format("               ,TO_DATE(MFG_DATE) AS MFG_DATE ");
+            sql1 += string.Format("         FROM  TB_CR_ORD_BUNDLEINFO ");
+            sql1 += string.Format("         WHERE POC_NO = NVL(:P_POC_NO, ' ') ");
+            sql1 += string.Format("         ORDER BY MFG_DATE, MILL_NO ");
+            sql1 += string.Format("     ) X ");
+
+            string[] parm = new string[1];
+            parm[0] = ":P_POC_NO|" + poc_No;
+            //parm[1] = ":P_POC_SEQ|" + poc_seq_No;
+
+
+            moddt1 = cd.FindDataTable(sql1, parm);
+
+            this.Cursor = Cursors.AppStarting;
+            grdMain.SetDataBinding(moddt1, null, true);
+            this.Cursor = Cursors.Default;
+
+            grdMain.AutoSizeCols();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(Text, grdMain);
+        }
+    }
+}

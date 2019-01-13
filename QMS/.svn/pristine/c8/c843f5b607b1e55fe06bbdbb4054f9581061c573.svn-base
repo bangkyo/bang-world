@@ -1,0 +1,558 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.Windows.Forms;
+using SystemControlClassLibrary.Popup;
+using static SystemControlClassLibrary.CHMRslt;
+
+namespace SystemControlClassLibrary.information
+{
+    public partial class CHMInfo : Form
+    {
+        #region 변수 설정
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+
+        DataTable olddt;
+        DataTable moddt;
+
+        clsStyle cs = new clsStyle();
+
+        // 셀의 수정전 값
+        private Object strBefValue = "";
+
+        private string ownerNM = "";
+        private string titleNM = "";
+
+        private string heat_nm = "";
+        private string gangjong_id = "";
+        private string value_cboCHM_GP = "";
+        private string value_cboCHM_SPEC = "";
+
+        private DateTime start_date;
+        private DateTime end_date;
+
+        private List<CHM_item> ChmList;
+
+        #endregion 변수 설정
+
+        #region 로딩, 생성자 설정
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        public CHMInfo(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ck.StrKey1 = "";
+            ck.StrKey2 = "";
+
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+
+            
+        }
+        private void CHMInfo_Load(object sender, EventArgs e)
+        {
+
+            InitControl();
+
+            EventCreate();      //사용자정의 이벤트
+
+            start_date = start_dt.Value = DateTime.Now;
+            end_date = end_dt.Value = DateTime.Now;
+
+            btnDisplay_Click(null, null);
+        }
+        #endregion 로딩, 생성자 설정
+
+        #region InitControl 설정
+        private void InitControl()
+        {
+            clsStyle.Style.InitPicture(pictureBox1);
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+
+            clsStyle.Style.InitPanel(panel1);
+
+            clsStyle.Style.InitLabel(heat_lb);
+            clsStyle.Style.InitLabel(gangjung_lb);
+            clsStyle.Style.InitLabel(label2);
+            clsStyle.Style.InitLabel(lblCHM_GP);
+            clsStyle.Style.InitLabel(lblCHM_SPEC);
+
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnDisplay);
+            clsStyle.Style.InitButton(btnClose);
+
+            clsStyle.Style.InitDateEdit(start_dt);
+            clsStyle.Style.InitDateEdit(end_dt);
+
+            cs.InitCombo(cboCHM_GP, StringAlignment.Center);
+            cs.InitCombo(cboCHM_SPEC, StringAlignment.Center);
+
+            SetComboBox();
+            InitGrd_Main();
+        }
+        #endregion InitControl 설정
+
+        #region combobox 설정
+        private void SetComboBox()
+        {
+            cd.SetCombo(cboCHM_GP, "CHM_GP", "", false);
+
+            cd.SetCombo(cboCHM_SPEC, "CHM_SPEC", "", false);
+        }
+        #endregion combobox 설정
+
+        #region InitGrid 설정
+        private void InitGrd_Main()
+        {
+            cs.InitGrid_search(grdMain, false, 2, 1);
+
+            grdMain.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            int level1 = 50; // 2자리
+            int level2 = 50; // 4자리
+            int level3 = 100; // 6자리
+            int level4 = 140; // 8자리이상
+
+            #region caption 설정
+            grdMain[1, "L_NO"       ] = grdMain.Cols["L_NO"].Caption;
+            grdMain[1, "HEAT"       ] = grdMain.Cols["HEAT"].Caption;
+            grdMain[1, "STEEL"      ] = grdMain.Cols["STEEL"].Caption;
+            grdMain[1, "STEEL_NM"   ] = grdMain.Cols["STEEL_NM"].Caption;
+            grdMain[1, "INSP_DDTT"   ] = grdMain.Cols["INSP_DDTT"].Caption;
+
+            grdMain[1, "CHM_MIN_C"  ] = "Min";
+            grdMain[1, "CHM_VAL_C"  ] = "값";
+            grdMain[1, "CHM_MAX_C"  ] = "Max";
+            grdMain[1, "CHM_MIN_SI" ] = "Min";
+            grdMain[1, "CHM_VAL_SI" ] = "값";
+            grdMain[1, "CHM_MAX_SI" ] = "Max";
+            grdMain[1, "CHM_MIN_MN" ] = "Min";
+            grdMain[1, "CHM_VAL_MN" ] = "값";
+            grdMain[1, "CHM_MAX_MN" ] = "Max";
+            grdMain[1, "CHM_MIN_NI" ] = "Min";
+            grdMain[1, "CHM_VAL_NI" ] = "값";
+            grdMain[1, "CHM_MAX_NI" ] = "Max";
+            grdMain[1, "CHM_MIN_CR" ] = "Min";
+            grdMain[1, "CHM_VAL_CR" ] = "값";
+            grdMain[1, "CHM_MAX_CR" ] = "Max";
+            grdMain[1, "CHM_MIN_MO" ] = "Min";
+            grdMain[1, "CHM_VAL_MO" ] = "값";
+            grdMain[1, "CHM_MAX_MO" ] = "Max";
+            grdMain[1, "CHM_MIN_V"  ] = "Min";
+            grdMain[1, "CHM_VAL_V"  ] = "값";
+            grdMain[1, "CHM_MAX_V"  ] = "Max";
+            grdMain[1, "CHM_MIN_TI" ] = "Min";
+            grdMain[1, "CHM_VAL_TI" ] = "값";
+            grdMain[1, "CHM_MAX_TI" ] = "Max";
+            grdMain[1, "CHM_MIN_NB" ] = "Min";
+            grdMain[1, "CHM_VAL_NB" ] = "값";
+            grdMain[1, "CHM_MAX_NB" ] = "Max";
+            grdMain[1, "CHM_MIN_CU" ] = "Min";
+            grdMain[1, "CHM_VAL_CU" ] = "값";
+            grdMain[1, "CHM_MAX_CU" ] = "Max";
+            grdMain[1, "CHM_MIN_ZR" ] = "Min";
+            grdMain[1, "CHM_VAL_ZR" ] = "값";
+            grdMain[1, "CHM_MAX_ZR" ] = "Max";
+            grdMain[1, "CHM_MIN_P"  ] = "Min";
+            grdMain[1, "CHM_VAL_P"  ] = "값";
+            grdMain[1, "CHM_MAX_P"  ] = "Max";
+            grdMain[1, "CHM_MIN_S"  ] = "Min";
+            grdMain[1, "CHM_VAL_S"  ] = "값";
+            grdMain[1, "CHM_MAX_S"  ] = "Max";
+
+            #endregion caption 설정
+
+            #region ChmList 설정
+            ChmList = new List<CHM_item>();
+
+            ChmList.Add(new CHM_item("C"));
+            ChmList.Add(new CHM_item("SI"));
+            ChmList.Add(new CHM_item("MN"));
+            ChmList.Add(new CHM_item("NI"));
+            ChmList.Add(new CHM_item("CR"));
+            ChmList.Add(new CHM_item("MO"));
+            ChmList.Add(new CHM_item("V"));
+            ChmList.Add(new CHM_item("TI"));
+            ChmList.Add(new CHM_item("NB"));
+            ChmList.Add(new CHM_item("CU"));
+            ChmList.Add(new CHM_item("ZR"));
+            ChmList.Add(new CHM_item("P"));
+            ChmList.Add(new CHM_item("S"));
+            #endregion ChmList 설정
+
+            #region column width 설정
+            grdMain.Cols["L_NO"].Width = cs.L_No_Width;
+            grdMain.Cols["HEAT"].Width = cs.HEAT_Width;
+            grdMain.Cols["STEEL"].Width = cs.STEEL_Width;
+            grdMain.Cols["STEEL_NM"].Width = cs.STEEL_NM_Width+20;
+            grdMain.Cols["INSP_DDTT"].Width = level3+20;
+
+            grdMain.Cols["CHM_MIN_C"].Width = level2;
+            grdMain.Cols["CHM_VAL_C"].Width = level2;
+            grdMain.Cols["CHM_MAX_C"].Width = level2;
+            grdMain.Cols["CHM_MIN_SI"].Width = level2;
+            grdMain.Cols["CHM_VAL_SI"].Width = level2;
+            grdMain.Cols["CHM_MAX_SI"].Width = level2;
+            grdMain.Cols["CHM_MIN_MN"].Width = level2;
+            grdMain.Cols["CHM_VAL_MN"].Width = level2;
+            grdMain.Cols["CHM_MAX_MN"].Width = level2;
+            grdMain.Cols["CHM_MIN_NI"].Width = level2;
+            grdMain.Cols["CHM_VAL_NI"].Width = level2;
+            grdMain.Cols["CHM_MAX_NI"].Width = level2;
+            grdMain.Cols["CHM_MIN_CR"].Width = level2;
+            grdMain.Cols["CHM_VAL_CR"].Width = level2;
+            grdMain.Cols["CHM_MAX_CR"].Width = level2;
+            grdMain.Cols["CHM_MIN_MO"].Width = level2;
+            grdMain.Cols["CHM_VAL_MO"].Width = level2;
+            grdMain.Cols["CHM_MAX_MO"].Width = level2;
+            grdMain.Cols["CHM_MIN_V"].Width = level2;
+            grdMain.Cols["CHM_VAL_V"].Width = level2;
+            grdMain.Cols["CHM_MAX_V"].Width = level2;
+            grdMain.Cols["CHM_MIN_TI"].Width = level2;
+            grdMain.Cols["CHM_VAL_TI"].Width = level2;
+            grdMain.Cols["CHM_MAX_TI"].Width = level2;
+            grdMain.Cols["CHM_MIN_NB"].Width = level2;
+            grdMain.Cols["CHM_VAL_NB"].Width = level2;
+            grdMain.Cols["CHM_MAX_NB"].Width = level2;
+            grdMain.Cols["CHM_MIN_CU"].Width = level2;
+            grdMain.Cols["CHM_VAL_CU"].Width = level2;
+            grdMain.Cols["CHM_MAX_CU"].Width = level2;
+            grdMain.Cols["CHM_MIN_ZR"].Width = level2;
+            grdMain.Cols["CHM_VAL_ZR"].Width = level2;
+            grdMain.Cols["CHM_MAX_ZR"].Width = level2;
+            grdMain.Cols["CHM_MIN_P"].Width = level2;
+            grdMain.Cols["CHM_VAL_P"].Width = level2;
+            grdMain.Cols["CHM_MAX_P"].Width = level2;
+            grdMain.Cols["CHM_MIN_S"].Width = level2;
+            grdMain.Cols["CHM_VAL_S"].Width = level2;
+            grdMain.Cols["CHM_MAX_S"].Width = level2;
+            #endregion column width 설정
+
+
+            #region grdMain head 및 row  align 설정
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+            grdMain.Rows[1].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+            grdMain.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["HEAT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["STEEL"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["INSP_DDTT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["STEEL_NM"].TextAlign = cs.STEEL_NM_TextAlign;
+
+            grdMain.Cols["CHM_MIN_C"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_C"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_C"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_SI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_SI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_SI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_MN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_MN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_MN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_NI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_NI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_NI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_CR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_CR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_CR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_MO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_MO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_MO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_V"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_V"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_V"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_TI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_TI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_TI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_NB"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_NB"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_NB"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_CU"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_CU"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_CU"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_ZR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_ZR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_ZR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_P"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_P"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_P"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MIN_S"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_VAL_S"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            grdMain.Cols["CHM_MAX_S"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.RightCenter;
+            #endregion grdMain head 및 row  align 설정
+
+            grdMain.AllowMerging = C1.Win.C1FlexGrid.AllowMergingEnum.FixedOnly;
+            for (int i = 0; i < grdMain.Cols.Count; i++)
+            {
+                grdMain.Cols[i].AllowMerging = true;
+            }
+
+            grdMain.Rows[0].AllowMerging = true;
+
+            grdMain.Cols.Frozen = grdMain.Cols["CHM_MIN_C"].Index;
+        }
+
+        #endregion InitGrid 설정
+
+        #region Query 설정
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            cd.InsertLogForSearch(ck.UserID, btnDisplay);
+
+            string sql1 = string.Empty;
+
+            sql1  = string.Format("  SELECT  ROWNUM AS L_NO ");
+            sql1 += string.Format("         ,HEAT");
+            sql1 += string.Format("         ,STEEL");
+            sql1 += string.Format("         ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = X.STEEL) AS STEEL_NM ");
+            sql1 += string.Format("         ,INSP_DDTT  ");
+            sql1 += string.Format("         ,CHM_MIN_C  ");
+            sql1 += string.Format("         ,CHM_VAL_C  ");
+            sql1 += string.Format("         ,CHM_MAX_C  ");
+            sql1 += string.Format("         ,CHM_MIN_SI ");
+            sql1 += string.Format("         ,CHM_VAL_SI ");
+            sql1 += string.Format("         ,CHM_MAX_SI ");
+            sql1 += string.Format("         ,CHM_MIN_MN ");
+            sql1 += string.Format("         ,CHM_VAL_MN ");
+            sql1 += string.Format("         ,CHM_MAX_MN ");
+            sql1 += string.Format("         ,CHM_MIN_NI ");
+            sql1 += string.Format("         ,CHM_VAL_NI ");
+            sql1 += string.Format("         ,CHM_MAX_NI ");
+            sql1 += string.Format("         ,CHM_MIN_CR ");
+            sql1 += string.Format("         ,CHM_VAL_CR ");
+            sql1 += string.Format("         ,CHM_MAX_CR ");
+            sql1 += string.Format("         ,CHM_MIN_MO ");
+            sql1 += string.Format("         ,CHM_VAL_MO ");
+            sql1 += string.Format("         ,CHM_MAX_MO ");
+            sql1 += string.Format("         ,CHM_MIN_V  ");
+            sql1 += string.Format("         ,CHM_VAL_V  ");
+            sql1 += string.Format("         ,CHM_MAX_V  ");
+            sql1 += string.Format("         ,CHM_MIN_TI ");
+            sql1 += string.Format("         ,CHM_VAL_TI ");
+            sql1 += string.Format("         ,CHM_MAX_TI ");
+            sql1 += string.Format("         ,CHM_MIN_NB ");
+            sql1 += string.Format("         ,CHM_VAL_NB ");
+            sql1 += string.Format("         ,CHM_MAX_NB ");
+            sql1 += string.Format("         ,CHM_MIN_CU ");
+            sql1 += string.Format("         ,CHM_VAL_CU ");
+            sql1 += string.Format("         ,CHM_MAX_CU ");
+            sql1 += string.Format("         ,CHM_MIN_ZR ");
+            sql1 += string.Format("         ,CHM_VAL_ZR ");
+            sql1 += string.Format("         ,CHM_MAX_ZR ");
+            sql1 += string.Format("         ,CHM_MIN_P  ");
+            sql1 += string.Format("         ,CHM_VAL_P  ");
+            sql1 += string.Format("         ,CHM_MAX_P  ");
+            sql1 += string.Format("         ,CHM_MIN_S  ");
+            sql1 += string.Format("         ,CHM_VAL_S  ");
+            sql1 += string.Format("         ,CHM_MAX_S  ");
+            sql1 += string.Format("         FROM   ( ");
+            sql1 += string.Format("                 SELECT  A.HEAT           AS HEAT ");
+            sql1 += string.Format("                        ,A.STEEL          AS STEEL ");
+            sql1 += string.Format("                        ,TO_DATE(TO_CHAR(A.INSP_DDTT,'YYYY-MM-DD'), 'YYYY-MM-DD') AS INSP_DDTT  "); //--분석일
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_C ,A.CHM_MIN_C_CU )     AS CHM_MIN_C  "); //--MIN
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_C ,A.CHM_VAL_C_BT )     AS CHM_VAL_C  "); //--값
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_C ,A.CHM_MAX_C_CU )     AS CHM_MAX_C  "); //--MAX
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_SI,A.CHM_MIN_SI_CU)     AS CHM_MIN_SI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_SI,A.CHM_VAL_SI_BT)     AS CHM_VAL_SI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_SI,A.CHM_MAX_SI_CU)     AS CHM_MAX_SI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_MN,A.CHM_MIN_MN_CU)     AS CHM_MIN_MN ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_MN,A.CHM_VAL_MN_BT)     AS CHM_VAL_MN ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_MN,A.CHM_MAX_MN_CU)     AS CHM_MAX_MN ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_NI,A.CHM_MIN_NI_CU)     AS CHM_MIN_NI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_NI,A.CHM_VAL_NI_BT)     AS CHM_VAL_NI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_NI,A.CHM_MAX_NI_CU)     AS CHM_MAX_NI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_CR,A.CHM_MIN_CR_CU)     AS CHM_MIN_CR ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_CR,A.CHM_VAL_CR_BT)     AS CHM_VAL_CR ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_CR,A.CHM_MAX_CR_CU)     AS CHM_MAX_CR ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_MO,A.CHM_MIN_MO_CU)     AS CHM_MIN_MO ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_MO,A.CHM_VAL_MO_BT)     AS CHM_VAL_MO ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_MO,A.CHM_MAX_MO_CU)     AS CHM_MAX_MO ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_V ,A.CHM_MIN_V_CU )     AS CHM_MIN_V  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_V ,A.CHM_VAL_V_BT )     AS CHM_VAL_V  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_V ,A.CHM_MAX_V_CU )     AS CHM_MAX_V  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_TI,A.CHM_MIN_TI_CU)     AS CHM_MIN_TI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_TI,A.CHM_VAL_TI_BT)     AS CHM_VAL_TI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_TI,A.CHM_MAX_TI_CU)     AS CHM_MAX_TI ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_NB,A.CHM_MIN_NB_CU)     AS CHM_MIN_NB ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_NB,A.CHM_VAL_NB_BT)     AS CHM_VAL_NB ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_NB,A.CHM_MAX_NB_CU)     AS CHM_MAX_NB ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_CU,A.CHM_MIN_CU_CU)     AS CHM_MIN_CU ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_CU,A.CHM_VAL_CU_BT)     AS CHM_VAL_CU ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_CU,A.CHM_MAX_CU_CU)     AS CHM_MAX_CU ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_ZR,A.CHM_MIN_ZR_CU)     AS CHM_MIN_ZR ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_ZR,A.CHM_VAL_ZR_BT)     AS CHM_VAL_ZR ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_ZR,A.CHM_MAX_ZR_CU)     AS CHM_MAX_ZR ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_P ,A.CHM_MIN_P_CU )     AS CHM_MIN_P  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_P ,A.CHM_VAL_P_BT )     AS CHM_VAL_P  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_P ,A.CHM_MAX_P_CU )     AS CHM_MAX_P  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MIN_S ,A.CHM_MIN_S_CU )     AS CHM_MIN_S  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_GP  ,'A',A.CHM_VAL_S ,A.CHM_VAL_S_BT )     AS CHM_VAL_S  ");
+            sql1 += string.Format("                        ,DECODE(:P_CHM_SPEC,'A',A.CHM_MAX_S ,A.CHM_MAX_S_CU )     AS CHM_MAX_S  ");
+            sql1 += string.Format("                 FROM   TB_CHM_INFO A ");
+            sql1 += string.Format("                 WHERE  TO_CHAR(A.INSP_DDTT,'YYYYMMDD')   BETWEEN :P_FR_DATE AND :P_TO_DATE ");
+            sql1 += string.Format("                 AND    A.HEAT       LIKE '%' || :P_HEAT || '%' ");
+            sql1 += string.Format("                 AND    A.STEEL      LIKE :P_STEEL || '%' ");
+            sql1 += string.Format("                 ORDER BY  1,2  ");
+            sql1 += string.Format("                 ) X  ");
+
+            string[] parm = new string[6];
+            parm[0] = ":P_CHM_GP|"      + value_cboCHM_GP;
+            parm[1] = ":P_CHM_SPEC|"    + value_cboCHM_SPEC;
+            parm[2] = ":P_FR_DATE|"     + vf.Format(start_date, "yyyyMMdd");
+            parm[3] = ":P_TO_DATE|"     + vf.Format(end_date, "yyyyMMdd");
+            parm[4] = ":P_HEAT|"        + heat_nm;
+            parm[5] = ":P_STEEL|"       + gangjong_id;
+
+            olddt = cd.FindDataTable(sql1, parm);
+
+            moddt = olddt.Copy();
+
+            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            grdMain.SetDataBinding(olddt, null, true);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+
+            if (olddt.Rows.Count > 0)
+            {
+                CheckMinMax();
+            }
+
+            clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(),"  "+ olddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+
+            grdMain.Row = -1;
+        }
+        #endregion Query 설정
+
+        #region CheckMinMax 설정
+        private void CheckMinMax()
+        {
+            CellRange rg;
+
+            for (int row = 2; row < grdMain.Rows.Count; row++)
+            {
+                foreach (Column col in grdMain.Cols)
+                {
+
+                    foreach (CHM_item item in ChmList)
+                    {
+                        if (col.Name == item.Value_Cols_NM)
+                        {
+                            rg = grdMain.GetCellRange(row, grdMain.Cols[item.Value_Cols_NM].Index);
+                            rg = grdMain.GetCellRange(row, grdMain.Cols[item.Min_Cols_NM].Index);
+                            rg.StyleNew.BackColor = Color.LightGray;
+
+                            rg = grdMain.GetCellRange(row, grdMain.Cols[item.Max_Cols_NM].Index);
+                            rg.StyleNew.BackColor = Color.LightGray;
+                        }
+                    }
+                }
+            }
+        }
+        #endregion CheckMinMax 설정
+
+        #region 이벤트 설정
+        private void heat_tb_TextChanged(object sender, EventArgs e)
+        {
+            heat_tb.Text = vf.UCase(heat_tb.Text);
+            heat_nm = heat_tb.Text;
+        }
+        private void cboCHM_GP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            value_cboCHM_GP = ((ComLib.DictionaryList)cboCHM_GP.SelectedItem).fnValue;
+        }
+
+        private void cboCHM_SPEC_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            value_cboCHM_SPEC = ((ComLib.DictionaryList)cboCHM_SPEC.SelectedItem).fnValue;
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SearchSteelNm popup = new SearchSteelNm();
+            popup.StartPosition = FormStartPosition.CenterScreen;
+            popup.ShowDialog();
+
+            if (ck.StrKey1 != "")
+            {
+                gangjong_id_tb.Text = ck.StrKey1;
+                gangjong_Nm_tb.Text = ck.StrKey2;
+            }
+        }
+
+        private void gangjong_id_tb_TextChanged(object sender, EventArgs e)
+        {
+            gangjong_id = gangjong_id_tb.Text;
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void gangjong_id_tb_KeyDown(object sender, KeyEventArgs e)
+        {
+            //[Enter] Key는 다음 컨트롤로 이동
+            if (e.KeyCode == Keys.Enter) SendKeys.Send("{TAB}");
+        }
+
+        //사용자이벤트 생성
+        private void EventCreate()
+        {
+            this.gangjong_id_tb.LostFocus += new System.EventHandler(gangjong_id_tb_LostFocus);            //강종ID
+        }
+
+        //강종ID(LostFocus)
+        private void gangjong_id_tb_LostFocus(object sender, EventArgs e)
+        {
+            if (gangjong_id_tb.Text == "")
+            {
+                gangjong_Nm_tb.Text = "";
+                gangjong_id = "";
+            }
+            else
+            {
+                gangjong_Nm_tb.Text = cd.Find_Steel_NM_By_ID(gangjong_id_tb.Text);
+
+                if (gangjong_Nm_tb.Text.Length == 0)
+                {
+                    if (MessageBox.Show(" 해당 강종에 따른 강종명을 찾을 수 없습니다.", "", MessageBoxButtons.OK) == DialogResult.OK)
+                    {
+                        gangjong_Nm_tb.Text = "";
+                        gangjong_id_tb.Focus();
+                        return;
+                    }
+                }
+                else
+                    gangjong_id = gangjong_id_tb.Text;
+            }
+        }
+
+        private void start_dt_ValueChanged(object sender, EventArgs e)
+        {
+            start_date = start_dt.Value;
+        }
+
+        private void end_dt_ValueChanged(object sender, EventArgs e)
+        {
+            end_date = end_dt.Value;
+        }
+        #endregion 이벤트 설정
+
+
+    }
+}

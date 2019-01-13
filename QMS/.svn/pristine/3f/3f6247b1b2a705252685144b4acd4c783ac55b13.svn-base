@@ -1,0 +1,362 @@
+﻿using C1.Win.C1FlexGrid;
+using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Data;
+using System.Data.OracleClient;
+using System.Diagnostics;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using System.Collections.Generic;
+
+namespace SystemControlClassLibrary
+{
+
+    public partial class CrtInRsltPopUP : Form
+    {
+        #region 변수 설정
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+        clsStyle cs = new clsStyle();
+
+        DataTable olddt;
+        DataTable moddt;
+        DataTable logdt;
+
+        string line_gp = "";
+        
+        OracleTransaction transaction ;
+        private bool CanModify;
+        #endregion 변수 설정
+
+        #region 로딩, 생성자 설정
+        public CrtInRsltPopUP(string _line_gp)
+        {
+            
+            line_gp = _line_gp;
+
+            InitializeComponent();
+            
+            Load += CrtInRsltInqPopUP_Load;
+
+
+        }
+
+        public CrtInRsltPopUP(string _line_gp, string _mill_no)
+        {
+
+            line_gp = _line_gp;
+
+
+            InitializeComponent();
+
+            Load += CrtInRsltInqPopUP_Load;
+
+            txtMillNo.Text = _mill_no;
+
+        }
+
+        public CrtInRsltPopUP(string _line_gp, string _mill_no, bool _CanModify) : this(_line_gp, _mill_no)
+        {
+            this.CanModify = _CanModify;
+
+            btnReg.Enabled = CanModify;
+        }
+
+        public void SetMillNo(string _mill_no)
+        {
+            txtMillNo.Text = _mill_no;
+
+            if (!string.IsNullOrEmpty(txtMillNo.Text))
+            {
+                txtMillNo.Focus();
+                SendKeys.Send("{Enter}");
+
+            }
+
+        }
+
+
+        private void CrtInRsltInqPopUP_Load(object sender, EventArgs e)
+        {
+            
+            MinimizeBox = false;
+            MaximizeBox = false;
+            //StartPosition = FormStartPosition.CenterScreen;
+            SetComboBox1();
+
+            if (!string.IsNullOrEmpty(txtMillNo.Text))
+            {
+                txtMillNo.Focus();
+                SendKeys.Send("{Enter}");
+            }
+        }
+        #endregion 로딩, 생성자 설정
+
+        #region SetDataBinding 설정
+        private void SetDataBinding()
+        {
+            if (txtMillNo.Text == "")
+            {
+                MessageBox.Show("압연번들번호를 입력하세요");
+                return;
+            }
+            
+            try
+            {
+                string sql1 = string.Format("SELECT A.MILL_NO    AS MILL_NO   ");
+                sql1 += string.Format("      ,A.POC_NO     AS POC_NO  ");
+                sql1 += string.Format("      ,A.HEAT       AS HEAT ");
+                sql1 += string.Format("      ,(SELECT CD_NM FROM TB_CM_COM_CD WHERE CATEGORY = 'STEEL' AND CD_ID = A.STEEL) AS STEEL_NM ");
+                sql1 += string.Format("      ,A.ITEM_SIZE  AS ITEM_SIZE ");
+                sql1 += string.Format("      ,A.LENGTH     AS ITEM_LENGTH    ");
+                sql1 += string.Format("      ,A.PCS        AS MILL_PCS  ");
+                sql1 += string.Format("      ,A.NET_WGT    AS MILL_WGT ");
+                sql1 += string.Format("      ,SYSDATE AS INPUT_DDTT ");
+                sql1 += string.Format("      ,B.LINE_GP    AS LINE_GP ");
+                sql1 += string.Format("FROM   TB_CR_ORD_BUNDLEINFO A ");
+                sql1 += string.Format("      ,TB_CR_ORD       B ");
+                sql1 += string.Format("WHERE  A.MILL_NO  = '{0}' ", txtMillNo.Text);    //:P_MILL_NO
+                sql1 += string.Format("AND    A.POC_NO  = B.POC_NO(+) ");
+
+                olddt = cd.FindDataTable(sql1);
+
+                logdt = olddt.Copy();
+
+                moddt = olddt.Copy();
+
+                if (olddt.Rows.Count == 0)
+                {
+                    MessageBox.Show("미등록된 압연번들번호 입니다");
+                    return;
+                }
+
+                txtheat.Text = moddt.Rows[0]["HEAT"].ToString();
+                txtPoc.Text = moddt.Rows[0]["POC_NO"].ToString();
+                txtSteel.Text = moddt.Rows[0]["STEEL_NM"].ToString();
+                txtSize.Text = moddt.Rows[0]["ITEM_SIZE"].ToString();
+                txtLength.Text = vf.Format(moddt.Rows[0]["ITEM_LENGTH"].ToString(), "0.00");
+                txtMillPcs.Text = vf.Format(moddt.Rows[0]["MILL_PCS"].ToString(), "0,0");
+                txtMillWgt.Text = vf.Format(moddt.Rows[0]["MILL_WGT"].ToString(), "0,000");
+                tbCrtInDate.Text = vf.Format(moddt.Rows[0]["INPUT_DDTT"], "yyyy-MM-dd");
+                tbCrtInTime.Text = vf.Format(moddt.Rows[0]["INPUT_DDTT"], "HH:mm:ss");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("[" + ex.ToString() + "]");
+                return;
+            }
+
+            return;
+        }
+        #endregion SetDataBinding 설정
+
+        #region ComboBox 설정
+        private void SetComboBox1()
+        {
+            cs.InitCombo(cbo_outputLine, StringAlignment.Center);
+            cd.SetCombo(cbo_outputLine, "LINE_GP", false, line_gp);
+
+            //cbo_outputLine.Enabled = false;
+        }
+        #endregion ComboBox 설정
+
+        #region 이벤트 설정
+        private void cbo_outputLine_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbo_outputLine.SelectedItem != null)
+            {
+                line_gp = ((DictionaryList)cbo_outputLine.SelectedItem).fnValue;
+
+                ck.Line_gp = line_gp;
+            }
+        }
+
+
+
+        private void txtMillNo_TextChanged(object sender, EventArgs e)
+        {
+            ClearContentsWhenMillNoBlank();
+        }
+
+        private void txtMill_No_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && txtMillNo.Text != "")
+            {
+                SetDataBinding();
+            }
+        }
+
+
+        private void btnReg_Click(object sender, EventArgs e)
+        {
+            SaveReg();
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void SaveReg()
+        {
+            #region 항목체크
+            if (txtMillNo.Text == "")
+            {
+                MessageBox.Show("압연번들번호를 입력하세요");
+                return;
+            }
+
+            if (MessageBox.Show("저장하시겠습니까?", Text, MessageBoxButtons.YesNo) == DialogResult.No)
+            {
+                return;
+            }
+            #endregion     
+
+            string spName = "SP_CR_IN_REGCAN"; // 조회용 저장프로시저명
+
+            OracleConnection oConn = cd.OConnect();
+            OracleCommand cmd = new OracleCommand();
+
+            try
+            {
+                cmd.Connection = oConn;
+                cmd.CommandText = spName;
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                OracleParameter op;
+
+                op = new OracleParameter("P_PROC_GP", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = "REG";
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_USER", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = ck.UserID;    // 사용자 id 가져와서 입력
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_LINE_GP", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = line_gp;
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_MILL_NO", OracleType.VarChar);
+                op.Direction = ParameterDirection.Input;
+                op.Value = txtMillNo.Text;
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_PROC_STAT", OracleType.VarChar);
+                op.Direction = ParameterDirection.Output;
+                op.Size = 4000;
+                cmd.Parameters.Add(op);
+
+                op = new OracleParameter("P_PROC_MSG", OracleType.VarChar);
+                op.Direction = ParameterDirection.Output;
+                op.Size = 4000;
+                cmd.Parameters.Add(op);
+
+                oConn.Open();
+                transaction = cmd.Connection.BeginTransaction();
+                cmd.Transaction = transaction;
+
+                cmd.ExecuteOracleScalar();
+
+                string result_stat = Convert.ToString(cmd.Parameters["P_PROC_STAT"].Value);
+                string result_msg = Convert.ToString(cmd.Parameters["P_PROC_MSG"].Value);
+
+                transaction.Commit();
+
+                if (result_stat == "ERR")
+                {
+                    string error_msg = "MILL_NO:" + txtMillNo.Text
+                                 + " " + "User_id:" + ck.UserID
+                                 + " " + "Error_msg:" + result_msg;
+                    clsMsg.Log.Alarm(Alarms.Error, Text, clsMsg.Log.__Line(), error_msg);
+
+                    MessageBox.Show(result_msg);
+                }
+                else
+                {
+                    string success_msg = "POC_NO:" + txtMillNo.Text
+                                + " " + "User_id:" + ck.UserID
+                                + " " + "Result_msg:" + result_msg;
+                    clsMsg.Log.Alarm(Alarms.InSerted, Text, clsMsg.Log.__Line(), success_msg);
+
+                    InitContents();
+                }
+            }
+            catch (Exception ex)
+            {
+                //실행후 실패 : 
+                if (transaction != null)
+                {
+                    transaction.Rollback();
+                }
+
+                // 추가되었을시에 중복성으로 실패시 메시지 표시
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                if (cmd != null)
+                    cmd.Dispose();
+                if (cmd.Connection != null)
+                    cmd.Connection.Close();       //데이터베이스연결해제
+                if (transaction != null)
+                    transaction.Dispose();
+            }
+
+            return ;
+        }
+
+        private void ClearContentsWhenMillNoBlank()
+        {
+            if (txtMillNo.Text == "")
+            {
+                txtheat.Text = "";
+                txtPoc.Text = "";
+                txtSteel.Text = "";
+                txtSize.Text = "";
+                txtLength.Text = "";
+                txtMillPcs.Text = "";
+                txtMillWgt.Text = "";
+                tbCrtInDate.Text = "";
+                tbCrtInTime.Text = "";
+            }
+        }
+
+        private void InitContents()
+        {
+            txtMillNo.Text = "";
+            txtheat.Text = "";
+            txtPoc.Text = "";
+            txtSteel.Text = "";
+            txtSize.Text = "";
+            txtLength.Text = "";
+            txtMillPcs.Text = "";
+            txtMillWgt.Text = "";
+            tbCrtInDate.Text = "";
+            tbCrtInTime.Text = "";
+
+            txtMillNo.Focus();
+        }
+
+        private void txtMillNo_Leave(object sender, EventArgs e)
+        {
+            if (txtMillNo.Text == "")
+            {
+                return;
+            }
+            else
+            {
+                SetDataBinding();
+            }
+        }
+        #endregion 이벤트 설정
+
+        
+    }
+}

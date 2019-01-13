@@ -1,0 +1,215 @@
+﻿using ComLib;
+using ComLib.clsMgr;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Windows.Forms;
+using SystemControlClassLibrary.Popup;
+
+namespace SystemControlClassLibrary.information
+{
+    public partial class CHMStdInfoInq : Form
+    {
+        #region 변수 설정
+        clsCom ck = new clsCom();
+        ConnectDB cd = new ConnectDB();
+        VbFunc vf = new VbFunc();
+
+        DataTable olddt;
+
+
+        clsStyle cs = new clsStyle();
+
+        // 셀의 수정전 값
+        private  Object strBefValue = "";
+
+        private  string ownerNM = "";
+        private  string titleNM = "";
+
+        private  string heat_nm = "";
+        private  string gangjung_id = "";
+        #endregion 변수 설정
+
+        #region 로딩, 생성자 설정
+        public static string __File()
+        {
+            var st = new StackTrace(new StackFrame(true));
+            var sf = st.GetFrame(0);
+            return sf.GetFileName();
+        }
+
+        public CHMStdInfoInq(string titleNm, string scrAuth, string factCode, string ownerNm)
+        {
+            ck.StrKey1 = "";
+            ck.StrKey2 = "";
+
+            ownerNM = ownerNm;
+            titleNM = titleNm;
+
+            InitializeComponent();
+        }
+        private void CHMInfo_Load(object sender, EventArgs e)
+        {
+
+            InitControl();
+
+            btnDisplay_Click(null, null);
+        }
+        #endregion 로딩, 생성자 설정
+
+        #region InitControl 설정
+        private void InitControl()
+        {
+            clsStyle.Style.InitPicture(pictureBox1);
+            clsStyle.Style.InitTitle(title_lb, ownerNM, titleNM);
+            clsStyle.Style.InitPanel(panel1);
+            clsStyle.Style.InitLabel(heat_lb);
+            clsStyle.Style.InitLabel(gangjung_lb);
+            clsStyle.Style.InitButton(btnExcel);
+            clsStyle.Style.InitButton(btnDisplay);
+
+            InitGrd_Main();
+        }
+        #endregion InitControl 설정
+
+        #region InitGrid 설정
+        private void InitGrd_Main()
+        {
+            clsStyle.Style.InitGrid_search(grdMain);
+
+            grdMain.AllowSorting = C1.Win.C1FlexGrid.AllowSortingEnum.None;
+
+            int level1 = 50; // 2자리
+            int level2 = 60; // 4자리
+            int level3 = 100; // 6자리
+            int level4 = 140; // 8자리이상
+
+            #region column width 설정
+            grdMain.Cols["L_NO"].Width = level1;
+            grdMain.Cols["HEAT"].Width = level3;
+            grdMain.Cols["STEEL"].Width = level1;
+            grdMain.Cols["STEEL_NM"].Width = level4;
+            grdMain.Cols["CHM_VAL_C"].Width = level2;
+            grdMain.Cols["CHM_VAL_SI"].Width = level2;
+            grdMain.Cols["CHM_VAL_MN"].Width = level2;
+            grdMain.Cols["CHM_VAL_P"].Width = level2;
+            grdMain.Cols["CHM_VAL_S"].Width = level2;
+            grdMain.Cols["CHM_VAL_CU"].Width = level2;
+            grdMain.Cols["CHM_VAL_NI"].Width = level2;
+            grdMain.Cols["CHM_VAL_CR"].Width = level2;
+            grdMain.Cols["CHM_VAL_MO"].Width = level2;
+            grdMain.Cols["CHM_VAL_V"].Width = level2;
+            grdMain.Cols["CHM_VAL_AL"].Width = level2;
+            grdMain.Cols["CHM_VAL_TI"].Width = level2;
+            grdMain.Cols["CHM_VAL_B"].Width = level2;
+            grdMain.Cols["CHM_VAL_W"].Width = level2;
+            grdMain.Cols["REG_DDTT"].Width = level3;
+            #endregion column width 설정
+
+            #region grdMain head 및 row  align 설정
+            grdMain.Rows[0].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;   // header 부분은 가운데 정렬로 한다.
+
+
+            grdMain.Cols["L_NO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["HEAT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["STEEL"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["STEEL_NM"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.LeftCenter;
+
+            grdMain.Cols["CHM_VAL_C"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_SI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_MN"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_P"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_S"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_CU"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_NI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_CR"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_MO"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_V"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_AL"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_TI"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_B"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["CHM_VAL_W"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            grdMain.Cols["REG_DDTT"].TextAlign = C1.Win.C1FlexGrid.TextAlignEnum.CenterCenter;
+            #endregion grdMain head 및 row  align 설정
+        }
+
+        #endregion InitGrid 설정
+
+        #region Query 설정
+        private void btnDisplay_Click(object sender, EventArgs e)
+        {
+            cd.InsertLogForSearch(ck.UserID, btnDisplay);
+
+            string strQry = string.Empty;
+
+            strQry += string.Format("SELECT  ");
+            strQry += string.Format("      ROWNUM AS L_NO ");
+            strQry += string.Format("     ,HEAT ");
+            strQry += string.Format("     ,STEEL ");
+            strQry += string.Format("     ,STEEL_NM ");
+            strQry += string.Format("     ,CHM_VAL_C ");
+            strQry += string.Format("     ,CHM_VAL_SI ");
+            strQry += string.Format("     ,CHM_VAL_MN ");
+            strQry += string.Format("     ,CHM_VAL_P ");
+            strQry += string.Format("     ,CHM_VAL_S ");
+            strQry += string.Format("     ,CHM_VAL_CU ");
+            strQry += string.Format("     ,CHM_VAL_NI ");
+            strQry += string.Format("     ,CHM_VAL_CR ");
+            strQry += string.Format("     ,CHM_VAL_MO ");
+            strQry += string.Format("     ,CHM_VAL_V ");
+            strQry += string.Format("     ,CHM_VAL_AL ");
+            strQry += string.Format("     ,CHM_VAL_TI ");
+            strQry += string.Format("     ,CHM_VAL_B ");
+            strQry += string.Format("     ,CHM_VAL_W ");
+            strQry += string.Format("     ,REG_DDTT ");
+            strQry += string.Format("FROM TB_CHM_INFO ");
+            strQry += string.Format("WHERE HEAT  LIKE '%{0}%' ", heat_nm);
+            strQry += string.Format("AND   STEEL LIKE '%{0}%' ", gangjung_id);
+
+            olddt = cd.FindDataTable(strQry);
+
+            this.Cursor = System.Windows.Forms.Cursors.AppStarting;
+            grdMain.SetDataBinding(olddt, null, true);
+            this.Cursor = System.Windows.Forms.Cursors.Default;
+
+
+
+            clsMsg.Log.Alarm(Alarms.Info, clsMsg.Log.__Function(), clsMsg.Log.__Line(),"  "+ olddt.Rows.Count.ToString() + " 건 조회 되었습니다.");
+
+            grdMain.Row = -1;
+        }
+        #endregion Query 설정
+
+        #region 이벤트 설정
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SearchSteelNm popup = new SearchSteelNm();
+            popup.StartPosition = FormStartPosition.CenterScreen;
+            popup.ShowDialog();
+
+            if (ck.StrKey1 != "")
+            {
+                gangjong_id_tb.Text = ck.StrKey1;
+                gangjong_Nm_tb.Text = ck.StrKey2;
+            }
+        }
+
+        private void heat_tb_TextChanged(object sender, EventArgs e)
+        {
+            heat_tb.Text = vf.UCase(heat_tb.Text);
+            heat_nm = heat_tb.Text;
+        }
+
+        private void gangjong_id_tb_TextChanged(object sender, EventArgs e)
+        {
+            gangjung_id = gangjong_id_tb.Text;
+        }
+
+        private void btnExcel_Click(object sender, EventArgs e)
+        {
+            vf.SaveExcel(titleNM, grdMain);
+        }
+        #endregion 이벤트 설정
+    }
+}
